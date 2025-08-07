@@ -1,9 +1,10 @@
 import logo from "../../assets/NavHeader.svg"
 
-export function Athentication() {
+export function Header() {
   return (
-    <div>
+    <div className="text-feedback-open">
       <img src={logo} alt="Logo HelpDesk" />
+      Texto
     </div>
   )
 }

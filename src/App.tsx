@@ -1,13 +1,15 @@
 
-import { Header } from './components/Authentication'
+import { Header } from './components/Header'
 import './App.css'
+import { StrictMode } from 'react'
 
 function App() {
  
 
   return (
-
-    <Header/>
+    <StrictMode>
+      <Header/>
+    </StrictMode>    
   )
 }
 
