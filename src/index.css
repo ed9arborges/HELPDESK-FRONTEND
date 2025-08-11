@@ -15,9 +15,16 @@
   --color-gray-600: #f9fafa;
 
   --color-feedback-danger: #d03e3e;
-  --color-feedback-open: #cc3d6a;
-  --color-feedback-progress: #355ec5;
-  --color-feedback-done: #508b26;
+  --color-feedback-danger-20: rgba(208, 62, 62, 0.2);
 
+  --color-feedback-open: #cc3d6a;
+  --color-feedback-open-20: rgba(204, 61, 106, 0.2);
+
+  --color-feedback-progress: #355ec5;
+  --color-feedback-progress-20: rgba(53, 94, 197, 0.2);
+
+  --color-feedback-done: #508b26;
+  --color-feedback-done-20: rgba(80, 139, 38, 0.2);
+  
   --font-sans: "Lato", sans-serif;
 }
