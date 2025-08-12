@@ -7,7 +7,7 @@ import Icon from "./components/icon"
 import SpinnerIcon from "./assets/icons/spinner.svg?react"
 import TrashIcon from "./assets/icons/trash.svg?react"
 import CircleIcon from "./assets/icons/circle-check.svg?react"
-import Badge from "./components/badge"
+import Tag from "./components/tag"
 
 function App() {
  
@@ -20,11 +20,12 @@ function App() {
         <Icon svg={SpinnerIcon} className="fill-feedback-done" animate/>
         <Icon svg={TrashIcon} className="fill-feedback-done" />
         <div>
-          <Badge variant="secondary" iconAdd="done">
+          <Tag variant="new" iconAdd={SpinnerIcon}>
          
-          Aberto</Badge>
+          Aberto</Tag>
 
-          <Badge variant="primary" iconAdd="open">Encerrado</Badge>
+          <Tag variant="danger" iconAdd={TrashIcon}></Tag>
+          <Tag variant="success" iconAdd={TrashIcon}>Encerrado</Tag>
         </div>
         <Authentication/>
       </div>
