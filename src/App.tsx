@@ -6,11 +6,13 @@ import Icon from "./components/icon"
 import Button from "./components/button"
 import Tag from "./components/tag"
 import TagTime from "./components/tag-time"
+import InputText from "./components/input"
 import SpinnerIcon from "./assets/icons/spinner.svg?react"
 import TrashIcon from "./assets/icons/trash.svg?react"
 import CircleIcon from "./assets/icons/circle-check.svg?react"
 import XIcon from "./assets/icons/x.svg?react"
 import PenIcon from "./assets/icons/pen-line.svg?react"
+import AlertIcon from "./assets/icons/circle-alert.svg?react"
 
 function App() {
   return (
@@ -31,19 +33,48 @@ function App() {
         </div>
         <div className="flex gap-6 m-5">
           <Button icon={TrashIcon}>New Button</Button>
-          <Button icon={PenIcon} size="sm">Label</Button>
-          <Button icon={PenIcon} size="sm"/>
-          <Button icon={TrashIcon} variant="secundary" size="sm">New Button</Button>
-          <Button icon={PenIcon} variant="secundary" size="md">Label</Button>
-          <Button icon={TrashIcon} variant="link" size="linksm">New Button</Button>
-          <Button icon={PenIcon} variant="link" size="linkmd">Label</Button>
+          <Button icon={PenIcon} size="sm">
+            Label
+          </Button>
+          <Button icon={PenIcon} size="sm" />
+          <Button icon={TrashIcon} variant="secundary" size="sm">
+            New Button
+          </Button>
+          <Button icon={PenIcon} variant="secundary" size="md">
+            Label
+          </Button>
+          <Button icon={TrashIcon} variant="link" size="linksm">
+            New Button
+          </Button>
+          <Button icon={PenIcon} variant="link" size="linkmd">
+            Label
+          </Button>
         </div>
 
-         <div className="flex gap-6 m-5">
-          <TagTime >Label</TagTime>
-          <TagTime variant="selected" iconAdd={XIcon}>Label</TagTime>
+        <div className="flex gap-6 m-5">
+          <TagTime>Label</TagTime>
+          <TagTime variant="selected" iconAdd={XIcon}>
+            Label
+          </TagTime>
           <TagTime variant="read">Label</TagTime>
-          
+        </div>
+
+        <div className="flex gap-6 m-5">
+          <InputText
+            placeholder="Your Text"
+            helperText="Please enter a Text"
+            error={false}
+            label="label"
+            helperIcon={AlertIcon}
+          />
+
+          <InputText
+            placeholder="Your email"
+            helperText="Please enter a valid email"
+            error={true}
+            label="label"
+            helperIcon={AlertIcon}
+          />
         </div>
 
         <Authentication />
