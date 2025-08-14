@@ -10,6 +10,7 @@ export const textVariants = cva("font-sans",{
       "heading-md": "text-base font-normal",
       "text-sm-bold": "text-sm font-bold",
       "text-sm": "text-sm font-normal",
+      "text-md": "text-md font-normal",
       "text-xs": "text-xs font-normal",
       "text-xs-bold": "text-xs font-bold",
       "text-xxs": "text-xs font-bold uppercase",

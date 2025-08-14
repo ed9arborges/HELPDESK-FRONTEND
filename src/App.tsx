@@ -7,6 +7,8 @@ import Button from "./components/button"
 import Tag from "./components/tag"
 import TagTime from "./components/tag-time"
 import InputText from "./components/input"
+import InputSelect from "./components/input-select"
+
 import SpinnerIcon from "./assets/icons/spinner.svg?react"
 import TrashIcon from "./assets/icons/trash.svg?react"
 import CircleIcon from "./assets/icons/circle-check.svg?react"
@@ -73,6 +75,20 @@ function App() {
             helperText="Please enter a valid email"
             error={true}
             label="label"
+            helperIcon={AlertIcon}
+          />
+        </div>
+
+         <div className="flex gap-6 m-5">
+          <InputSelect            
+            helperText="Please select one"          
+            label="Label"
+            helperIcon={AlertIcon}
+          />
+          <InputSelect            
+            helperText="Please select one valid option"
+            error={true}
+            label="Label"
             helperIcon={AlertIcon}
           />
         </div>

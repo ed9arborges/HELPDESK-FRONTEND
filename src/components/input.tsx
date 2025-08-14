@@ -5,9 +5,12 @@ import Text from "./text"
 import Icon from "./icon"
 
 export const inputTextVariants = cva(
-  "border-b border-solid border-gray-200 focus:border-pink-base bg-transparent outline-none p-0",
+  "border-b border-solid focus:border-pink-base bg-transparent outline-none p-0",
   {
     variants: {
+      variant: {
+        default: "border-gray-200",
+      },
       size: {
         md: "pb-2",
       },
@@ -16,11 +19,24 @@ export const inputTextVariants = cva(
       },
     },
     defaultVariants: {
+      variant: "default",
       size: "md",
       disabled: false,
     },
   }
 )
+
+export const inputTextLabelVariants = cva("pl-0 text-left", {
+  variants: {
+    variant: {
+      default: "",      
+    },
+    size: { md: "text-xxs" },
+  },
+  defaultVariants: {
+    size: "md",
+  },
+})
 
 interface InputTextProps
   extends VariantProps<typeof inputTextVariants>,
@@ -63,12 +79,12 @@ export default function InputText({
   return (
     <div className="flex flex-col gap-1">
       {label && (
-        <Text variant="text-xxs" className={cx(labelColor, "pl-0 text-left")}>
+        <Text variant="text-xxs" className={cx(labelColor, inputTextLabelVariants())}>
           {label}
         </Text>
       )}
       <input
-        className={cx(labelColor,
+        className={cx(
           inputTextVariants({ size, disabled }),
           textVariants(),
           "pl-0",
@@ -91,7 +107,9 @@ export default function InputText({
           )}
           <Text
             variant="text-xs"
-            className={error ? "text-feedback-danger italic" : "text-gray-400 italic"}
+            className={
+              error ? "text-feedback-danger italic" : "text-gray-400 italic"
+            }
           >
             {helperText}
           </Text>
