@@ -27,4 +27,16 @@
   --color-feedback-done-20: rgba(80, 139, 38, 0.2);
   
   --font-sans: "Lato", sans-serif;
+
+
+}
+
+:root {
+  --bg-login: url('./assets/Login_Background.png');
+}
+
+.bg-login {
+  background-image: var(--bg-login);
+  background-size: cover;
+  background-position: center;
 }
