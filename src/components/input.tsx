@@ -77,7 +77,7 @@ export default function InputText({
     : "text-gray-300"
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="w-full flex flex-col gap-1">
       {label && (
         <Text variant="text-xxs" className={cx(labelColor, inputTextLabelVariants())}>
           {label}

@@ -4,7 +4,7 @@ import React from "react"
 export const containerVariants = cva("mx-auto", {
   variants: {
     size: {
-      md: "max-w-[31.5rem] px-2",
+      md: "md:min-w-[25rem] px-2", //the auth size
     },
   },
   defaultVariants: {
