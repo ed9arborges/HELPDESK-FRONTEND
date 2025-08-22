@@ -10,9 +10,9 @@ export default function Footer() {
             Main
           </Text>
         </NavLink>
-        <NavLink to="/components">
+        <NavLink to="/Dashboard">
           <Text variant="text-sm-bold" className="text-gray-300">
-            Components
+            Dashboard
           </Text>
         </NavLink>
         <NavLink to="/signin">

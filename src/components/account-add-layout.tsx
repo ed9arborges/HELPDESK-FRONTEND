@@ -1,6 +1,6 @@
 import InputText from "./input"
 
-import Button from "./button"
+import {Button} from "./button"
 import AuthSectionContainer from "./auth-section-container"
 
 export function AccountAddLayout() {

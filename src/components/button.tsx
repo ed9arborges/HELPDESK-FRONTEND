@@ -69,7 +69,7 @@ interface ButtonProps
 }
 
 
-export default function Button({
+export function Button({
   variant,
   size = "md",
   disabled,

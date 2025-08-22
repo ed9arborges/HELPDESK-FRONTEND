@@ -1,8 +1,8 @@
 import { Outlet } from "react-router"
-import HeadLogo from "../core-components/head-logo"
+import HeadLogo from "../../core-components/head-logo"
 
-import Footer from "../core-components/footer"
-import LoginBackground from "../assets/Login_Background.png"
+import Footer from "../../core-components/footer"
+import LoginBackground from "../../assets/Login_Background.png"
 
 export function AuthLayout() {
   return (

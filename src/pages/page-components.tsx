@@ -3,7 +3,7 @@ import { Authentication } from "../components/Authentication"
 
 import { StrictMode } from "react"
 import Icon from "../components/icon"
-import Button from "../components/button"
+import {Button} from "../components/button"
 import Tag from "../components/tag"
 import TagTime from "../components/tag-time"
 import InputText from "../components/input"
@@ -41,10 +41,10 @@ export default function PageComponents() {
             Label
           </Button>
           <Button icon={PenIcon} size="sm" />
-          <Button icon={TrashIcon} variant="secundary" size="sm">
+          <Button icon={TrashIcon} variant="secondary" size="sm">
             New Button
           </Button>
-          <Button icon={PenIcon} variant="secundary" size="md">
+          <Button icon={PenIcon} variant="secondary" size="md">
             Label
           </Button>
           <Button icon={TrashIcon} variant="link" size="linksm">
