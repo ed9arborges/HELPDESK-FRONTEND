@@ -3,6 +3,7 @@ import type { ReactElement } from "react"
 // Adjust this import to match the actual location of your Button component in the project
 import { Button } from "../components/button"
 import IconUpload from "../assets/icons/upload.svg?react"
+import IconTrash from "../assets/icons/trash.svg?react"
 
 export const ProfileFormSection = (): ReactElement => {
   const [formData, setFormData] = useState({
@@ -52,7 +53,7 @@ export const ProfileFormSection = (): ReactElement => {
             className=""
             icon={IconUpload}
           >
-            <span className="text-xs font-text-xxs text-grayscalegray-200">
+            <span className="text-xs font-text-xxs text-gray-200">
               Nova imagem
             </span>
           </Button>
@@ -63,15 +64,10 @@ export const ProfileFormSection = (): ReactElement => {
             type="button"
             aria-label="Delete profile image"
             onClick={handleImageDelete}
+            icon={IconTrash}
             className=""
-          >
-            <img
-              aria-hidden
-              alt=""
-              src="https://c.animaapp.com/OW9LC940/img/icon-trash.svg"
-              className="w-3.5 h-3.5"
-            />
-          </Button>
+          />            
+         
         </div>
       </div>
 
@@ -79,12 +75,12 @@ export const ProfileFormSection = (): ReactElement => {
         <div className="w-full">
           <label
             htmlFor="name-input"
-            className="block text-xs text-grayscalegray-300 font-text-xxs"
+            className="block text-xs text-gray-300 font-text-xxs"
           >
             NaME
           </label>
 
-          <div className="flex items-center h-10 gap-2 border-b border-grayscalegray-500">
+          <div className="flex items-center h-10 gap-2 border-b border-gray-500">
             <input
               id="name-input"
               type="text"
@@ -99,12 +95,12 @@ export const ProfileFormSection = (): ReactElement => {
         <div className="w-full">
           <label
             htmlFor="email-input"
-            className="block text-xs text-grayscalegray-300 font-text-xxs"
+            className="block text-xs text-gray-300 font-text-xxs"
           >
             E-MAIL
           </label>
 
-          <div className="flex items-center h-10 gap-2 border-b border-grayscalegray-500">
+          <div className="flex items-center h-10 gap-2 border-b border-gray-500">
             <input
               id="email-input"
               type="email"
@@ -112,7 +108,7 @@ export const ProfileFormSection = (): ReactElement => {
               placeholder="andre.costa@client.com"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className="flex-1 bg-transparent border-0 p-0 text-sm text-grayscalegray-200 focus:outline-none font-text-md"
+              className="flex-1 bg-transparent border-0 p-0 text-sm text-gray-200 focus:outline-none font-text-md"
             />
           </div>
         </div>
@@ -121,12 +117,12 @@ export const ProfileFormSection = (): ReactElement => {
           <div className="flex-1">
             <label
               htmlFor="password-input"
-              className="block text-xs text-grayscalegray-300 font-text-xxs"
+              className="block text-xs text-gray-300 font-text-xxs"
             >
               SENHA
             </label>
 
-            <div className="flex items-center h-10 gap-2 border-b border-grayscalegray-500">
+            <div className="flex items-center h-10 gap-2 border-b border-gray-500">
               <input
                 id="password-input"
                 type={showPassword ? "text" : "password"}
@@ -134,7 +130,7 @@ export const ProfileFormSection = (): ReactElement => {
                 placeholder="••••••••"
                 value={formData.password}
                 onChange={(e) => handleInputChange("password", e.target.value)}
-                className="flex-1 bg-transparent border-0 p-0 text-sm text-grayscalegray-200 focus:outline-none font-text-md"
+                className="flex-1 bg-transparent border-0 p-0 text-sm text-gray-200 focus:outline-none font-text-md"
               />
             </div>
           </div>
@@ -145,7 +141,7 @@ export const ProfileFormSection = (): ReactElement => {
               size="sm"
               aria-label="Change password"
               onClick={handlePasswordChange}
-              className="h-7 px-2 bg-grayscalegray-500 rounded-md hover:bg-grayscalegray-400 focus:outline-2 focus:outline-bluebase transition-colors text-xs text-grayscalegray-200"
+              className="h-7 px-2 bg-gray-500 rounded-md hover:bg-gray-400 focus:outline-2 focus:outline-bluebase transition-colors text-xs text-gray-200"
             >
               Alterar
             </Button>

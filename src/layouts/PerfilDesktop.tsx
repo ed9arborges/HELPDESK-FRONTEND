@@ -3,6 +3,9 @@ import React, { type ReactElement, useState } from "react"
 import { ProfileFormSection } from "./ProfileFormSection"
 import { Button } from "../components/button"
 
+import IconX from "../assets/icons/x.svg?react"
+import Icon from "../components/icon"
+
 export const PerfilDesktop = (): ReactElement => {
   const [isModalOpen, setIsModalOpen] = useState(true)
 
@@ -30,18 +33,15 @@ export const PerfilDesktop = (): ReactElement => {
                 Profile
               </h2>
 
-              <button
-                className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100"
+              <Button
+                icon={IconX}   
+                size="sm"             
                 onClick={handleCloseModal}
                 aria-label="Fechar modal"
                 type="button"
-              >
-                <img
-                  className="w-4 h-4"
-                  alt="Fechar"
-                  src="https://c.animaapp.com/OW9LC940/img/icon-x.svg"
-                />
-              </button>
+                variant="link"
+              />
+                
             </header>
 
             <ProfileFormSection />

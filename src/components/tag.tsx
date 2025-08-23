@@ -26,7 +26,7 @@ export const tagVariants = cva(
   }
 )
 
-export const tagTextVariants = cva("", {
+export const tagTextVariants = cva("hidden md:flex", {
   variants: {
     variant: {
       new: "text-feedback-open",
