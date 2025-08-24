@@ -1,5 +1,5 @@
-import { NavLink, Outlet } from "react-router";
-import Text from "../components/text";
+import { NavLink, Outlet } from "react-router"
+import Text from "./text"
 
 export default function Footer() {
   return (

@@ -1,10 +1,10 @@
 import React, { type ReactElement, useState } from "react"
 
 import { ProfileFormSection } from "./ProfileFormSection"
-import { Button } from "../components/button"
+import { Button } from "../core-components//button"
 
 import IconX from "../assets/icons/x.svg?react"
-import Icon from "../components/icon"
+
 
 export const PerfilDesktop = (): ReactElement => {
   const [isModalOpen, setIsModalOpen] = useState(true)
@@ -34,14 +34,13 @@ export const PerfilDesktop = (): ReactElement => {
               </h2>
 
               <Button
-                icon={IconX}   
-                size="sm"             
+                icon={IconX}
+                size="sm"
                 onClick={handleCloseModal}
                 aria-label="Fechar modal"
                 type="button"
                 variant="link"
               />
-                
             </header>
 
             <ProfileFormSection />

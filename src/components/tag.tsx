@@ -1,7 +1,7 @@
 import React from "react"
-import Text from "./text"
+import Text from "../core-components/text"
 
-import Icon from "./icon"
+import Icon from "../core-components/icon"
 
 import { cva, type VariantProps } from "class-variance-authority"
 

@@ -1,6 +1,6 @@
 import logo from "../../assets/NavHeader.svg"
 import styles from "./styles.module.css"
-import Text from "../text"
+import Text from "../../core-components/text"
 
 export function Authentication() {
   return (
@@ -10,4 +10,3 @@ export function Authentication() {
     </div>
   )
 }
-

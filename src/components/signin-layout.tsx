@@ -1,7 +1,7 @@
 import { useState } from "react"
-import InputText from "./input"
+import InputText from "../core-components/input"
 
-import {Button} from "./button"
+import {Button} from "../core-components/button"
 import AuthSectionContainer from "./auth-section-container"
 
 export function SignInLayout() {

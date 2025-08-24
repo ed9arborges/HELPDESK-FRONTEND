@@ -1,7 +1,7 @@
 import React from "react"
-import Text from "./text"
+import Text from "../core-components/text"
 
-import Icon from "./icon"
+import Icon from "../core-components/icon"
 
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -13,7 +13,7 @@ export const tagtimeVariants = cva(
         default: "bg-transparent border border-gray-400 hover:bg-gray-500",
         selected: "bg-blue-base",
         read: "bg-transparent border border-gray-500",
-      }      
+      },
     },
     defaultVariants: {
       variant: "default",
@@ -36,11 +36,11 @@ export const tagtimeTextVariants = cva("", {
 
 export const tagtimeIconVariants = cva("size-4", {
   variants: {
-     variant: {
+    variant: {
       default: "fill-feedback-open",
       selected: "fill-gray-600",
       read: "fill-gray-400",
-    }
+    },
   },
   defaultVariants: { variant: "default" },
 })
@@ -59,9 +59,9 @@ export default function TagTime({
   ...props
 }: TagTimeProps) {
   return (
-    <div className={tagtimeVariants({ variant, className })} {...props}>     
+    <div className={tagtimeVariants({ variant, className })} {...props}>
       <Text className={tagtimeTextVariants({ variant })}>{children}</Text>
-       {IconComponent && (
+      {IconComponent && (
         <Icon
           svg={IconComponent}
           className={tagtimeIconVariants({ variant })}

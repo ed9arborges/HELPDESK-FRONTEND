@@ -1,8 +1,8 @@
 import React from "react"
 import { cva, type VariantProps, cx } from "class-variance-authority"
-import { textVariants } from "./text"
-import Text from "./text"
-import Icon from "./icon"
+import { textVariants } from "../core-components/text"
+import Text from "../core-components/text"
+import Icon from "../core-components/icon"
 
 export const inputTextVariants = cva(
   "border-b border-solid focus:border-pink-base bg-transparent outline-none p-0",
@@ -29,7 +29,7 @@ export const inputTextVariants = cva(
 export const inputTextLabelVariants = cva("pl-0 text-left", {
   variants: {
     variant: {
-      default: "",      
+      default: "",
     },
     size: { md: "text-xxs" },
   },
@@ -79,7 +79,10 @@ export default function InputText({
   return (
     <div className="w-full flex flex-col gap-1">
       {label && (
-        <Text variant="text-xxs" className={cx(labelColor, inputTextLabelVariants())}>
+        <Text
+          variant="text-xxs"
+          className={cx(labelColor, inputTextLabelVariants())}
+        >
           {label}
         </Text>
       )}

@@ -1,8 +1,8 @@
 import React, { useRef } from "react"
 import { cva, type VariantProps, cx } from "class-variance-authority"
-import { textVariants } from "./text"
-import Text from "./text"
-import Icon from "./icon"
+import { textVariants } from "../core-components/text"
+import Text from "../core-components/text"
+import Icon from "../core-components/icon"
 
 // check icon, simple SVG:
 const CheckIcon = () => (
@@ -185,12 +185,12 @@ export default function InputSelect({
               )}
               onClick={() => handleSelect(item.value)}
             >
-                <Text
+              <Text
                 variant={item.value === "" ? "text-xxs" : "text-md"}
                 className="flex-1"
-                >
+              >
                 {item.label}
-                </Text>
+              </Text>
               {selected === item.value && <CheckIcon />}
             </li>
           ))}

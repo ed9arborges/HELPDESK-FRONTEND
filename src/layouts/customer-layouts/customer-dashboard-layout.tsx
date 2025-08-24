@@ -1,6 +1,6 @@
 import React from "react"
-import Text from "../../components/text"
-import { Button } from "../../components/button"
+import Text from "../../core-components/text"
+import { Button } from "../../core-components/button"
 import Tag from "../../components/tag"
 import IconView from "../../assets/icons/eye.svg?react"
 import IconQuestion from "../../assets/icons/circle-help.svg?react"
