@@ -4,6 +4,7 @@ import { MenuLink } from "../core-components/menu-link"
 import IconClipBoard from "../assets/icons/clipboard-list.svg?react"
 import { Header } from "./Header"
 import { HeaderNav } from "../core-components/header-nav"
+import { UserMenu } from "../core-components/user-menu"
 
 interface NavigationItem {
   id: string
@@ -29,7 +30,6 @@ export const NavigationMenuSection = (): ReactElement => {
       isActive: true,
       bgColor: "bg-blue-dark",
       textColor: "text-gray-600",
-     
     },
     {
       id: "criar-chamado",
@@ -38,7 +38,6 @@ export const NavigationMenuSection = (): ReactElement => {
       isActive: false,
       bgColor: "bg-gray-100",
       textColor: "text-gray-400",
-      
     },
   ])
 
@@ -54,42 +53,31 @@ export const NavigationMenuSection = (): ReactElement => {
 
   return (
     <nav
-      className="flex flex-col w-52 bg-transparent"
+      className="flex flex-col w-52 bg-transparent min-h-screen justify-between"
       role="navigation"
       aria-label="Menu principal"
     >
-      <HeaderNav >Customer</HeaderNav>
+      <div>
+        <HeaderNav>Customer</HeaderNav>
 
-      <main className="flex-1 px-4 py-5">
-        <ul className="flex flex-col gap-1" role="list">
-          {navigationItems.map((item) => (
-            <li key={item.id} className="w-full">
-              <MenuLink icon={item.icon} variant={item.isActive ? "active" : "default"} onClick={() => handleNavigationClick(item.id)}>{item.label}</MenuLink>
-            </li>
-          ))}
-        </ul>
-      </main>
+        <main className="px-4 py-5 overflow-auto">
+          <ul className="flex flex-col gap-1" role="list">
+            {navigationItems.map((item) => (
+              <li key={item.id} className="w-full">
+                <MenuLink
+                  icon={item.icon}
+                  variant={item.isActive ? "active" : "default"}
+                  onClick={() => handleNavigationClick(item.id)}
+                >
+                  {item.label}
+                </MenuLink>
+              </li>
+            ))}
+          </ul>
+        </main>
+      </div>
 
-      <footer className="flex items-center gap-3 px-4 py-5 w-full border-t border-gray-200">
-        <div
-          className="w-8 h-8 bg-bluedark rounded-full flex items-center justify-center"
-          aria-hidden="true"
-        >
-          <span className="text-sm text-gray-600 font-normal">
-            {userProfile.initials}
-          </span>
-        </div>
-
-        <div className="flex flex-col flex-1">
-          <span className="text-sm font-normal text-gray-600">
-            {userProfile.name}
-          </span>
-
-          <span className="text-xs font-normal text-gray-400 truncate">
-            {userProfile.email}
-          </span>
-        </div>
-      </footer>
+      <UserMenu userProfile={userProfile} />
     </nav>
   )
 }
