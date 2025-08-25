@@ -5,6 +5,7 @@ import IconClipBoard from "../assets/icons/clipboard-list.svg?react"
 import { Header } from "./Header"
 import { HeaderNav } from "../core-components/header-nav"
 import { UserMenu } from "../core-components/user-menu"
+import { MenuMobile } from "../core-components/menu-mobile"
 
 interface NavigationItem {
   id: string
@@ -52,8 +53,9 @@ export const NavigationMenuSection = (): ReactElement => {
   }
 
   return (
+    <>
     <nav
-      className="flex flex-col w-52 bg-transparent min-h-screen justify-between"
+      className="hidden md:flex flex-col w-52 bg-transparent min-h-screen justify-between"
       role="navigation"
       aria-label="Menu principal"
     >
@@ -79,5 +81,11 @@ export const NavigationMenuSection = (): ReactElement => {
 
       <UserMenu userProfile={userProfile} />
     </nav>
+    <nav className="md:hidden flex w-full justify-between gap-4 h-10 m-6">
+      <MenuMobile />
+      <HeaderNav>Customer</HeaderNav>
+      <UserMenu userProfile={userProfile} />
+    </nav>
+    </>
   )
 }

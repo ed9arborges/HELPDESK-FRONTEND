@@ -12,9 +12,9 @@ type UserMenuProps = {
 
 export function UserMenu({ userProfile }: UserMenuProps) {
   return (
-    <footer className="flex gap-3 px-4 py-5 mb-5 w-full border-t border-gray-200 items-center">
+    <footer className="flex gap-3 px-4 py-5 mb-5 border-t border-gray-200 items-center">
         <div
-          className="w-8 h-8 bg-blue-dark rounded-full flex items-center justify-center"
+          className="flex w-8 h-8 mr-6 md:mr-0 bg-blue-dark rounded-full items-center justify-center"
           aria-hidden="true"
         >
           <span className="text-sm text-gray-600 font-normal">
@@ -22,7 +22,7 @@ export function UserMenu({ userProfile }: UserMenuProps) {
           </span>
         </div>
 
-        <div className="flex flex-col flex-1">
+        <div className="hidden md:flex flex-col flex-1">
           <span className="text-sm font-normal text-gray-600">
             {userProfile.name}
           </span>

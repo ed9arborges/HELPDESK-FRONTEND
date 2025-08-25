@@ -3,8 +3,8 @@ import Icon from "./icon"
 import Text from "./text"
 import { cva, type VariantProps } from "class-variance-authority"
 
-export const buttonVariants = cva(
-  "flex items-center justify-center cursor-pointer transition rounded-[5px] group gap-3 p-3",
+export const menuLinkVariants = cva(
+  "flex items-center justify-left w-full cursor-pointer transition rounded-[5px] group gap-3 p-3",
   {
     variants: {
       variant: {
@@ -22,7 +22,7 @@ export const buttonVariants = cva(
   }
 )
 
-export const buttonTextVariants = cva("text-sm", {
+export const menuLinkTextVariants = cva("text-sm", {
   variants: {
     variant: {
       default: "text-gray-400 group-hover:text-gray-500",
@@ -34,7 +34,7 @@ export const buttonTextVariants = cva("text-sm", {
   },
 })
 
-export const buttonIconVariants = cva("w-5 h-5 transition", {
+export const menuLinkIconVariants = cva("w-5 h-5 transition", {
   variants: {
     variant: {
       default: "fill-gray-400 group-hover:fill-gray-500",
@@ -48,7 +48,7 @@ export const buttonIconVariants = cva("w-5 h-5 transition", {
 
 interface MenuLinkProps
   extends Omit<React.ComponentProps<"button">, "size" | "disabled">,
-    VariantProps<typeof buttonVariants> {
+    VariantProps<typeof menuLinkVariants> {
   icon?: React.ComponentProps<typeof Icon>["svg"]
 }
 
@@ -62,16 +62,16 @@ export function MenuLink({
 }: MenuLinkProps) {
   return (
     <button
-      className={buttonVariants({ variant, disabled, className })}
+      className={menuLinkVariants({ variant, disabled, className })}
       {...props}
     >
       {IconComponent && (
-        <Icon svg={IconComponent} className={buttonIconVariants({ variant })} />
+        <Icon svg={IconComponent} className={menuLinkIconVariants({ variant })} />
       )}
       {children && (
         <Text
           variant="text-sm-bold"
-          className={buttonTextVariants({ variant })}
+          className={menuLinkTextVariants({ variant })}
         >
           {children}
         </Text>
