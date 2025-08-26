@@ -7,7 +7,7 @@ export default function CustomerRoutes() {
   return (
     <Routes>
       <Route path="/" element={<CustomerLayout />}>
-        <Route path="/" element={<PageLogin />} />
+        <Route path="/signin" element={<PageLogin />} />
       </Route>
 
       <Route element={<CustomerLayout />}>        

@@ -21,7 +21,7 @@ export function CustomerLayout() {
       </main>
       
     </div>
-     <PerfilDesktop />
+     
     </>
   )
 }

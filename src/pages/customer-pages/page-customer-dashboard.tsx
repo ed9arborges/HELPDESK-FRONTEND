@@ -5,8 +5,7 @@ import { CustomerDashboardLayout } from "../../layouts/customer-layouts/customer
 export function PageCustomerDashboard() {
   return (
     <>
-      <CustomerDashboardLayout />
-      <AccountAddLayout />
+      <CustomerDashboardLayout />      
     </>
   )
 }
