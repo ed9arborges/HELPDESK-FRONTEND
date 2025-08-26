@@ -4,7 +4,7 @@ import { MenuLink } from "../core-components/menu-link"
 import IconClipBoard from "../assets/icons/clipboard-list.svg?react"
 import { Header } from "./Header"
 import { HeaderNav } from "../core-components/header-nav"
-import { UserMenu } from "../core-components/user-menu"
+import { UserMenu } from "./user-menu"
 import { MenuMobile } from "../core-components/menu-mobile"
 
 interface NavigationItem {
@@ -76,6 +76,7 @@ export const NavigationMenuSection = (): ReactElement => {
               </li>
             ))}
           </ul>
+          
         </main>
       </div>
 
