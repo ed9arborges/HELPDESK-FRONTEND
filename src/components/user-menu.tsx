@@ -21,8 +21,7 @@ export function UserMenu({ userProfile }: UserMenuProps) {
   };
 
   return (
-    <>
-      <div className="relative mb-5">
+    <> 
         {menuOpen && (
           <>
             <Card className="hidden md:flex absolute left-full bottom-0 ml-2 w-[198px] z-50" />
@@ -32,7 +31,7 @@ export function UserMenu({ userProfile }: UserMenuProps) {
 
         <section className="flex gap-3 px-4 py-5 border-t border-gray-200 items-center">
           <Avatar
-            className="hover:cursor-pointer"
+            className="mr-6 md:mr-0"
             onClick={toggleMenu}
           >
             <span className="text-sm text-gray-600 font-normal">
@@ -50,7 +49,6 @@ export function UserMenu({ userProfile }: UserMenuProps) {
             </span>
           </div>
         </section>
-      </div>
     </>
   )
 }

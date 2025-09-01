@@ -3,13 +3,10 @@ import { useNavigate } from "react-router"
 import { MenuLink } from "../core-components/menu-link"
 
 import IconClipBoard from "../assets/icons/clipboard-list.svg?react"
-import { Header } from "./Header"
+
 import { HeaderNav } from "../core-components/header-nav"
 import { UserMenu } from "./user-menu"
 import { MenuMobile } from "@core-components/menu-mobile"
-import { NavLink } from "react-router"
-
-
 
 interface NavigationItem {
   id: string
@@ -66,8 +63,6 @@ export const NavigationMenuSection = (): ReactElement => {
     <>
     <nav
       className="hidden md:flex flex-col w-52 bg-transparent min-h-screen justify-between"
-      role="navigation"
-      aria-label="Menu principal"
     >
       <div>
         <HeaderNav>Customer</HeaderNav>

@@ -12,6 +12,9 @@ export function CustomerDashboardLayout() {
   const mdGridClass =
     "md:[grid-template-columns:minmax(6rem,12%)_minmax(4rem,8%)_1fr_minmax(8rem,16%)_minmax(6rem,10%)_minmax(8rem,12%)_minmax(8rem,12%)_minmax(3rem,4%)]"
 
+  const viewHandle = () => {
+    ("/requests");
+  }
   return (
     <>
       <div className="bg-blue-600 p-4">
@@ -131,7 +134,7 @@ export function CustomerDashboardLayout() {
           </div>
 
           <div className="col-span-1 md:col-auto flex items-center justify-center min-w-0">
-            <Button
+            <Button onClick={viewHandle}
               icon={IconView}
               className="flex-shrink-0"
               size="sm"

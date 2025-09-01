@@ -65,7 +65,7 @@ export const MenuMobile = (): ReactElement => {
 
           <ul className="flex flex-col items-start gap-1 relative self-stretch w-full flex-[0_0_auto]">
             {menuItems.map((item) => (
-              <li key={item.id} role="none" className="relative self-stretch w-full">
+              <li key={item.id} className="relative self-stretch w-full">
                 <MenuLink 
                   icon={item.icon}
                   variant={item.isActive ? "active" : "default"}

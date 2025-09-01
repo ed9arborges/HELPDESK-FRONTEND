@@ -1,3 +1,5 @@
+import Icon from "@/core-components/icon"
+import IconLogo from "@assets/Logo_IconLight2.svg?react"
 
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -24,10 +26,10 @@ interface HeaderNavProps
 export function HeaderNav({ children }: HeaderNavProps) {
   return (
     <header className={headerNavVariants()}>
-        <img
+        <Icon
           className="w-11 h-11"
           alt="Logo HelpDesk"
-          src="https://c.animaapp.com/OW9LC940/img/logo-iconlight.svg"
+          svg={IconLogo}
         />
 
         <div className="flex flex-col">
