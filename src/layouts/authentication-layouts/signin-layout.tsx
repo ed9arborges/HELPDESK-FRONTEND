@@ -1,8 +1,8 @@
 import { useState } from "react"
-import InputText from "../core-components/input"
+import InputText from "../../core-components/input"
 
-import {Button} from "../core-components/button"
-import AuthSectionContainer from "./auth-section-container"
+import { Button } from "../../core-components/button"
+import AuthSectionContainer from "../../components/auth-section-container"
 
 export function SignInLayout() {
   const [email, setEmail] = useState("")
@@ -14,7 +14,11 @@ export function SignInLayout() {
   }
 
   return (
-    <AuthSectionContainer title="Portal Access" description="Log in to access your account." className="w-full md:max-w-[25rem] flex flex-col mt-8 ">
+    <AuthSectionContainer
+      title="Portal Access"
+      description="Log in to access your account."
+      className="w-full md:max-w-[25rem] flex flex-col mt-8 "
+    >
       <form className="" onSubmit={handleSubmit}>
         <InputText label="Email" type="email" className="mb-4" />
         <InputText label="Password" type="password" />

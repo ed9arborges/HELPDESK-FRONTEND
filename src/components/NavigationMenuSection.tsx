@@ -1,4 +1,5 @@
 import React, { useState, type ReactElement } from "react"
+import { useNavigate } from "react-router"
 import { MenuLink } from "../core-components/menu-link"
 
 import IconClipBoard from "../assets/icons/clipboard-list.svg?react"
@@ -6,6 +7,9 @@ import { Header } from "./Header"
 import { HeaderNav } from "../core-components/header-nav"
 import { UserMenu } from "./user-menu"
 import { MenuMobile } from "../core-components/menu-mobile"
+import { NavLink } from "react-router"
+
+
 
 interface NavigationItem {
   id: string
@@ -14,6 +18,7 @@ interface NavigationItem {
   isActive: boolean
   bgColor: string
   textColor: string
+  link: string
 }
 
 interface UserProfile {
@@ -31,6 +36,7 @@ export const NavigationMenuSection = (): ReactElement => {
       isActive: true,
       bgColor: "bg-blue-dark",
       textColor: "text-gray-600",
+      link: "/requests"
     },
     {
       id: "criar-chamado",
@@ -39,6 +45,7 @@ export const NavigationMenuSection = (): ReactElement => {
       isActive: false,
       bgColor: "bg-gray-100",
       textColor: "text-gray-400",
+      link: "/requests/create"
     },
   ])
 
@@ -48,8 +55,11 @@ export const NavigationMenuSection = (): ReactElement => {
     email: "user.client@test.com",
   })
 
-  const handleNavigationClick = (itemId: string) => {
-    console.log(`Navigation clicked: ${itemId}`)
+   const navigate = useNavigate()
+
+  function handleNavigationClick(link: string) {
+    navigate(link)
+    console.log(`Navigation click: ${link}`)
   }
 
   return (
@@ -69,7 +79,7 @@ export const NavigationMenuSection = (): ReactElement => {
                 <MenuLink
                   icon={item.icon}
                   variant={item.isActive ? "active" : "default"}
-                  onClick={() => handleNavigationClick(item.id)}
+                  onClick={() => handleNavigationClick(item.link)}
                 >
                   {item.label}
                 </MenuLink>

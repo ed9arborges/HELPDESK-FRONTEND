@@ -5,15 +5,12 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    
     "baseUrl": "src",
     "paths": {
-      "@components/*": ["components/*"],
-      "@layouts/*": ["layouts/*"],
+      "@icons/*": ["assets/icons/*"],
       "@assets/*": ["assets/*"],
-      "@lib/*": ["lib/*"],
-      "@features/*": ["features/*"],
-      "@types/*": ["types/*"]
+      "@components/*": ["components/*"],
+      "@core/*": ["core-components/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "strict": true

@@ -5,4 +5,12 @@ import svgr from "vite-plugin-svgr"
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [tailwindcss(), svgr()],
+  resolve: {
+    alias: {
+      '@icons': '/src/assets/icons',
+      '@assets': '/src/assets',
+      '@components': '/src/components',
+      '@core': '/src/core-components',
+    },
+  },
 })

@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router"
 import LayoutMain from "../pages/layout-main"
-import PageHome from "../pages/page-home"
 import PageComponents from "../pages/page-components"
 import { AuthLayout } from "../layouts/authentication-layouts/auth-layout"
 import { PageLogin } from "../pages/page-login"
@@ -13,7 +12,7 @@ export default function AuthRoutes() {
       </Route>
 
       <Route element={<LayoutMain />}>
-        <Route index element={<PageHome />} />
+        <Route index element={<AuthLayout />} />
         <Route path="/components" element={<PageComponents />} />
       </Route>
     </Routes>

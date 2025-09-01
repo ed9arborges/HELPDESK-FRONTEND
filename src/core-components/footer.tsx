@@ -20,6 +20,11 @@ export default function Footer() {
             Sign In
           </Text>
         </NavLink>
+         <NavLink to="/requests">
+          <Text variant="text-sm-bold" className="text-gray-300">
+            Make Request
+          </Text>
+        </NavLink>
       </nav>
     </footer>
   )
