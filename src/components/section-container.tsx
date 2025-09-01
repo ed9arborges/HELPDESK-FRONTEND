@@ -9,9 +9,9 @@ export const SectionContainerVariants = cva(
     variants: {
       variant: {
         base: "w-full md:w-auto ",
-        small: "w-full md:w-auto md:max-w-50",
-        medium: "w-full md:w-auto md:max-w-74",
-        large: "w-full md:w-auto md:max-w-120",
+        small: "w-full md:w-[33%] md:max-w-74",
+        medium: "w-full md:w-[48%] md:max-w-80",
+        large: "w-full md:w-[63%] md:max-w-120",
       },
     },
     defaultVariants: {
@@ -37,24 +37,23 @@ export default function SectionContainer({
 }: SectionContainerProps) {
   return (
     <article
-      className={cx(
-        SectionContainerVariants({ variant }),
-        className
-      )}
+      className={cx(SectionContainerVariants({ variant }), className)}
       {...props}
     >
-      {title || description && <div className="flex flex-col items-start gap-1 pl-0 pb-8">
-        {title && (
-          <Text as="h1" variant="text-lg-bold">
-            {title}
-          </Text>
-        )}
-        {description && (
-          <Text as="p" variant="text-xs">
-            {description}
-          </Text>
-        )}
-      </div>}
+      {(title || description) && (
+        <div className="flex flex-col items-start gap-1 pl-0 pb-8">
+          {title && (
+            <Text as="h1" variant="text-md-bold" className="text-gray-200">
+              Aqui:{title}
+            </Text>
+          )}
+          {description && (
+            <Text as="p" variant="text-xs">
+              {description}
+            </Text>
+          )}
+        </div>
+      )}
       {children}
     </article>
   )

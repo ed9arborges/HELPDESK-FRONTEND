@@ -1,19 +1,25 @@
 import React from "react"
+import { useNavigate } from "react-router"
+
 import Text from "../../core-components/text"
 import { Button } from "../../core-components/button"
 import Tag from "../../components/tag"
+import Avatar from "@/core-components/avatar"
+
 import IconView from "../../assets/icons/eye.svg?react"
 import IconQuestion from "../../assets/icons/circle-help.svg?react"
 import IconCheck from "../../assets/icons/circle-check.svg?react"
-import Avatar from "@/core-components/avatar"
+
 
 export function CustomerDashboardLayout() {
+  const navigate = useNavigate()
+  
   // Tailwind arbitrary grid template for md+ (keeps header and rows aligned)
   const mdGridClass =
     "md:[grid-template-columns:minmax(6rem,12%)_minmax(4rem,8%)_1fr_minmax(8rem,16%)_minmax(6rem,10%)_minmax(8rem,12%)_minmax(8rem,12%)_minmax(3rem,4%)]"
 
   const viewHandle = () => {
-    ("/requests");
+    navigate("/requests");
   }
   return (
     <>

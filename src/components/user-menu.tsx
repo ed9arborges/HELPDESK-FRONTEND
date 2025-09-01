@@ -31,7 +31,7 @@ export function UserMenu({ userProfile }: UserMenuProps) {
 
         <section className="flex gap-3 px-4 py-5 border-t border-gray-200 items-center">
           <Avatar
-            className="mr-6 md:mr-0"
+            className="mr-6 md:mr-0 hover:cursor-pointer"
             onClick={toggleMenu}
           >
             <span className="text-sm text-gray-600 font-normal">

@@ -1,5 +1,5 @@
 import React, { type ReactElement } from "react"
-import SectionContainer from "./section-container"
+import SectionContainer from "../../components/section-container"
 import IconQuestion from "@assets/icons/circle-help.svg?react"
 import Tag from "@components/tag"
 import Text from "@core-components/text"
@@ -61,7 +61,10 @@ export const RequestDetailsContent = (): ReactElement => {
       <SectionContainer variant="large">
         <header className="w-full flex flex-col gap-3">
           <div className="flex items-center justify-between w-full">
-            <Text variant="text-xs" className=" text-gray-300 whitespace-nowrap">
+            <Text
+              variant="text-xs"
+              className=" text-gray-300 whitespace-nowrap"
+            >
               {ticketData.id}
             </Text>
 
@@ -74,18 +77,26 @@ export const RequestDetailsContent = (): ReactElement => {
             </Tag>
           </div>
 
-          <Text as="h1" variant="text-lg-bold" className="text-gray-200 leading-tight">
+          <Text
+            as="h1"
+            variant="text-lg-bold"
+            className="text-gray-200 leading-tight"
+          >
             {ticketData.title}
           </Text>
         </header>
 
         <div>
-          <Text as="label" variant="text-xs" className="text-gray-400">Description</Text>
+          <Text as="label" variant="text-xs" className="text-gray-400">
+            Description
+          </Text>
           <p className="mt-1 text-sm text-gray-200">{ticketData.description}</p>
         </div>
 
         <div>
-          <Text as="label" variant="text-xs" className="text-gray-400">Category</Text>
+          <Text as="label" variant="text-xs" className="text-gray-400">
+            Category
+          </Text>
           <div className="mt-1 text-sm text-gray-200">
             {ticketData.category}
           </div>
@@ -93,14 +104,18 @@ export const RequestDetailsContent = (): ReactElement => {
 
         <div className="flex gap-8">
           <div className="flex-1">
-            <Text as="label" variant="text-xs" className=" text-gray-400">Created at</Text>
+            <Text as="label" variant="text-xs" className=" text-gray-400">
+              Created at
+            </Text>
             <time className="block mt-1 text-xs text-gray-200">
               {ticketData.createdAt}
             </time>
           </div>
 
           <div className="flex-1">
-            <Text as="label" variant="text-xs" className="text-gray-400">Updated at</Text>
+            <Text as="label" variant="text-xs" className="text-gray-400">
+              Updated at
+            </Text>
             <time className="block mt-1 text-xs text-gray-200">
               {ticketData.updatedAt}
             </time>
@@ -109,13 +124,12 @@ export const RequestDetailsContent = (): ReactElement => {
       </SectionContainer>
       <SectionContainer variant="medium">
         <div className="flex flex-col gap-2">
-          <Text as="h2" variant="text-xs" className="text-gray-400">Responsible Technician</Text>
+          <Text as="h2" variant="text-xs" className="text-gray-400">
+            Responsible Technician
+          </Text>
 
           <div className="flex items-center gap-3">
-            <Avatar                         
-            >
-              {technicianData.initials}
-            </Avatar>
+            <Avatar>{technicianData.initials}</Avatar>
 
             <div className="min-w-0">
               <div className="text-sm text-gray-200 truncate">
