@@ -5,6 +5,7 @@ import Tag from "../../components/tag"
 import IconView from "../../assets/icons/eye.svg?react"
 import IconQuestion from "../../assets/icons/circle-help.svg?react"
 import IconCheck from "../../assets/icons/circle-check.svg?react"
+import Avatar from "@/core-components/avatar"
 
 export function CustomerDashboardLayout() {
   // Tailwind arbitrary grid template for md+ (keeps header and rows aligned)
@@ -24,7 +25,7 @@ export function CustomerDashboardLayout() {
         >
           <div className="col-span-3 md:col-auto flex items-center min-w-0">
             <Text variant="text-sm" className="truncate">
-              Atualizado em
+              Updated at
             </Text>
           </div>
 
@@ -37,28 +38,28 @@ export function CustomerDashboardLayout() {
 
           <div className="col-span-6 md:col-auto flex items-center min-w-0">
             <Text variant="text-sm" className="truncate">
-              Título
+              Title
             </Text>
           </div>
 
           {/* serviço hidden on mobile */}
           <div className="hidden md:flex items-center min-w-0">
             <Text variant="text-sm" className="truncate">
-              Serviço
+              Service
             </Text>
           </div>
 
           {/* valor total hidden on mobile */}
           <div className="hidden md:flex items-center min-w-0">
             <Text variant="text-sm" className="truncate">
-              Valor total
+              Total
             </Text>
           </div>
 
           {/* técnico hidden on mobile */}
           <div className="hidden md:flex items-center min-w-0">
             <Text variant="text-sm" className="truncate">
-              Técnico
+              Technician
             </Text>
           </div>
 
@@ -111,9 +112,9 @@ export function CustomerDashboardLayout() {
           </div>
 
           <div className="hidden md:flex items-center min-w-0">
-            <div className="relative w-5 h-5 bg-blue-dark rounded-full flex items-center justify-center flex-shrink-0">
+            <Avatar size="small">
               <span className="text-xs text-gray-600 font-normal">AO</span>
-            </div>
+            </Avatar>
             <Text variant="text-sm" className="truncate ml-2">
               Ana Oliveira
             </Text>

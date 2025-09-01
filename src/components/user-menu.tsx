@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Card } from "./card";
+import Avatar from "@/core-components/avatar";
 
 
 type UserProfile = {
@@ -30,15 +31,14 @@ export function UserMenu({ userProfile }: UserMenuProps) {
         )}
 
         <section className="flex gap-3 px-4 py-5 border-t border-gray-200 items-center">
-          <div
-            className="flex w-8 h-8 mr-6 md:mr-0 bg-blue-dark rounded-full items-center justify-center"
-            aria-hidden="true"
+          <Avatar
+            className="hover:cursor-pointer"
             onClick={toggleMenu}
           >
             <span className="text-sm text-gray-600 font-normal">
               {userProfile.initials}
             </span>
-          </div>
+          </Avatar>
 
           <div className="hidden md:flex flex-col flex-1">
             <span className="text-sm font-normal text-gray-600">

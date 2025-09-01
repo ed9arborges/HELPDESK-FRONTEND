@@ -60,7 +60,7 @@ export const Card = ({ className }: { className: string }): ReactElement => {
           {menuOptions.map((option) => (
             <li key={option.id} className="contents">
                 <button
-                className={`h-10 items-center gap-2 flex relative self-stretch w-full hover:bg-gray-200 focus:bg-gray-200 rounded transition-colors duration-200 ${
+                className={`h-10 items-center gap-2 flex relative self-stretch w-full hover:cursor-pointer hover:bg-gray-200 focus:bg-gray-200 rounded transition-colors duration-200 ${
                   selectedOption === option.id ? "bg-gray-200" : ""
                 }`}
                 onClick={option.onClick}

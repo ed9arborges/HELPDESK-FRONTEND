@@ -1,7 +1,9 @@
 import React, { type ReactElement } from "react"
 import SectionContainer from "./section-container"
 import IconQuestion from "@assets/icons/circle-help.svg?react"
-import Tag from "./tag"
+import Tag from "@components/tag"
+import Text from "@core-components/text"
+import Avatar from "@/core-components/avatar"
 
 interface TicketData {
   id: string
@@ -46,12 +48,12 @@ export const RequestDetailsContent = (): ReactElement => {
   }
 
   const pricingData: PricingData = {
-    basePrice: "R$ 200,00",
+    basePrice: "€ 200,00",
     additionalItems: [
-      { label: "Assinatura de backup", value: "R$ 120,00" },
-      { label: "Formatação do PC", value: "R$ 75,00" },
+      { label: "Assinatura de backup", value: "€ 120,00" },
+      { label: "Formatação do PC", value: "€ 75,00" },
     ],
-    total: "R$ 395,00",
+    total: "€ 395,00",
   }
 
   return (
@@ -59,9 +61,9 @@ export const RequestDetailsContent = (): ReactElement => {
       <SectionContainer variant="large">
         <header className="w-full flex flex-col gap-3">
           <div className="flex items-center justify-between w-full">
-            <div className="text-xs text-gray-300 whitespace-nowrap">
+            <Text variant="text-xs" className=" text-gray-300 whitespace-nowrap">
               {ticketData.id}
-            </div>
+            </Text>
 
             <Tag
               className="flex-shrink-0"
@@ -72,18 +74,18 @@ export const RequestDetailsContent = (): ReactElement => {
             </Tag>
           </div>
 
-          <h1 className="text-lg text-gray-200 font-semibold leading-tight">
+          <Text as="h1" variant="text-lg-bold" className="text-gray-200 leading-tight">
             {ticketData.title}
-          </h1>
+          </Text>
         </header>
 
         <div>
-          <label className="text-xs text-gray-400">Descrição</label>
+          <Text as="label" variant="text-xs" className="text-gray-400">Description</Text>
           <p className="mt-1 text-sm text-gray-200">{ticketData.description}</p>
         </div>
 
         <div>
-          <label className="text-xs text-gray-400">Categoria</label>
+          <Text as="label" variant="text-xs" className="text-gray-400">Category</Text>
           <div className="mt-1 text-sm text-gray-200">
             {ticketData.category}
           </div>
@@ -91,14 +93,14 @@ export const RequestDetailsContent = (): ReactElement => {
 
         <div className="flex gap-8">
           <div className="flex-1">
-            <label className="text-xs text-gray-400">Criado em</label>
+            <Text as="label" variant="text-xs" className=" text-gray-400">Created at</Text>
             <time className="block mt-1 text-xs text-gray-200">
               {ticketData.createdAt}
             </time>
           </div>
 
           <div className="flex-1">
-            <label className="text-xs text-gray-400">Atualizado em</label>
+            <Text as="label" variant="text-xs" className="text-gray-400">Updated at</Text>
             <time className="block mt-1 text-xs text-gray-200">
               {ticketData.updatedAt}
             </time>
@@ -107,16 +109,13 @@ export const RequestDetailsContent = (): ReactElement => {
       </SectionContainer>
       <SectionContainer variant="medium">
         <div className="flex flex-col gap-2">
-          <h2 className="text-xs text-gray-400">Técnico responsável</h2>
+          <Text as="h2" variant="text-xs" className="text-gray-400">Responsible Technician</Text>
 
           <div className="flex items-center gap-3">
-            <div
-              className="w-8 h-8 bg-bluedark rounded-full flex items-center justify-center text-sm text-gray-600"
-              role="img"
-              aria-label={`Avatar de ${technicianData.name}`}
+            <Avatar                         
             >
               {technicianData.initials}
-            </div>
+            </Avatar>
 
             <div className="min-w-0">
               <div className="text-sm text-gray-200 truncate">
