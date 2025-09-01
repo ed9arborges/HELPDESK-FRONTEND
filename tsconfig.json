@@ -7,10 +7,11 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
+      "@/*": ["*"],
       "@icons/*": ["assets/icons/*"],
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
-      "@core/*": ["core-components/*"]
+      "@core-components/*": ["core-components/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "strict": true

@@ -7,10 +7,11 @@ export default defineConfig({
   plugins: [tailwindcss(), svgr()],
   resolve: {
     alias: {
+      '@': '/src',
       '@icons': '/src/assets/icons',
       '@assets': '/src/assets',
       '@components': '/src/components',
-      '@core': '/src/core-components',
+      '@core-components': '/src/core-components',
     },
   },
 })

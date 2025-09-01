@@ -1,6 +1,6 @@
 import React from "react"
-import Icon from "../core-components/icon"
-import Text from "../core-components/text"
+import Icon from "@core-components/icon"
+import Text from "@core-components/text"
 import { cva, type VariantProps } from "class-variance-authority"
 
 export const buttonVariants = cva(

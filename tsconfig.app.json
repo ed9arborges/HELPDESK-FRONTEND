@@ -21,7 +21,19 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /*ME ADDING THIS TO  @ work */
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"],
+      "@icons/*": ["assets/icons/*"],
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"],
+      "@core-components/*": ["core-components/*"]
+    },
+    "forceConsistentCasingInFileNames": true
+    
   },
   "include": ["src", "tailwind.config.js"]
 }

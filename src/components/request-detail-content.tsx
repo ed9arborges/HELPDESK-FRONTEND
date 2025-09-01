@@ -68,7 +68,7 @@ export const RequestDetailsContent = (): ReactElement => {
               iconAdd={IconQuestion}
               variant="success"
             >
-             {ticketData.status}
+              {ticketData.status}
             </Tag>
           </div>
 
@@ -164,8 +164,7 @@ export const RequestDetailsContent = (): ReactElement => {
             <div className="text-sm text-gray-200">{pricingData.total}</div>
           </div>
         </div>
-      
       </SectionContainer>
-    </ section>
+    </section>
   )
 }
