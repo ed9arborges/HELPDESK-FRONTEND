@@ -21,15 +21,13 @@ export function UserMenu({ userProfile }: UserMenuProps) {
   };
 
   return (
-    <> 
-        {menuOpen && (
+    <>      
+        <section className="flex gap-3 px-4 py-5 border-t border-gray-200 items-center relative"> {menuOpen && (
           <>
             <Card className="hidden md:flex absolute left-full bottom-0 ml-2 w-[198px] z-50" />
             <Card className="flex md:hidden fixed left-2 right-2 top-24 w-auto z-50" />
           </>
         )}
-
-        <section className="flex gap-3 px-4 py-5 border-t border-gray-200 items-center">
           <Avatar
             className="mr-6 md:mr-0 hover:cursor-pointer"
             onClick={toggleMenu}

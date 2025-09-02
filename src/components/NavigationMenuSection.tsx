@@ -33,7 +33,7 @@ export const NavigationMenuSection = (): ReactElement => {
       isActive: true,
       bgColor: "bg-blue-dark",
       textColor: "text-gray-600",
-      link: "/requests"
+      link: "/dashboard",
     },
     {
       id: "criar-chamado",
@@ -42,7 +42,7 @@ export const NavigationMenuSection = (): ReactElement => {
       isActive: false,
       bgColor: "bg-gray-100",
       textColor: "text-gray-400",
-      link: "/requests/create"
+      link: "/requests/create",
     },
   ])
 
@@ -52,46 +52,50 @@ export const NavigationMenuSection = (): ReactElement => {
     email: "user.client@test.com",
   })
 
-   const navigate = useNavigate()
+  const navigate = useNavigate()
 
-  function handleNavigationClick(link: string) {
+  // track active item by id instead of mutating the items array
+  const [activeId, setActiveId] = useState<string>(
+    () => navigationItems.find((i) => i.isActive)?.id ?? navigationItems[0].id
+  )
+
+  function handleNavigationClick(link: string, id: string) {
+    setActiveId(id)
     navigate(link)
     console.log(`Navigation click: ${link}`)
   }
 
   return (
     <>
-    <nav
-      className="hidden md:flex flex-col w-52 bg-transparent min-h-screen justify-between"
-    >
-      <div>
+      <nav className="hidden md:flex flex-col w-52 bg-transparent min-h-screen justify-between">
+        <div>
+          <HeaderNav>Customer</HeaderNav>
+
+          <main className="px-4 py-5 overflow-auto">
+            <ul className="flex flex-col gap-1" role="list">
+              {navigationItems.map((item) => (
+                <li key={item.id} className="w-full">
+                  <MenuLink
+                    icon={item.icon}
+                    variant={item.id === activeId ? "active" : "default"}
+                    onClick={() => handleNavigationClick(item.link, item.id)}
+                  >
+                    {item.label}
+                  </MenuLink>
+                </li>
+              ))}
+            </ul>
+          </main>
+        </div>
+
+        <UserMenu userProfile={userProfile} />
+      </nav>
+
+      <nav className="md:hidden flex w-full justify-between gap-4 h-10 m-6">
+        <MenuMobile />
         <HeaderNav>Customer</HeaderNav>
-
-        <main className="px-4 py-5 overflow-auto">
-          <ul className="flex flex-col gap-1" role="list">
-            {navigationItems.map((item) => (
-              <li key={item.id} className="w-full">
-                <MenuLink
-                  icon={item.icon}
-                  variant={item.isActive ? "active" : "default"}
-                  onClick={() => handleNavigationClick(item.link)}
-                >
-                  {item.label}
-                </MenuLink>
-              </li>
-            ))}
-          </ul>
-          
-        </main>
-      </div>
-
-      <UserMenu userProfile={userProfile} />
-    </nav>
-    <nav className="md:hidden flex w-full justify-between gap-4 h-10 m-6">
-      <MenuMobile />
-      <HeaderNav>Customer</HeaderNav>
-      <UserMenu userProfile={userProfile} />
-    </nav>
+        <UserMenu userProfile={userProfile} />
+      </nav>
     </>
   )
 }
