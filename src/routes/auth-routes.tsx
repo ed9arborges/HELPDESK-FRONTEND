@@ -7,8 +7,8 @@ import { PageLogin } from "../pages/page-login"
 export default function AuthRoutes() {
   return (
     <Routes>
-      <Route path="/signin" element={<AuthLayout />}>
-        <Route path="/signin" element={<PageLogin />} />
+      <Route path="/" element={<AuthLayout />}>
+        <Route index element={<PageLogin />} />
       </Route>
 
       <Route element={<LayoutMain />}>

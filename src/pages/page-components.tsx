@@ -1,5 +1,4 @@
-import { Header } from "../components/Header"
-import { Authentication } from "../components/Authentication"
+
 
 import { StrictMode } from "react"
 import Icon from "../core-components/icon"
@@ -22,7 +21,7 @@ export default function PageComponents() {
     <StrictMode>
       <Container className="grid gap-10 bg-gray-600 rounded-lg p-6">
         <div className="grid gap-10 bg-gray-600 rounded-lg p-6">
-          <Header />
+         
           <Icon svg={SpinnerIcon} className="fill-feedback-done" animate />
           <Icon svg={TrashIcon} className="fill-feedback-done" />
         </div>
@@ -90,7 +89,7 @@ export default function PageComponents() {
             helperIcon={AlertIcon}
           />
         </div>
-        <Authentication />
+       
       </Container>
     </StrictMode>
   )
