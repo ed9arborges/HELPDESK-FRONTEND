@@ -41,10 +41,10 @@ export default function SectionContainer({
       {...props}
     >
       {(title || description) && (
-        <div className="flex flex-col items-start gap-1 pl-0 pb-8">
+        <div className="flex flex-col items-start gap-1 pl-0 pb-6">
           {title && (
             <Text as="h1" variant="text-md-bold" className="text-gray-200">
-              Aqui:{title}
+              {title}
             </Text>
           )}
           {description && (

@@ -122,7 +122,7 @@ export const RequestDetailsContent = (): ReactElement => {
           </div>
         </div>
       </SectionContainer>
-      <SectionContainer variant="medium">
+      <SectionContainer variant="small">
         <div className="flex flex-col gap-2">
           <Text as="h2" variant="text-xs" className="text-gray-400">
             Responsible Technician

@@ -6,29 +6,17 @@ import Text from "@core-components/text"
 import Avatar from "@/core-components/avatar"
 import InputText from "@/core-components/input"
 import InputSelect from "@/core-components/input-select"
+import { Button } from "@/core-components/button"
 
 interface TicketData {
   id: string
   title: string
   description: string
   category: string
+  price: string
   status: string
   createdAt: string
   updatedAt: string
-}
-interface TechnicianData {
-  initials: string
-  name: string
-  email: string
-}
-interface PricingItem {
-  label: string
-  value: string
-}
-interface PricingData {
-  basePrice: string
-  additionalItems: PricingItem[]
-  total: string
 }
 
 export const RequestCreate = (): ReactElement => {
@@ -38,24 +26,10 @@ export const RequestCreate = (): ReactElement => {
     description:
       "O sistema de backup automático parou de funcionar. Última execução bem-sucedida foi há uma semana.",
     category: "Recuperação de Dados",
+    price: "€ 200,00",
     status: "Aberto",
     createdAt: "12/04/25 09:12",
     updatedAt: "12/04/25 15:20",
-  }
-
-  const technicianData: TechnicianData = {
-    initials: "CS",
-    name: "Carlos Silva",
-    email: "carlos.silva@test.com",
-  }
-
-  const pricingData: PricingData = {
-    basePrice: "€ 200,00",
-    additionalItems: [
-      { label: "Assinatura de backup", value: "€ 120,00" },
-      { label: "Formatação do PC", value: "€ 75,00" },
-    ],
-    total: "€ 395,00",
   }
 
   return (
@@ -67,7 +41,7 @@ export const RequestCreate = (): ReactElement => {
         className="flex flex-col justify-start min-h-100 w-full"
       >
         <div className="flex flex-col h-full justify-between">
-          <div>
+          <div className="flex flex-col gap-4">
             <InputText label="Title" value={ticketData.title} />
             <InputText label="Description" value={ticketData.description} />
           </div>
@@ -78,60 +52,34 @@ export const RequestCreate = (): ReactElement => {
           />
         </div>
       </SectionContainer>
-      <SectionContainer variant="small">
-        <div className="flex flex-col gap-2">
-          <Text as="h2" variant="text-xs" className="text-gray-400">
-            Responsible Technician
-          </Text>
-
-          <div className="flex items-center gap-3">
-            <Avatar>{technicianData.initials}</Avatar>
-
-            <div className="min-w-0">
-              <div className="text-sm text-gray-200 truncate">
-                {technicianData.name}
-              </div>
-              <a
-                className="text-xs text-gray-300 hover:underline truncate"
-                href={`mailto:${technicianData.email}`}
-              >
-                {technicianData.email}
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-4">
+      <SectionContainer
+        title="Resume"
+        description="Values and Details."
+        variant="small"
+      >
+        <div className="flex flex-col gap-6">
           <div>
-            <h3 className="text-xs text-gray-400">Valores</h3>
-
-            <div className="mt-2 flex items-center justify-between">
-              <div className="text-xs text-gray-200">Preço base</div>
-              <div className="text-xs text-gray-200">
-                {pricingData.basePrice}
-              </div>
-            </div>
+            <Text as="h3" variant="text-xs" className=" text-gray-400">
+              Service Category
+            </Text>
+            <Text variant="text-sm" className="text-gray-200">
+              {ticketData.category}
+            </Text>
           </div>
-
           <div>
-            <h4 className="text-xs text-gray-400">Adicionais</h4>
+            <Text as="h3" variant="text-xs" className=" text-gray-400">
+              Initial Cost
+            </Text>
+            <Text variant="text-lg-bold" className="text-gray-200">
+              {ticketData.price}
+            </Text>
+          </div>          
+            <Text as="span" variant="text-xs" className=" text-gray-400">
+              The request will be automatically assigned to an available
+              technician
+            </Text>
+         <Button>Create Request</Button>
 
-            <div className="mt-2 flex flex-col gap-2">
-              {pricingData.additionalItems.map((item, i) => (
-                <div key={i} className="flex items-center justify-between">
-                  <div className="text-xs text-gray-200 truncate">
-                    {item.label}
-                  </div>
-                  <div className="text-xs text-gray-200">{item.value}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="pt-3 border-t border-gray-500 flex items-center justify-between">
-            <div className="text-sm text-gray-200">Total</div>
-            <div className="text-sm text-gray-200">{pricingData.total}</div>
-          </div>
         </div>
       </SectionContainer>
     </section>
