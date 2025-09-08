@@ -1,4 +1,5 @@
-import {  useActionState } from "react"
+import { useActionState } from "react"
+import { useNavigate } from "react-router" 
 import { ZodError, z } from "zod"
 
 import InputText from "@core-components/input"
@@ -17,6 +18,8 @@ const signInSchema = z.object({
 export function SignInLayout() {
   const [state, formAction, isLoading] = useActionState(signIn, null)
   const auth = useAuth()
+  const navigate = useNavigate()
+
   async function signIn(_: any, formData: FormData) {
     try {
       const data = signInSchema.parse({
@@ -25,6 +28,7 @@ export function SignInLayout() {
       })
       const response = await api.post("/sessions", data)
       auth.save(response.data)
+      navigate("/") // Navigate to the home page after successful login
       return response.data
     } catch (error) {
       if (error instanceof ZodError) {

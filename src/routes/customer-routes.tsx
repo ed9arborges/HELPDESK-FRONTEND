@@ -7,13 +7,9 @@ import { PageRequestCreate } from "../pages/customer-pages/page-request-create"
 
 export default function CustomerRoutes() {
   return (
-    <Routes>
+    <Routes>    
       <Route path="/" element={<CustomerLayout />}>
-        <Route path="/signin" element={<PageLogin />} />
-      </Route>
-
-      <Route path="/" element={<CustomerLayout />}>
-        <Route path="/dashboard" element={<PageCustomerDashboard />} />
+        <Route index element={<PageCustomerDashboard />} />
         <Route path="/requests" element={<PageCustomerRequest />} />
         <Route path="/requests/create" element={<PageRequestCreate />} />
       </Route>

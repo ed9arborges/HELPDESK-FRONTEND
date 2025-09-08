@@ -33,7 +33,7 @@ export const NavigationMenuSection = (): ReactElement => {
       isActive: true,
       bgColor: "bg-blue-dark",
       textColor: "text-gray-600",
-      link: "/dashboard",
+      link: "/",
     },
     {
       id: "criar-chamado",

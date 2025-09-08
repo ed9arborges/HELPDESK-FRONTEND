@@ -1,8 +1,10 @@
 import React, { useState, type ReactElement } from "react"
 import { cx } from "class-variance-authority"
+import { useNavigate } from "react-router"
 
 import Text from "../core-components/text"
 import { PerfilDesktop } from "../layouts/PerfilDesktop"
+import { useAuth } from "@/hooks/useAuth"
 
 import IconProfile from "../assets/icons/circle-user.svg?react"
 import IconOut from "../assets/icons/log-out.svg?react"
@@ -18,6 +20,9 @@ interface MenuOptionProps {
 
 export const Card = ({ className }: { className: string }): ReactElement => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
+  const auth = useAuth()
+
+  const navigate = useNavigate()
 
   const menuOptions: MenuOptionProps[] = [
     {
@@ -26,7 +31,7 @@ export const Card = ({ className }: { className: string }): ReactElement => {
       label: "Profile",
       textColor: "text-gray-500",
       onClick: () => {
-        setSelectedOption("profile")        
+        setSelectedOption("profile")
       },
     },
     {
@@ -36,7 +41,8 @@ export const Card = ({ className }: { className: string }): ReactElement => {
       textColor: "text-feedbackdanger",
       onClick: () => {
         setSelectedOption("logout")
-        console.log("Logout clicked")
+        auth.remove() // Call auth.remove() when logout is selected
+        navigate("/") // Redirect to home page
       },
     },
   ]
@@ -59,28 +65,39 @@ export const Card = ({ className }: { className: string }): ReactElement => {
         <ul className="flex-col items-start flex-[0_0_auto] flex relative self-stretch w-full">
           {menuOptions.map((option) => (
             <li key={option.id} className="contents">
-                <button
+              <button
                 className={`h-10 items-center gap-2 flex relative self-stretch w-full hover:cursor-pointer hover:bg-gray-200 focus:bg-gray-200 rounded transition-colors duration-200 ${
                   selectedOption === option.id ? "bg-gray-200" : ""
                 }`}
                 onClick={option.onClick}
                 aria-label={option.label}
                 type="button"
-                >
+              >
                 <Icon
-                  className={`relative w-5 h-5 ${option.id === "logout" ? "fill-feedback-danger" : "fill-gray-600"}`}
+                  className={`relative w-5 h-5 ${
+                    option.id === "logout"
+                      ? "fill-feedback-danger"
+                      : "fill-gray-600"
+                  }`}
                   svg={option.icon}
                 />
 
-                <Text variant="text-md" className={`relative flex-1 text-left ${option.id === "logout" ? "text-feedback-danger" : "text-gray-600"}`}>
+                <Text
+                  variant="text-md"
+                  className={`relative flex-1 text-left ${
+                    option.id === "logout"
+                      ? "text-feedback-danger"
+                      : "text-gray-600"
+                  }`}
+                >
                   {option.label}
                 </Text>
-                </button>
+              </button>
             </li>
           ))}
         </ul>
       </fieldset>
-      { selectedOption === "profile" && <PerfilDesktop /> }
+      {selectedOption === "profile" && <PerfilDesktop />}
     </>
   )
 }
