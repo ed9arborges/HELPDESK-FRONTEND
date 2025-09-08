@@ -1,8 +1,8 @@
 import { useState } from "react"
-import InputText from "../../core-components/input"
+import InputText from "@core-components/input"
 
-import { Button } from "../../core-components/button"
-import AuthSectionContainer from "../../components/auth-section-container"
+import { Button } from "@core-components/button"
+import AuthSectionContainer from "@components/auth-section-container"
 
 export function SignInLayout() {
   const [email, setEmail] = useState("")
