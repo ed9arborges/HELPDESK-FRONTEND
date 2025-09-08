@@ -57,8 +57,8 @@ export function SignUpLayout() {
 
   return (
     <AuthSectionContainer
-      title="Portal Access"
-      description="Log in to access your account."
+      title="Create Account"
+      description="Need to create an account, to have access!"
       className="w-full md:max-w-[25rem] flex flex-col mt-8 "
     >
       <form className="" onSubmit={handleSubmit}>
