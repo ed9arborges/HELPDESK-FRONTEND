@@ -1,10 +1,10 @@
 import React, { useState, type ReactElement } from "react"
 import { useNavigate } from "react-router"
-import { MenuLink } from "../core-components/menu-link"
+import { MenuLink } from "@core-components/menu-link"
 
-import IconClipBoard from "../assets/icons/clipboard-list.svg?react"
+import IconClipBoard from "@assets/icons/clipboard-list.svg?react"
 
-import { HeaderNav } from "../core-components/header-nav"
+import { HeaderNav } from "@core-components/header-nav"
 import { UserMenu } from "./user-menu"
 import { MenuMobile } from "@core-components/menu-mobile"
 

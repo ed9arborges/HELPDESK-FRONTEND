@@ -1,9 +1,9 @@
 import React, { type ReactElement, useState } from "react"
 
 import { ProfileFormSection } from "./ProfileFormSection"
-import { Button } from "../core-components//button"
+import { Button } from "@core-components//button"
 
-import IconX from "../assets/icons/x.svg?react"
+import IconX from "@assets/icons/x.svg?react"
 
 
 export const PerfilDesktop = (): ReactElement => {

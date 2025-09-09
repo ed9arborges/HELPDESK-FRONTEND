@@ -11,7 +11,15 @@
       "@icons/*": ["assets/icons/*"],
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
-      "@core-components/*": ["core-components/*"]
+      "@core-components/*": ["core-components/*"],
+      "@pages/*": ["pages/*"],
+      "@layouts/*": ["layouts/*"],
+      "@hooks/*": ["hooks/*"],
+      "@services/*": ["services/*"],
+      "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"],
+      "@contexts/*": ["contexts/*"],
+      "@tests/*": ["tests/*"],
     },
     "forceConsistentCasingInFileNames": true,
     "strict": true

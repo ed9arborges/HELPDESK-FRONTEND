@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import type { ReactElement } from "react"
 // Adjust this import to match the actual location of your Button component in the project
-import { Button } from "../core-components/button"
-import IconUpload from "../assets/icons/upload.svg?react"
-import IconTrash from "../assets/icons/trash.svg?react"
+import { Button } from "@core-components/button"
+import IconUpload from "@assets/icons/upload.svg?react"
+import IconTrash from "@assets/icons/trash.svg?react"
 
 export const ProfileFormSection = (): ReactElement => {
   const [formData, setFormData] = useState({

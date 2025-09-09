@@ -2,13 +2,13 @@ import React, { useState, type ReactElement } from "react"
 import { cx } from "class-variance-authority"
 import { useNavigate } from "react-router"
 
-import Text from "../core-components/text"
-import { PerfilDesktop } from "../layouts/PerfilDesktop"
+import Text from "@core-components/text"
+import { PerfilDesktop } from "@/layouts/PerfilDesktop"
 import { useAuth } from "@/hooks/useAuth"
 
-import IconProfile from "../assets/icons/circle-user.svg?react"
-import IconOut from "../assets/icons/log-out.svg?react"
-import Icon from "../core-components/icon"
+import IconProfile from "@assets/icons/circle-user.svg?react"
+import IconOut from "@assets/icons/log-out.svg?react"
+import Icon from "@core-components/icon"
 
 interface MenuOptionProps {
   id: string

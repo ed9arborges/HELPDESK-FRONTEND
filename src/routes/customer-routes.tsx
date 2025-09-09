@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router"
-import { CustomerLayout } from "../layouts/customer-layouts/customer-layout"
-import { PageLogin } from "../pages/page-login"
-import { PageCustomerDashboard } from "../pages/customer-pages/page-customer-dashboard"
-import { PageCustomerRequest } from "../pages/customer-pages/page-customer-request"
-import { PageRequestCreate } from "../pages/customer-pages/page-request-create"
+import { CustomerLayout } from "@layouts/customer-layouts/customer-layout"
+
+import { PageCustomerDashboard } from "@pages/customer-pages/page-customer-dashboard"
+import { PageCustomerRequest } from "@pages/customer-pages/page-customer-request"
+import { PageRequestCreate } from "@pages/customer-pages/page-request-create"
 
 export default function CustomerRoutes() {
   return (

@@ -1,14 +1,14 @@
 import React from "react"
 import { useNavigate } from "react-router"
 
-import Text from "../../core-components/text"
-import { Button } from "../../core-components/button"
-import Tag from "../../components/tag"
+import Text from "@core-components/text"
+import { Button } from "@core-components/button"
+import Tag from "@components/tag"
 import Avatar from "@/core-components/avatar"
 
-import IconView from "../../assets/icons/eye.svg?react"
-import IconQuestion from "../../assets/icons/circle-help.svg?react"
-import IconCheck from "../../assets/icons/circle-check.svg?react"
+import IconView from "@assets/icons/eye.svg?react"
+import IconQuestion from "@assets/icons/circle-help.svg?react"
+import IconCheck from "@assets/icons/circle-check.svg?react"
 
 
 export function CustomerDashboardLayout() {

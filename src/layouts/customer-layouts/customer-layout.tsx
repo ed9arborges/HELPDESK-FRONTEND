@@ -1,9 +1,6 @@
 import { Outlet } from "react-router"
-import HeadLogo from "../../core-components/head-logo"
-import Footer from "../../core-components/footer"
 
-import { PerfilDesktop } from "../PerfilDesktop"
-import { NavigationMenuSection } from "../../components/NavigationMenuSection"
+import { NavigationMenuSection } from "@components/NavigationMenuSection"
 
 export function CustomerLayout() {
   return (
