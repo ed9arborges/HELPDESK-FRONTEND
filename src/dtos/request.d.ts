@@ -1,17 +1,16 @@
-type RefundAPIResponse = {
+type RequestAPIResponse = {
   id: string
   userId: string
-  name: string
+  title: string
   category: CategoriesAPIEnum
   amount: number
-  filename: string
   user: {
     name: string
   }
 }
 
-type RefundsPaginationAPIResponse = {
-  refunds: RefundAPIResponse[];
+type RequestsPaginationAPIResponse = {
+  requests: RequestAPIResponse[];
   pagination: {
     page: number;
     perPage: number;

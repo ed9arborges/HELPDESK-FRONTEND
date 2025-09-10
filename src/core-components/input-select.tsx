@@ -64,7 +64,7 @@ interface InputSelectProps
   helperIcon?: React.ComponentProps<typeof Icon>["svg"]
   items?: { value: string; label: string }[]
   value?: string
-  onChange?: (value: string) => void
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 export default function InputSelect({
@@ -83,7 +83,6 @@ export default function InputSelect({
   ],
   value,
   onChange,
-  ...props
 }: InputSelectProps) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [selected, setSelected] = React.useState(value ?? items[0].value)
@@ -115,7 +114,14 @@ export default function InputSelect({
   const handleSelect = (val: string) => {
     setSelected(val)
     setIsOpen(false)
-    onChange?.(val)
+    // Call onChange with a synthetic event so callers can use e.target.value like native inputs
+    if (onChange) {
+      const syntheticEvent = {
+        target: { value: val },
+      } as unknown as React.ChangeEvent<HTMLSelectElement>
+
+      onChange(syntheticEvent)
+    }
   }
 
   const labelColor = error
