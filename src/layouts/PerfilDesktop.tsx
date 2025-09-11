@@ -1,17 +1,18 @@
-import React, { type ReactElement, useState } from "react"
+import { type ReactElement, useRef, useState } from "react"
 
-import { ProfileFormSection } from "./ProfileFormSection"
-import { Button } from "@core-components//button"
+import { ProfileFormSection, type ProfileFormSectionRef } from "./ProfileFormSection"
+import { Button } from "@core-components/button"
 
 import IconX from "@assets/icons/x.svg?react"
 
 
 export const PerfilDesktop = (): ReactElement => {
   const [isModalOpen, setIsModalOpen] = useState(true)
+  const formRef = useRef<ProfileFormSectionRef>(null)
 
   const handleCloseModal = () => setIsModalOpen(false)
-  const handleSave = () => {
-    console.log("Saving profile...")
+  const handleSave = async () => {
+    await formRef.current?.save()
     setIsModalOpen(false)
   }
 
@@ -43,7 +44,7 @@ export const PerfilDesktop = (): ReactElement => {
               />
             </header>
 
-            <ProfileFormSection />
+            <ProfileFormSection ref={formRef} />
 
             <footer className="px-6 py-4 border-t border-gray-500 bg-transparent">
               <Button

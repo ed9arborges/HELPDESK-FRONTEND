@@ -1,17 +1,16 @@
 import Avatar from "@core-components/avatar"
 import Text from "@core-components/text"
 import Tag from "@core-components/tag"
-import { Navigate, useNavigate } from "react-router"
+import { useNavigate } from "react-router"
 
 import { Button } from "@/core-components/button"
 import { statusVariant } from "@/utils/status-variants"
 
 import IconView from "@assets/icons/eye.svg?react"
-import IconQuestion from "@assets/icons/circle-help.svg?react"
-import IconCheck from "@assets/icons/circle-check.svg?react"
 
 import { formatCurrency } from "@/utils/format-currency"
 import { formatDate } from "@/utils/format-date"
+import { getInitials } from "@/utils/get-initials"
 
 type Props = React.ComponentProps<"div"> & {
   data: TicketItemProps
@@ -31,7 +30,7 @@ export function TicketLine({ data, onView, ...rest }: Props) {
     "md:[grid-template-columns:minmax(6rem,12%)_minmax(4rem,8%)_1fr_minmax(8rem,16%)_minmax(6rem,10%)_minmax(8rem,12%)_minmax(8rem,12%)_minmax(3rem,4%)]"
   const viewHandle = (id: string) => {
     // Adjust route when detail page exists
-  navigate(`/tickets/${id}`)
+    navigate(`/tickets/${id}`)
   }
 
   return (
@@ -72,13 +71,7 @@ export function TicketLine({ data, onView, ...rest }: Props) {
       <div className="hidden md:flex items-center min-w-0">
         <Avatar size="small">
           <span className="text-xs text-gray-600 font-normal">
-            {data.user?.name
-              ? data.user.name
-                  .split(" ")
-                  .map((p) => p[0])
-                  .slice(0, 2)
-                  .join("")
-              : "--"}
+            {getInitials(data.user?.name)}
           </span>
         </Avatar>
         <Text variant="text-sm" className="truncate ml-2">
@@ -87,10 +80,7 @@ export function TicketLine({ data, onView, ...rest }: Props) {
       </div>
 
       <div className="col-span-2 md:col-auto flex items-center min-w-0">
-        <Tag
-          className="flex-shrink-0"
-          variant={statusVariant(data.status)}
-        >
+        <Tag className="flex-shrink-0" variant={statusVariant(data.status)}>
           {statusLabel(data.status)}
         </Tag>
       </div>

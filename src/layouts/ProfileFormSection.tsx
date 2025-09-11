@@ -1,18 +1,34 @@
-import React, { useState } from "react"
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react"
 import type { ReactElement } from "react"
 // Adjust this import to match the actual location of your Button component in the project
 import { Button } from "@core-components/button"
 import IconUpload from "@assets/icons/upload.svg?react"
 import IconTrash from "@assets/icons/trash.svg?react"
+import { useAuth } from "@hooks/useAuth"
+import { api } from "@services/api"
 
-export const ProfileFormSection = (): ReactElement => {
+export type ProfileFormSectionRef = {
+  save: () => Promise<void>
+}
+
+export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(function ProfileFormSection(_, ref): ReactElement {
+  const { session } = useAuth()
   const [formData, setFormData] = useState({
-    name: "André Costa",
-    email: "andre.costa@client.com",
-    password: "••••••••",
+    name: "",
+    email: "",
+    password: "",
   })
+  
 
-  const [showPassword, setShowPassword] = useState(false)
+  useEffect(() => {
+    if (session?.user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: session.user.name ?? "",
+        email: session.user.email ?? "",
+      }))
+    }
+  }, [session?.user])
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -29,6 +45,18 @@ export const ProfileFormSection = (): ReactElement => {
   const handlePasswordChange = () => {
     console.log("Change password")
   }
+
+  useImperativeHandle(ref, () => ({
+    async save() {
+      // Build payload: only send fields provided; password optional
+      const payload: { name?: string; email?: string; password?: string } = {}
+      if (formData.name) payload.name = formData.name
+      if (formData.email) payload.email = formData.email
+      if (formData.password) payload.password = formData.password
+
+  await api.put("/users/me", payload)
+    },
+  }))
 
   return (
     <section className="flex flex-col gap-5 pt-7 pb-8 px-7 w-full ">
@@ -105,7 +133,7 @@ export const ProfileFormSection = (): ReactElement => {
               id="email-input"
               type="email"
               aria-label="Email"
-              placeholder="andre.costa@client.com"
+              placeholder="seuemail@exemplo.com"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
               className="flex-1 bg-transparent border-0 p-0 text-sm text-gray-200 focus:outline-none font-text-md"
@@ -125,7 +153,7 @@ export const ProfileFormSection = (): ReactElement => {
             <div className="flex items-center h-10 gap-2 border-b border-gray-500">
               <input
                 id="password-input"
-                type={showPassword ? "text" : "password"}
+                type="password"
                 aria-label="Password"
                 placeholder="••••••••"
                 value={formData.password}
@@ -150,4 +178,4 @@ export const ProfileFormSection = (): ReactElement => {
       </div>
     </section>
   )
-}
+})

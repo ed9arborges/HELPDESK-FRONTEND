@@ -50,11 +50,6 @@ export const NavigationMenuSection = (): ReactElement => {
     },
   ])
 
-  const [userProfile] = useState<UserProfile>({
-    initials: "UC",
-    name: "Usuário Cliente",
-    email: "user.client@test.com",
-  })
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen)
   }
@@ -94,7 +89,7 @@ export const NavigationMenuSection = (): ReactElement => {
           </main>
         </div>
 
-        <UserMenu userProfile={userProfile} />
+        <UserMenu  />
       </nav>
 
       <nav className="md:hidden flex w-full justify-between gap-4 h-10 m-6">        
@@ -131,7 +126,7 @@ export const NavigationMenuSection = (): ReactElement => {
           )}
         </div>
         <HeaderNav>Customer</HeaderNav>
-        <UserMenu userProfile={userProfile} />
+        <UserMenu  />
       </nav>
     </>
   )

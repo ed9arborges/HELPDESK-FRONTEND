@@ -9,8 +9,9 @@ import Avatar from "@/core-components/avatar"
 import { api } from "@/services/api"
 import { AxiosError } from "axios"
 import { formatDate } from "@/utils/format-date"
+import { getInitials } from "@/utils/get-initials"
 
-type TicketData = (TicketAPIResponse)
+type TicketData = TicketAPIResponse
 interface TechnicianData {
   initials: string
   name: string
@@ -58,7 +59,7 @@ export const TicketDetailsContent = (): ReactElement => {
   }, [id])
 
   const technicianData: TechnicianData = {
-    initials: "CS",
+    initials: getInitials("Carlos Silva"),
     name: "Carlos Silva",
     email: "carlos.silva@test.com",
   }
