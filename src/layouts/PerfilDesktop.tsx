@@ -1,19 +1,31 @@
 import { type ReactElement, useRef, useState } from "react"
 
-import { ProfileFormSection, type ProfileFormSectionRef } from "./ProfileFormSection"
+import {
+  ProfileFormSection,
+  type ProfileFormSectionRef,
+} from "./ProfileFormSection"
 import { Button } from "@core-components/button"
 
 import IconX from "@assets/icons/x.svg?react"
 
+interface PerfilDesktopProps {
+  onCloseCard?: () => void
+}
 
-export const PerfilDesktop = (): ReactElement => {
+export const PerfilDesktop = ({
+  onCloseCard,
+}: PerfilDesktopProps): ReactElement => {
   const [isModalOpen, setIsModalOpen] = useState(true)
   const formRef = useRef<ProfileFormSectionRef>(null)
 
-  const handleCloseModal = () => setIsModalOpen(false)
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    onCloseCard?.()
+  }
   const handleSave = async () => {
     await formRef.current?.save()
     setIsModalOpen(false)
+    onCloseCard?.()
   }
 
   return (

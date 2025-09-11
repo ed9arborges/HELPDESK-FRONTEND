@@ -4,9 +4,6 @@ import Avatar from "@/core-components/avatar"
 import { useAuth } from "@/hooks/useAuth"
 import { getInitials } from "@/utils/get-initials"
 
-// initials from a full name
-// getInitials now shared from utils
-
 export function UserMenu() {
   const { session } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -25,8 +22,14 @@ export function UserMenu() {
         {" "}
         {menuOpen && (
           <>
-            <Card className="hidden md:flex absolute left-full bottom-0 ml-2 w-[198px] z-50" />
-            <Card className="flex md:hidden fixed left-2 right-2 top-24 w-auto z-50" />
+            <Card
+              className="hidden md:flex absolute left-full bottom-0 ml-2 w-[198px] z-50"
+              onClose={() => setMenuOpen(false)}
+            />
+            <Card
+              className="flex md:hidden fixed left-2 right-2 top-24 w-auto z-50"
+              onClose={() => setMenuOpen(false)}
+            />
           </>
         )}
         <Avatar

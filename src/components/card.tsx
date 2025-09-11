@@ -18,7 +18,12 @@ interface MenuOptionProps {
   onClick?: () => void
 }
 
-export const Card = ({ className }: { className: string }): ReactElement => {
+interface CardProps {
+  className: string
+  onClose?: () => void
+}
+
+export const Card = ({ className, onClose }: CardProps): ReactElement => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
   const auth = useAuth()
 
@@ -97,7 +102,7 @@ export const Card = ({ className }: { className: string }): ReactElement => {
           ))}
         </ul>
       </fieldset>
-      {selectedOption === "profile" && <PerfilDesktop />}
+      {selectedOption === "profile" && <PerfilDesktop onCloseCard={onClose} />}
     </>
   )
 }
