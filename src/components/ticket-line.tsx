@@ -1,6 +1,6 @@
 import Avatar from "@core-components/avatar"
-import Text from "@/core-components/text"
-import Tag from "@/components/tag"
+import Text from "@core-components/text"
+import Tag from "@core-components/tag"
 import { Navigate, useNavigate } from "react-router"
 
 import { Button } from "@/core-components/button"
@@ -17,9 +17,11 @@ type Props = React.ComponentProps<"div"> & {
   onView: (id: string) => void
 }
 
-function statusIcon(status?: string) {
-  if (status === "closed") return IconCheck
-  return IconQuestion // open or in_progress fallback
+function statusVariant(status?: string) {
+    if (!status) return "danger"
+  if (status === "in_progress") return "info"
+  if (status === "closed") return "success"
+  return "new"
 }
 
 function statusLabel(status?: string) {
@@ -93,8 +95,7 @@ export function TicketLine({ data, onView, ...rest }: Props) {
       <div className="col-span-2 md:col-auto flex items-center min-w-0">
         <Tag
           className="flex-shrink-0"
-          iconAdd={statusIcon(data.status)}
-          variant="success"
+          variant={statusVariant(data.status)}
         >
           {statusLabel(data.status)}
         </Tag>

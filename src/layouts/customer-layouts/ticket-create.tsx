@@ -6,7 +6,7 @@ import { api } from "@/services/api"
 
 import SectionContainer from "@components/section-container"
 import IconQuestion from "@assets/icons/circle-help.svg?react"
-import Tag from "@components/tag"
+import Tag from "@core-components/tag"
 import Text from "@core-components/text"
 import Avatar from "@/core-components/avatar"
 import InputText from "@/core-components/input"

@@ -1,7 +1,7 @@
 import { type ReactElement } from "react"
 import SectionContainer from "../../components/section-container"
-import IconQuestion from "@assets/icons/circle-help.svg?react"
-import Tag from "@components/tag"
+
+import Tag from "@core-components/tag"
 import Text from "@core-components/text"
 import Avatar from "@/core-components/avatar"
 
@@ -70,7 +70,7 @@ export const TicketDetailsContent = (): ReactElement => {
 
             <Tag
               className="flex-shrink-0"
-              iconAdd={IconQuestion}
+             
               variant="success"
             >
               {ticketData.status}

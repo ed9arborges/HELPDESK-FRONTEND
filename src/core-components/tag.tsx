@@ -2,6 +2,9 @@ import React from "react"
 import Text from "../core-components/text"
 
 import Icon from "../core-components/icon"
+import IconQuestion from "@assets/icons/circle-help.svg?react"
+import IconCheck from "@assets/icons/circle-check.svg?react"
+import IconClock from "@assets/icons/clock-2.svg?react"
 
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -58,7 +61,7 @@ export const tagIconVariants = cva("size-4", {
 interface TagProps
   extends Omit<React.ComponentProps<"div">, "size" | "disabled">,
     VariantProps<typeof tagVariants> {
-  iconAdd: React.ComponentProps<typeof Icon>["svg"]
+
 }
 
 export default function Tag({
@@ -66,13 +69,12 @@ export default function Tag({
   size,
   className,
   children,
-  iconAdd: IconComponent,
   ...props
 }: TagProps) {
   return (
     <div className={tagVariants({ variant, size, className })} {...props}>
       <Icon
-        svg={IconComponent}
+        svg={variant === "new" ? IconQuestion : variant === "info" ? IconClock : variant === "success" ? IconCheck : IconQuestion}
         className={tagIconVariants({ variant, size })}
       />
       <Text className={tagTextVariants({ variant })}>{children}</Text>
