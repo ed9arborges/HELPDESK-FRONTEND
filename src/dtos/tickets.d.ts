@@ -8,18 +8,19 @@ type TicketAPIResponse = {
   status: RequestStatusEnum
   createdAt: string
   updatedAt: string
-  user: { name?: string }
+  user: { id?: string; name?: string }
+  tech?: { id?: string; name?: string } | null
 }
 
 type TicketsPaginationAPIResponse = {
-  tickets: TicketAPIResponse[];
+  tickets: TicketAPIResponse[]
   pagination: {
-    page: number;
-    perPage: number;
-    totalRecords: number;
-    totalPages: number;
-  };
-};
+    page: number
+    perPage: number
+    totalRecords: number
+    totalPages: number
+  }
+}
 
 type TicketItemProps = {
   id: string
@@ -33,11 +34,17 @@ type TicketItemProps = {
   user?: { name?: string }
 }
 
-
 enum TicketStatusEnum {
   open = "open",
   in_progress = "in_progress",
   closed = "closed",
 }
 
-
+type TechTicketUpdate = {
+  title?: string
+  description?: string
+  category?: keyof typeof CategoriesAPIEnum
+  status?: keyof typeof TicketStatusEnum
+  estimate?: number
+  techId?: string | null
+}

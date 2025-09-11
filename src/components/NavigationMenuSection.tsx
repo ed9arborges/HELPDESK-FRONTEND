@@ -5,11 +5,12 @@ import { Button } from "@core-components/button"
 import Text from "@core-components/text"
 
 import IconClipBoard from "@assets/icons/clipboard-list.svg?react"
-import BurgerIcon from "../assets/icons/menu.svg?react";
-import XIcon from "../assets/icons/x.svg?react";
+import BurgerIcon from "../assets/icons/menu.svg?react"
+import XIcon from "../assets/icons/x.svg?react"
 
 import { HeaderNav } from "@core-components/header-nav"
 import { UserMenu } from "./user-menu"
+import { useAuth } from "@/hooks/useAuth"
 
 interface NavigationItem {
   id: string
@@ -21,34 +22,79 @@ interface NavigationItem {
   link: string
 }
 
-interface UserProfile {
-  initials: string
-  name: string
-  email: string
-}
+//
 
 export const NavigationMenuSection = (): ReactElement => {
+  const { session } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [navigationItems] = useState<NavigationItem[]>([
-    {
-      id: "meus-chamados",
-      icon: IconClipBoard,
-      label: "My Requests",
-      isActive: true,
-      bgColor: "bg-blue-dark",
-      textColor: "text-gray-600",
-      link: "/",
-    },
-    {
-      id: "criar-chamado",
-      icon: IconClipBoard,
-      label: "New Request",
-      isActive: false,
-      bgColor: "bg-gray-100",
-      textColor: "text-gray-400",
-      link: "/tickets/create",
-    },
-  ])
+  const role = session?.user.role
+  const isCustomer = role === "customer"
+  const isAdmin = role === "admin"
+  const [navigationItems] = useState<NavigationItem[]>(
+    isCustomer
+      ? [
+          {
+            id: "meus-chamados",
+            icon: IconClipBoard,
+            label: "My Requests",
+            isActive: true,
+            bgColor: "bg-blue-dark",
+            textColor: "text-gray-600",
+            link: "/",
+          },
+          {
+            id: "criar-chamado",
+            icon: IconClipBoard,
+            label: "New Request",
+            isActive: false,
+            bgColor: "bg-gray-100",
+            textColor: "text-gray-400",
+            link: "/tickets/create",
+          },
+        ]
+      : [
+          {
+            id: "todos-chamados",
+            icon: IconClipBoard,
+            label: "All Tickets",
+            isActive: true,
+            bgColor: "bg-blue-dark",
+            textColor: "text-gray-600",
+            link: "/",
+          },
+          ...(isAdmin
+            ? [
+                {
+                  id: "admin-users",
+                  icon: IconClipBoard,
+                  label: "Customers",
+                  isActive: false,
+                  bgColor: "bg-gray-100",
+                  textColor: "text-gray-400",
+                  link: "/admin/users",
+                },
+                {
+                  id: "admin-techs",
+                  icon: IconClipBoard,
+                  label: "Technicians",
+                  isActive: false,
+                  bgColor: "bg-gray-100",
+                  textColor: "text-gray-400",
+                  link: "/admin/techs",
+                },
+                {
+                  id: "admin-services",
+                  icon: IconClipBoard,
+                  label: "Extra Services",
+                  isActive: false,
+                  bgColor: "bg-gray-100",
+                  textColor: "text-gray-400",
+                  link: "/admin/services",
+                },
+              ]
+            : []),
+        ]
+  )
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -70,7 +116,9 @@ export const NavigationMenuSection = (): ReactElement => {
     <>
       <nav className="hidden md:flex flex-col w-52 bg-transparent min-h-screen justify-between">
         <div>
-          <HeaderNav>Customer</HeaderNav>
+          <HeaderNav>
+            {isCustomer ? "Customer" : role === "admin" ? "Admin" : "Tech"}
+          </HeaderNav>
 
           <main className="px-4 py-5 overflow-auto">
             <ul className="flex flex-col gap-1" role="list">
@@ -89,11 +137,11 @@ export const NavigationMenuSection = (): ReactElement => {
           </main>
         </div>
 
-        <UserMenu  />
+        <UserMenu />
       </nav>
 
-      <nav className="md:hidden flex w-full justify-between gap-4 h-10 m-6">        
-        <div >
+      <nav className="md:hidden flex w-full justify-between gap-4 h-10 m-6">
+        <div>
           <Button
             onClick={handleMenuToggle}
             icon={isMenuOpen ? XIcon : BurgerIcon}
@@ -125,8 +173,10 @@ export const NavigationMenuSection = (): ReactElement => {
             </aside>
           )}
         </div>
-        <HeaderNav>Customer</HeaderNav>
-        <UserMenu  />
+        <HeaderNav>
+          {isCustomer ? "Customer" : role === "admin" ? "Admin" : "Tech"}
+        </HeaderNav>
+        <UserMenu />
       </nav>
     </>
   )
