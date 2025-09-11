@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router"
+import { NavLink } from "react-router"
 import Text from "./text"
 
 export default function Footer() {
@@ -20,9 +20,9 @@ export default function Footer() {
             Sign In
           </Text>
         </NavLink>
-         <NavLink to="/requests">
+      <NavLink to="/tickets">
           <Text variant="text-sm-bold" className="text-gray-300">
-            Make Request
+        Tickets
           </Text>
         </NavLink>
       </nav>

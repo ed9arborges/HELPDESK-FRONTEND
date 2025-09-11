@@ -42,7 +42,7 @@ export const NavigationMenuSection = (): ReactElement => {
       isActive: false,
       bgColor: "bg-gray-100",
       textColor: "text-gray-400",
-      link: "/requests/create",
+  link: "/tickets/create",
     },
   ])
 

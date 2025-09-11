@@ -1,7 +1,10 @@
 enum CategoriesAPIEnum {
-  Food = "food",
-  Others = "others",
-  Services = "services",
-  Transport = "transport",
-  Accommodation = "accommodation",
+  hardware = "Hardware",
+  data = "Data Recovery",
+  software = "Software",
+  web = "Web",
+  network = "Network",
+  virus = "Virus",
+  peripherals = "Peripherals",
+  systems = "Systems",
 }

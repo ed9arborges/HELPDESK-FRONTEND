@@ -1,11 +1,11 @@
 import { MainContentHeader } from "@components/main-content-header"
-import { RequestCreate } from "@/layouts/customer-layouts/request-create"
+import { TicketDetailsContent } from "@/layouts/customer-layouts/ticket-detail-content"
 
-export function PageRequestCreate() {
+export function PageCustomerRequest() {
   return (
     <section className="flex flex-col items-start gap-6 pt-[52px] pb-12 px-6 relative bg-gray-600 w-full md:max-w-[50rem] md:mx-auto">
-      <MainContentHeader backNav>Create Request</MainContentHeader>
-      <RequestCreate />
+  <MainContentHeader backNav>Ticket Details</MainContentHeader>
+  <TicketDetailsContent />
     </section>
   )
 }

@@ -1,4 +1,4 @@
-import React, { type ReactElement } from "react"
+import { type ReactElement } from "react"
 import SectionContainer from "../../components/section-container"
 import IconQuestion from "@assets/icons/circle-help.svg?react"
 import Tag from "@components/tag"
@@ -29,7 +29,7 @@ interface PricingData {
   total: string
 }
 
-export const RequestDetailsContent = (): ReactElement => {
+export const TicketDetailsContent = (): ReactElement => {
   const ticketData: TicketData = {
     id: "00004",
     title: "Backup não está funcionando",
