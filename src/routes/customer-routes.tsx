@@ -10,7 +10,7 @@ export default function CustomerRoutes() {
     <Routes>    
       <Route path="/" element={<CustomerLayout />}>
         <Route index element={<PageCustomerDashboard />} />
-  <Route path="/tickets" element={<PageCustomerRequest />} />
+  <Route path="/tickets/:id" element={<PageCustomerRequest />} />
   <Route path="/tickets/create" element={<PageRequestCreate />} />
       </Route>
     </Routes>

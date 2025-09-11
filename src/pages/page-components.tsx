@@ -26,11 +26,11 @@ export default function PageComponents() {
           <Icon svg={TrashIcon} className="fill-feedback-done" />
         </div>
         <div className="flex gap-6 m-5">
-          <Tag variant="new" iconAdd={SpinnerIcon}>
+          <Tag variant="new" >
             Aberto
           </Tag>
-          <Tag variant="danger" iconAdd={TrashIcon}></Tag>
-          <Tag variant="success" iconAdd={TrashIcon}>
+          <Tag variant="danger" ></Tag>
+          <Tag variant="success" >
             Encerrado
           </Tag>
         </div>

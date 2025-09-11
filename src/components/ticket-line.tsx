@@ -4,6 +4,7 @@ import Tag from "@core-components/tag"
 import { Navigate, useNavigate } from "react-router"
 
 import { Button } from "@/core-components/button"
+import { statusVariant } from "@/utils/status-variants"
 
 import IconView from "@assets/icons/eye.svg?react"
 import IconQuestion from "@assets/icons/circle-help.svg?react"
@@ -15,13 +16,6 @@ import { formatDate } from "@/utils/format-date"
 type Props = React.ComponentProps<"div"> & {
   data: TicketItemProps
   onView: (id: string) => void
-}
-
-function statusVariant(status?: string) {
-    if (!status) return "danger"
-  if (status === "in_progress") return "info"
-  if (status === "closed") return "success"
-  return "new"
 }
 
 function statusLabel(status?: string) {

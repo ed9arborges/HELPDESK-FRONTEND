@@ -1,5 +1,5 @@
 import { MainContentHeader } from "@components/main-content-header"
-import { TicketDetailsContent } from "@/layouts/customer-layouts/ticket-detail-content"
+import { TicketDetailsContent } from "@/layouts/customer-layouts/ticket-details-content"
 
 export function PageCustomerRequest() {
   return (

@@ -1,19 +1,16 @@
-import { type ReactElement } from "react"
+import { type ReactElement, useEffect, useState } from "react"
+import { useParams } from "react-router"
 import SectionContainer from "../../components/section-container"
+import { statusVariant } from "@/utils/status-variants"
 
 import Tag from "@core-components/tag"
 import Text from "@core-components/text"
 import Avatar from "@/core-components/avatar"
+import { api } from "@/services/api"
+import { AxiosError } from "axios"
+import { formatDate } from "@/utils/format-date"
 
-interface TicketData {
-  id: string
-  title: string
-  description: string
-  category: string
-  status: string
-  createdAt: string
-  updatedAt: string
-}
+type TicketData = (TicketAPIResponse)
 interface TechnicianData {
   initials: string
   name: string
@@ -30,16 +27,35 @@ interface PricingData {
 }
 
 export const TicketDetailsContent = (): ReactElement => {
-  const ticketData: TicketData = {
-    id: "00004",
-    title: "Backup não está funcionando",
-    description:
-      "O sistema de backup automático parou de funcionar. Última execução bem-sucedida foi há uma semana.",
-    category: "Recuperação de Dados",
-    status: "Aberto",
-    createdAt: "12/04/25 09:12",
-    updatedAt: "12/04/25 15:20",
-  }
+  const { id } = useParams<{ id: string }>()
+  const [ticketData, setTicketData] = useState<TicketData>()
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    async function fetchTicket(ticketId?: string) {
+      if (!ticketId) {
+        setIsLoading(false)
+        return
+      }
+      try {
+        setIsLoading(true)
+        const { data } = await api.get<TicketAPIResponse>(
+          `/tickets/${ticketId}`
+        )
+        setTicketData(data as TicketAPIResponse)
+      } catch (error) {
+        console.log(error)
+        if (error instanceof AxiosError) {
+          alert(error.response?.data.message)
+        } else {
+          alert("Failed to load ticket data")
+        }
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchTicket(id)
+  }, [id])
 
   const technicianData: TechnicianData = {
     initials: "CS",
@@ -56,6 +72,38 @@ export const TicketDetailsContent = (): ReactElement => {
     total: "€ 395,00",
   }
 
+  function statusLabel(status?: string) {
+    if (!status) return "--"
+    if (status === "in_progress") return "In progress"
+    if (status === "closed") return "Closed"
+    if (status === "open") return "Open"
+    return status
+  }
+
+  if (isLoading) {
+    return (
+      <section className="flex flex-row gap-6 flex-wrap w-full">
+        <SectionContainer variant="large">
+          <Text variant="text-sm" className="text-gray-300">
+            Loading...
+          </Text>
+        </SectionContainer>
+      </section>
+    )
+  }
+
+  if (!ticketData) {
+    return (
+      <section className="flex flex-row gap-6 flex-wrap w-full">
+        <SectionContainer variant="large">
+          <Text variant="text-sm" className="text-gray-300">
+            Ticket not found or invalid ID.
+          </Text>
+        </SectionContainer>
+      </section>
+    )
+  }
+
   return (
     <section className="flex flex-row gap-6 flex-wrap w-full">
       <SectionContainer variant="large">
@@ -65,15 +113,14 @@ export const TicketDetailsContent = (): ReactElement => {
               variant="text-xs"
               className=" text-gray-300 whitespace-nowrap"
             >
-              {ticketData.id}
+              {ticketData.id?.slice(0, 5)}
             </Text>
 
             <Tag
               className="flex-shrink-0"
-             
-              variant="success"
+              variant={statusVariant(ticketData.status)}
             >
-              {ticketData.status}
+              {statusLabel(ticketData.status)}
             </Tag>
           </div>
 
@@ -90,7 +137,9 @@ export const TicketDetailsContent = (): ReactElement => {
           <Text as="label" variant="text-xs" className="text-gray-400">
             Description
           </Text>
-          <p className="mt-1 text-sm text-gray-200">{ticketData.description}</p>
+          <p className="mt-1 text-sm text-gray-200">
+            {ticketData.description || "--"}
+          </p>
         </div>
 
         <div>
@@ -108,7 +157,7 @@ export const TicketDetailsContent = (): ReactElement => {
               Created at
             </Text>
             <time className="block mt-1 text-xs text-gray-200">
-              {ticketData.createdAt}
+              {formatDate(ticketData.createdAt)}
             </time>
           </div>
 
@@ -117,7 +166,7 @@ export const TicketDetailsContent = (): ReactElement => {
               Updated at
             </Text>
             <time className="block mt-1 text-xs text-gray-200">
-              {ticketData.updatedAt}
+              {formatDate(ticketData.updatedAt || ticketData.createdAt)}
             </time>
           </div>
         </div>

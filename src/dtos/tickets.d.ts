@@ -2,6 +2,7 @@ type TicketAPIResponse = {
   id: string
   userId: string
   title: string
+  description?: string
   category: CategoriesAPIEnum
   estimate: number
   status: RequestStatusEnum
