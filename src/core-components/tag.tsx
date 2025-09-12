@@ -19,7 +19,7 @@ export const tagVariants = cva(
         danger: "bg-feedback-danger-20",
       },
       size: {
-        sm: "py-0.5 px-2",
+        sm: "py-1.5 px-1.5",
       },
     },
     defaultVariants: {
@@ -29,7 +29,7 @@ export const tagVariants = cva(
   }
 )
 
-export const tagTextVariants = cva("hidden md:flex", {
+export const tagTextVariants = cva("hidden md:flex pr-2", {
   variants: {
     variant: {
       new: "text-feedback-open",
@@ -52,7 +52,7 @@ export const tagIconVariants = cva("size-4", {
       danger: "fill-feedback-danger",
     },
     size: {
-      sm: "py-0.5 px-2",
+      sm: "",
     },
   },
   defaultVariants: { variant: "new" },
@@ -77,7 +77,7 @@ export default function Tag({
         svg={variant === "new" ? IconQuestion : variant === "info" ? IconClock : variant === "success" ? IconCheck : IconQuestion}
         className={tagIconVariants({ variant, size })}
       />
-      <Text className={tagTextVariants({ variant })}>{children}</Text>
+      {children && <Text className={tagTextVariants({ variant })}>{children}</Text>}
     </div>
   )
 }

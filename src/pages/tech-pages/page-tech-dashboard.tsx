@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router"
 import { AxiosError } from "axios"
 
@@ -6,23 +6,26 @@ import Text from "@core-components/text"
 
 import { api } from "@/services/api"
 
-import { TicketLine } from "@/components/ticket-line"
+import { TicketCard } from "@/components/ticket-card"
 import { formatCurrency } from "@/utils/format-currency"
+import IconClockUrl from "@/assets/icons/clock-2.svg"
+import IconHelpUrl from "@/assets/icons/circle-help.svg"
+import IconCheckUrl from "@/assets/icons/check.svg"
+import Tag from "@/core-components/tag"
 
-const PER_PAGE = 5
+const PER_PAGE = 30
 
 export function PageTechDashboard() {
   const navigate = useNavigate()
-  const [page, setPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(0)
   const [tickets, setTickets] = useState<TicketItemProps[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [assigningId, setAssigningId] = useState<string | null>(null)
 
   async function loadTickets() {
     setIsLoading(true)
     try {
       const { data } = await api.get<TicketsPaginationAPIResponse>(
-        `/tickets?page=${page}&perPage=${PER_PAGE}`
+        `/tickets?page=1&perPage=${PER_PAGE}`
       )
 
       setTickets(
@@ -38,7 +41,6 @@ export function PageTechDashboard() {
           user: { name: r.user?.name },
         }))
       )
-      setTotalPages(data.pagination.totalPages)
     } catch (error) {
       console.log(error)
       if (error instanceof AxiosError) {
@@ -50,129 +52,144 @@ export function PageTechDashboard() {
     }
   }
 
-  function handlePagination(action: "next" | "previous") {
-    setPage((prevPage) => {
-      if (action === "next" && prevPage < totalPages) {
-        return prevPage + 1
-      }
-      if (action === "previous" && prevPage > 1) {
-        return prevPage - 1
-      }
-      return prevPage
-    })
-  }
-
   useEffect(() => {
     loadTickets()
-  }, [page])
+  }, [])
 
-  const mdGridClass =
-    "md:[grid-template-columns:minmax(6rem,12%)_minmax(4rem,8%)_1fr_minmax(8rem,16%)_minmax(6rem,10%)_minmax(8rem,12%)_minmax(8rem,12%)_minmax(3rem,4%)]"
+  const groups = useMemo(() => {
+    return {
+      in_progress: tickets.filter((t) => t.status === "in_progress"),
+      open: tickets.filter((t) => t.status === "open"),
+      closed: tickets.filter((t) => t.status === "closed"),
+    }
+  }, [tickets])
 
-  const viewHandle = (id: string) => {
-    navigate(`/tickets/${id}`)
+  const handleEdit = (id: string) => navigate(`/tickets/${id}`)
+  const handleStart = async (id: string) => {
+    // Tech can self-assign to start working on an open ticket
+    try {
+      setAssigningId(id)
+      await api.post(`/tickets/${id}/assign-self`)
+      // Refresh list and go to detail
+      await loadTickets()
+      navigate(`/tickets/${id}`)
+    } catch (error) {
+      console.log(error)
+      if (error instanceof AxiosError) {
+        return alert(error.response?.data.message)
+      }
+      alert("Fail to start the service")
+    } finally {
+      setAssigningId(null)
+    }
   }
 
   return (
-    <>
-      <div className="bg-blue-600 p-4">
-        <Text>All Tickets</Text>
-      </div>
-
-      <main className="relative rounded-lg overflow-hidden border border-gray-500 w-full md:max-w-6xl mx-auto bg-white">
-        <div
-          className={`grid grid-cols-12 ${mdGridClass} items-center h-12 border-b border-gray-500 px-3 min-w-0`}
-        >
-          <div className="col-span-3 md:col-auto flex items-center min-w-0">
-            <Text variant="text-sm" className="truncate">
-              Updated at
-            </Text>
-          </div>
-
-          <div className="hidden md:flex items-center min-w-0">
-            <Text variant="text-sm" className="truncate">
-              Id
-            </Text>
-          </div>
-
-          <div className="col-span-6 md:col-auto flex items-center min-w-0">
-            <Text variant="text-sm" className="truncate">
-              Title
-            </Text>
-          </div>
-
-          <div className="hidden md:flex items-center min-w-0">
-            <Text variant="text-sm" className="truncate">
-              Service
-            </Text>
-          </div>
-
-          <div className="hidden md:flex items-center min-w-0">
-            <Text variant="text-sm" className="truncate">
-              Total
-            </Text>
-          </div>
-
-          <div className="hidden md:flex items-center min-w-0">
-            <Text variant="text-sm" className="truncate">
-              Customer
-            </Text>
-          </div>
-
-          <div className="col-span-2 md:col-auto flex items-center min-w-0">
-            <Text variant="text-sm" className="truncate">
-              Status
-            </Text>
-          </div>
-
-          <div
-            className="col-span-1 md:col-auto flex items-center justify-center"
-            aria-hidden
-          />
+    <section className="w-full">
+      <div className="flex flex-col items-start gap-6 pt-13 md:px-12 pb-12">
+        <div className="flex items-center w-full">
+          <Text
+            as="h1"
+            variant="text-xl-bold"
+            className="text-blue-dark flex-1"
+          >
+            Available Tickets
+          </Text>
         </div>
-
-        {isLoading && (
-          <div
-            className={`grid grid-cols-12 ${mdGridClass} items-center h-16 border-b border-gray-500 px-3`}
-          >
-            <div className="col-span-12 flex items-center justify-center">
-              <Text variant="text-sm">Loading...</Text>
-            </div>
-          </div>
-        )}
-
-        {!isLoading && tickets.length === 0 && (
-          <div
-            className={`grid grid-cols-12 ${mdGridClass} items-center h-16 border-b border-gray-500 px-3`}
-          >
-            <div className="col-span-12 flex items-center justify-center">
-              <Text variant="text-sm">No tickets found</Text>
-            </div>
-          </div>
-        )}
-
-        {!isLoading &&
-          tickets.map((r) => (
-            <TicketLine key={r.id} data={r} onView={() => viewHandle(r.id)} />
-          ))}
-
-        <div className="hidden md:block" />
-      </main>
-
-      <div className="flex gap-2 mt-4">
-        <button
-          className="px-3 py-2 bg-gray-500 text-white rounded"
-          onClick={() => handlePagination("previous")}
-        >
-          Previous
-        </button>
-        <button
-          className="px-3 py-2 bg-gray-500 text-white rounded"
-          onClick={() => handlePagination("next")}
-        >
-          Next
-        </button>
       </div>
-    </>
+
+      {isLoading && (
+        <div className="p-6">
+          <Text variant="text-sm">Loading...</Text>
+        </div>
+      )}
+
+      {!isLoading && (
+        <div className="md:px-12 pb-12 flex flex-col gap-6">
+          {/* In progress */}
+          <div className="flex flex-col gap-4">            
+              <Tag variant="info" className="self-start">In Progress</Tag>           
+            <div className="flex flex-wrap gap-4">
+              {groups.in_progress.map((t) => (
+                <TicketCard
+                  key={t.id}
+                  ticket={t}
+                  primaryLabel="Close"
+                  onPrimary={handleEdit}
+                  onEdit={handleEdit}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Open */}
+          <div className="flex flex-col gap-4">
+            <Tag variant="new" className="self-start">Open</Tag>
+            <div className="flex flex-wrap gap-4">
+              {groups.open.map((t) => (
+                <TicketCard
+                  key={t.id}
+                  ticket={t}
+                  primaryLabel="Process"
+                  onPrimary={handleStart}
+                  disabledPrimary={assigningId === t.id}
+                  disabledEdit={assigningId === t.id}
+                  onEdit={handleEdit}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Closed */}
+          <div className="flex flex-col gap-4">
+            <Tag variant="success" className="self-start">Closed</Tag>
+            <div className="flex flex-wrap gap-4">
+              {groups.closed.map((t) => (
+                <TicketCard
+                  key={t.id}
+                  ticket={t}
+                  primaryLabel="Ver"
+                  onPrimary={handleEdit}
+                  onEdit={handleEdit}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  )
+}
+
+function TagRow({
+  label,
+  variant,
+}: {
+  label: string
+  variant: "info" | "danger" | "success"
+}) {
+  // Minimal inline tag to match style system
+  const iconClass = "w-4 h-4"
+  return (
+    <div
+      className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs ${
+        variant === "info"
+          ? "bg-[var(--color-feedback-progress-20)] text-[var(--color-feedback-progress)]"
+          : variant === "danger"
+          ? "bg-[var(--color-feedback-open-20)] text-[var(--color-feedback-open)]"
+          : "bg-[var(--color-feedback-done-20)] text-[var(--color-feedback-done)]"
+      }`}
+    >
+      {variant === "info" && (
+        <img src={IconClockUrl} alt="Em atendimento" className={iconClass} />
+      )}
+      {variant === "danger" && (
+        <img src={IconHelpUrl} alt="Aberto" className={iconClass} />
+      )}
+      {variant === "success" && (
+        <img src={IconCheckUrl} alt="Encerrado" className={iconClass} />
+      )}
+      {label}
+    </div>
   )
 }

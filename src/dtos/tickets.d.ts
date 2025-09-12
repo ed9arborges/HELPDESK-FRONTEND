@@ -28,7 +28,7 @@ type TicketItemProps = {
   title: string
   category: string
   estimate: string
-  status: string
+  status: TicketStatusEnum
   createdAt: string
   updatedAt: string
   user?: { name?: string }
