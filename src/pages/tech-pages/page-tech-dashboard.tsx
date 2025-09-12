@@ -3,14 +3,12 @@ import { useNavigate } from "react-router"
 import { AxiosError } from "axios"
 
 import Text from "@core-components/text"
+import { MainContentHeader } from "@/components/main-content-header"
 
 import { api } from "@/services/api"
 
 import { TicketCard } from "@/components/ticket-card"
 import { formatCurrency } from "@/utils/format-currency"
-import IconClockUrl from "@/assets/icons/clock-2.svg"
-import IconHelpUrl from "@/assets/icons/circle-help.svg"
-import IconCheckUrl from "@/assets/icons/check.svg"
 import Tag from "@/core-components/tag"
 
 const PER_PAGE = 30
@@ -87,15 +85,7 @@ export function PageTechDashboard() {
   return (
     <section className="w-full">
       <div className="flex flex-col items-start gap-6 pt-13 md:px-12 pb-12">
-        <div className="flex items-center w-full">
-          <Text
-            as="h1"
-            variant="text-xl-bold"
-            className="text-blue-dark flex-1"
-          >
-            Available Tickets
-          </Text>
-        </div>
+        <MainContentHeader>Available Tickets</MainContentHeader>
       </div>
 
       {isLoading && (
@@ -107,8 +97,10 @@ export function PageTechDashboard() {
       {!isLoading && (
         <div className="md:px-12 pb-12 flex flex-col gap-6">
           {/* In progress */}
-          <div className="flex flex-col gap-4">            
-              <Tag variant="info" className="self-start">In Progress</Tag>           
+          <div className="flex flex-col gap-4">
+            <Tag variant="info" className="self-start">
+              In Progress
+            </Tag>
             <div className="flex flex-wrap gap-4">
               {groups.in_progress.map((t) => (
                 <TicketCard
@@ -124,7 +116,9 @@ export function PageTechDashboard() {
 
           {/* Open */}
           <div className="flex flex-col gap-4">
-            <Tag variant="new" className="self-start">Open</Tag>
+            <Tag variant="new" className="self-start">
+              Open
+            </Tag>
             <div className="flex flex-wrap gap-4">
               {groups.open.map((t) => (
                 <TicketCard
@@ -142,7 +136,9 @@ export function PageTechDashboard() {
 
           {/* Closed */}
           <div className="flex flex-col gap-4">
-            <Tag variant="success" className="self-start">Closed</Tag>
+            <Tag variant="success" className="self-start">
+              Closed
+            </Tag>
             <div className="flex flex-wrap gap-4">
               {groups.closed.map((t) => (
                 <TicketCard
@@ -161,35 +157,4 @@ export function PageTechDashboard() {
   )
 }
 
-function TagRow({
-  label,
-  variant,
-}: {
-  label: string
-  variant: "info" | "danger" | "success"
-}) {
-  // Minimal inline tag to match style system
-  const iconClass = "w-4 h-4"
-  return (
-    <div
-      className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs ${
-        variant === "info"
-          ? "bg-[var(--color-feedback-progress-20)] text-[var(--color-feedback-progress)]"
-          : variant === "danger"
-          ? "bg-[var(--color-feedback-open-20)] text-[var(--color-feedback-open)]"
-          : "bg-[var(--color-feedback-done-20)] text-[var(--color-feedback-done)]"
-      }`}
-    >
-      {variant === "info" && (
-        <img src={IconClockUrl} alt="Em atendimento" className={iconClass} />
-      )}
-      {variant === "danger" && (
-        <img src={IconHelpUrl} alt="Aberto" className={iconClass} />
-      )}
-      {variant === "success" && (
-        <img src={IconCheckUrl} alt="Encerrado" className={iconClass} />
-      )}
-      {label}
-    </div>
-  )
-}
+//

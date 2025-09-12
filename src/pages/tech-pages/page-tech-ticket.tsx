@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { useNavigate, useParams } from "react-router"
+import { useParams } from "react-router"
 import { AxiosError } from "axios"
 
 import { api } from "@/services/api"
@@ -15,7 +15,7 @@ import { formatDate } from "@/utils/format-date"
 import { formatCurrency } from "@/utils/format-currency"
 import { formatId } from "@/utils/format-id"
 
-import ArrowLeftIcon from "@assets/icons/arrow-left.svg?react"
+import { MainContentHeader } from "@/components/main-content-header"
 import CircleCheckBigIcon from "@assets/icons/circle-check-big.svg?react"
 import Clock2Icon from "@assets/icons/clock-2.svg?react"
 import PlusIcon from "@assets/icons/plus.svg?react"
@@ -41,7 +41,6 @@ const categoryItems = [
 
 export function PageTechTicket() {
   const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
 
   const [ticket, setTicket] = useState<TicketAPIResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -59,7 +58,7 @@ export function PageTechTicket() {
         if (error instanceof AxiosError) {
           alert(error.response?.data.message)
         } else {
-          alert("Failed to load ticket data")
+          alert("Falha ao carregar o chamado")
         }
       } finally {
         setIsLoading(false)
@@ -80,9 +79,7 @@ export function PageTechTicket() {
     return categoryItems.find((c) => c.value === value)?.label ?? value ?? "-"
   }, [ticket])
 
-  async function handleBack() {
-    navigate(-1)
-  }
+  // back navigation handled by MainContentHeader
 
   async function handleClose() {
     if (!id) return
@@ -169,71 +166,57 @@ export function PageTechTicket() {
     <section className="flex flex-col items-center gap-6 pt-[52px] pb-12 px-6 relative bg-gray-600 w-full">
       <Container className="w-full max-w-[800px]">
         {/* Header section */}
-        <header className="flex items-end justify-between gap-4 w-full">
-          <div className="flex-1">
-            <Button
-              onClick={handleBack}
-              aria-label="Back to previous page"
-              variant="link"
-              size="linksm"
-              icon={ArrowLeftIcon}
-            >
-              Back
-            </Button>
-            <Text as="h1" variant="text-xl-bold" className="text-blue-dark">
-              Ticket Details
-            </Text>
-          </div>
+        <MainContentHeader
+          backNav
+          actions={(() => {
+            const status = (ticket as any).status as string
+            const canStart = status === "open"
+            const canClose = status === "in_progress"
+            const canReopen = status === "closed"
 
-          <nav className="flex items-center gap-2">
-            {(() => {
-              const status = (ticket as any).status as string
-              const canStart = status === "open"
-              const canClose = status === "in_progress"
-              const canReopen = status === "closed"
+            return (
+              <nav className="flex items-center gap-2">
+                {canClose && (
+                  <Button
+                    onClick={handleClose}
+                    disabled={busy === "close"}
+                    variant="secondary"
+                    icon={CircleCheckBigIcon}
+                    aria-label="Encerrar chamado"
+                  >
+                    {busy === "close" ? "Closing..." : "Close"}
+                  </Button>
+                )}
 
-              return (
-                <>
-                  {canClose && (
-                    <Button
-                      onClick={handleClose}
-                      disabled={busy === "close"}
-                      variant="secondary"
-                      icon={CircleCheckBigIcon}
-                      aria-label="Close ticket"
-                    >
-                      {busy === "close" ? "Closing..." : "Close"}
-                    </Button>
-                  )}
+                {canStart && (
+                  <Button
+                    onClick={handleStart}
+                    disabled={busy === "start"}
+                    variant="primary"
+                    icon={Clock2Icon}
+                    aria-label="Begin ticket processing"
+                  >
+                    {busy === "start" ? "Processing..." : "Process"}
+                  </Button>
+                )}
 
-                  {canStart && (
-                    <Button
-                      onClick={handleStart}
-                      disabled={busy === "start"}
-                      variant="primary"
-                      icon={Clock2Icon}
-                      aria-label="Begin ticket processing"
-                    >
-                      {busy === "start" ? "Processing..." : "Process"}
-                    </Button>
-                  )}
-
-                  {canReopen && (
-                    <Button
-                      onClick={handleReopen}
-                      disabled={busy === "reopen"}
-                      variant="secondary"
-                      icon={WrenchIcon}
-                      aria-label="Reopen ticket"
-                    >
-                      {busy === "reopen" ? "Reopening..." : "Reopen"}
-                    </Button>
-                  )}
-                </>
-              )
-            })()}
-          </nav>
-        </header>
+                {canReopen && (
+                  <Button
+                    onClick={handleReopen}
+                    disabled={busy === "reopen"}
+                    variant="secondary"
+                    icon={WrenchIcon}
+                    aria-label="Reabrir chamado"
+                  >
+                    {busy === "reopen" ? "Reopening..." : "Reopen"}
+                  </Button>
+                )}
+              </nav>
+            )
+          })()}
+        >
+          Ticket Details
+        </MainContentHeader>
 
         {/* Details section */}
         <div className="w-full flex flex-col md:flex-row items-stretch gap-6">
