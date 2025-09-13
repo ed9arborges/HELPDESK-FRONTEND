@@ -13,18 +13,19 @@ const PER_PAGE = 5
 
 export function CustomerDashboardLayout() {
   const navigate = useNavigate()
-  const [name, setName] = useState("")
-  const [page, setPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(0)
+  // const [name, setName] = useState("")
+  const [page] = useState(1)
   const [tickets, setTickets] = useState<TicketItemProps[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  
+
   async function loadRequests() {
     setIsLoading(true)
     try {
-  const { data } = await api.get<TicketsPaginationAPIResponse>(`/tickets?page=${page}&perPage=${PER_PAGE}`)
-      
-  setTickets(
+      const { data } = await api.get<TicketsPaginationAPIResponse>(
+        `/tickets?page=${page}&perPage=${PER_PAGE}`
+      )
+
+      setTickets(
         data.tickets.map((r) => ({
           id: r.id,
           userId: r.userId,
@@ -33,34 +34,36 @@ export function CustomerDashboardLayout() {
           estimate: formatCurrency(r.estimate),
           status: r.status,
           createdAt: r.createdAt,
-          updatedAt: r.updatedAt,         
-  }))
+          updatedAt: r.updatedAt,
+          user: r.user,
+          tech: r.tech,
+        }))
       )
     } catch (error) {
       console.log(error)
-      if(error instanceof AxiosError){
+      if (error instanceof AxiosError) {
         return alert(error.response?.data.message)
       }
-  alert("Failed to load tickets")
+      alert("Failed to load tickets")
     } finally {
       setIsLoading(false)
     }
   }
 
-  function handlePagination(action: "next" | "previous") {
-    setPage((prevPage) => {
-      if (action === "next" && prevPage < totalPages) {
-        return prevPage + 1
-      }
-      if (action === "previous" && prevPage > 1) {
-        return prevPage - 1
-      }
-      return prevPage
-    })
-  }
+  // function handlePagination(action: "next" | "previous") {
+  //   setPage((prevPage) => {
+  //     if (action === "next" && prevPage < totalPages) {
+  //       return prevPage + 1
+  //     }
+  //     if (action === "previous" && prevPage > 1) {
+  //       return prevPage - 1
+  //     }
+  //     return prevPage
+  //   })
+  // }
 
   useEffect(() => {
-  loadRequests()
+    loadRequests()
   }, [page])
 
   // Tailwind arbitrary grid template for md+ (keeps header and rows aligned)
@@ -69,14 +72,13 @@ export function CustomerDashboardLayout() {
 
   const viewHandle = (id: string) => {
     // Adjust route when detail page exists
-  navigate(`/tickets/${id}`)
+    navigate(`/tickets/${id}`)
   }
-
 
   return (
     <>
       <div className="bg-blue-600 p-4">
-  <Text>My Tickets</Text>
+        <Text>My Tickets</Text>
       </div>
 
       <main className="relative rounded-lg overflow-hidden border border-gray-500 w-full md:max-w-6xl mx-auto bg-white">
@@ -148,8 +150,8 @@ export function CustomerDashboardLayout() {
             </div>
           </div>
         )}
-       
-  {!isLoading && tickets.length === 0 && (
+
+        {!isLoading && tickets.length === 0 && (
           <div
             className={`grid grid-cols-12 ${mdGridClass} items-center h-16 border-b border-gray-500 px-3`}
           >
@@ -158,7 +160,7 @@ export function CustomerDashboardLayout() {
             </div>
           </div>
         )}
-        {!isLoading &&        
+        {!isLoading &&
           tickets.map((r) => (
             <TicketLine key={r.id} data={r} onView={() => viewHandle(r.id)} />
           ))}

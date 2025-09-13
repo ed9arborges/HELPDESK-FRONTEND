@@ -71,11 +71,11 @@ export function TicketLine({ data, onView, ...rest }: Props) {
       <div className="hidden md:flex items-center min-w-0">
         <Avatar size="small">
           <span className="text-xs text-gray-600 font-normal">
-            {getInitials(data.user?.name)}
+            {getInitials(data.tech?.name || "--")}
           </span>
         </Avatar>
         <Text variant="text-sm" className="truncate ml-2">
-          {data.user?.name || "--"}
+          {data.tech?.name || "--"}
         </Text>
       </div>
 

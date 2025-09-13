@@ -39,6 +39,7 @@ type TicketItemProps = {
   createdAt: string
   updatedAt: string
   user?: { name?: string }
+  tech?: { name?: string }
 }
 
 enum TicketStatusEnum {

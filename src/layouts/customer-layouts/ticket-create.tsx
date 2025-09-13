@@ -146,7 +146,7 @@ export function TicketCreate() {
     { value: "", label: "Select a service" },
     ...catalog.map((s) => ({
       value: s.id,
-      label: `${s.name} - R$ ${formatCurrency(s.amount)}`,
+      label: `${s.name} - ${formatCurrency(s.amount)}`,
     })),
   ]
 
@@ -211,7 +211,7 @@ export function TicketCreate() {
               Initial Cost
             </Text>
             <Text variant="text-lg-bold" className="text-gray-200">
-              {`R$ ${formatCurrency(Number(estimate || 0))}`}
+              {formatCurrency(Number(estimate || 0))}
             </Text>
           </div>
           <Text as="span" variant="text-xs" className=" text-gray-400">

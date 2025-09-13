@@ -173,7 +173,7 @@ export function PageAdminServices() {
             </div>
             <div className="flex items-center gap-2 px-3 w-[328px]">
               <Text variant="text-sm" className="text-gray-200">
-                {`R$ ${formatCurrency(s.amount)}`}
+                {formatCurrency(s.amount)}
               </Text>
             </div>
             <div className="w-[52px] flex items-center justify-center px-3">

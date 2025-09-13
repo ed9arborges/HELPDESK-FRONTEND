@@ -6,9 +6,9 @@ export function formatCurrency(value: number | string) {
   if (typeof value === "string") {
     const parsed = parseFloat(value)
     if (isNaN(parsed)) return "--"
-    return currency.format(parsed).replace("€","")
+    return currency.format(parsed)
   }
-  return currency.format(value).replace("€","")
+  return currency.format(value)
 }
 
 /*

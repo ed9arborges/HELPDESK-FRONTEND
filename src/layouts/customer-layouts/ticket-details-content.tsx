@@ -9,23 +9,10 @@ import Avatar from "@/core-components/avatar"
 import { api } from "@/services/api"
 import { AxiosError } from "axios"
 import { formatDate } from "@/utils/format-date"
+import { formatCurrency } from "@/utils/format-currency"
 import { getInitials } from "@/utils/get-initials"
 
 type TicketData = TicketAPIResponse
-interface TechnicianData {
-  initials: string
-  name: string
-  email: string
-}
-interface PricingItem {
-  label: string
-  value: string
-}
-interface PricingData {
-  basePrice: string
-  additionalItems: PricingItem[]
-  total: string
-}
 
 export const TicketDetailsContent = (): ReactElement => {
   const { id } = useParams<{ id: string }>()
@@ -58,20 +45,10 @@ export const TicketDetailsContent = (): ReactElement => {
     fetchTicket(id)
   }, [id])
 
-  const technicianData: TechnicianData = {
-    initials: getInitials("Carlos Silva"),
-    name: "Carlos Silva",
-    email: "carlos.silva@test.com",
-  }
-
-  const pricingData: PricingData = {
-    basePrice: "€ 200,00",
-    additionalItems: [
-      { label: "Assinatura de backup", value: "€ 120,00" },
-      { label: "Formatação do PC", value: "€ 75,00" },
-    ],
-    total: "€ 395,00",
-  }
+  const extras = ticketData?.parts || []
+  const base = ticketData?.estimate || 0
+  const totalExtras = extras.reduce((sum, p) => sum + (p.amount || 0), 0)
+  const total = base + totalExtras
 
   function statusLabel(status?: string) {
     if (!status) return "--"
@@ -179,18 +156,14 @@ export const TicketDetailsContent = (): ReactElement => {
           </Text>
 
           <div className="flex items-center gap-3">
-            <Avatar>{technicianData.initials}</Avatar>
+            <Avatar>{getInitials(ticketData.tech?.name)}</Avatar>
 
             <div className="min-w-0">
               <div className="text-sm text-gray-200 truncate">
-                {technicianData.name}
+                {ticketData.tech?.name || "--"}
               </div>
-              <a
-                className="text-xs text-gray-300 hover:underline truncate"
-                href={`mailto:${technicianData.email}`}
-              >
-                {technicianData.email}
-              </a>
+              {/* Tech email not available in API response; show placeholder */}
+              <span className="text-xs text-gray-300 truncate">&nbsp;</span>
             </div>
           </div>
         </div>
@@ -202,7 +175,7 @@ export const TicketDetailsContent = (): ReactElement => {
             <div className="mt-2 flex items-center justify-between">
               <div className="text-xs text-gray-200">Preço base</div>
               <div className="text-xs text-gray-200">
-                {pricingData.basePrice}
+                {formatCurrency(base)}
               </div>
             </div>
           </div>
@@ -211,12 +184,20 @@ export const TicketDetailsContent = (): ReactElement => {
             <h4 className="text-xs text-gray-400">Adicionais</h4>
 
             <div className="mt-2 flex flex-col gap-2">
-              {pricingData.additionalItems.map((item, i) => (
-                <div key={i} className="flex items-center justify-between">
+              {extras.length === 0 && (
+                <div className="text-xs text-gray-300">--</div>
+              )}
+              {extras.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-center justify-between"
+                >
                   <div className="text-xs text-gray-200 truncate">
-                    {item.label}
+                    {item.name}
                   </div>
-                  <div className="text-xs text-gray-200">{item.value}</div>
+                  <div className="text-xs text-gray-200">
+                    {formatCurrency(item.amount)}
+                  </div>
                 </div>
               ))}
             </div>
@@ -224,7 +205,7 @@ export const TicketDetailsContent = (): ReactElement => {
 
           <div className="pt-3 border-t border-gray-500 flex items-center justify-between">
             <div className="text-sm text-gray-200">Total</div>
-            <div className="text-sm text-gray-200">{pricingData.total}</div>
+            <div className="text-sm text-gray-200">{formatCurrency(total)}</div>
           </div>
         </div>
       </SectionContainer>
