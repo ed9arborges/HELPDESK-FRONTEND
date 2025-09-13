@@ -21,6 +21,8 @@ import Clock2Icon from "@assets/icons/clock-2.svg?react"
 import PlusIcon from "@assets/icons/plus.svg?react"
 import TrashIcon from "@assets/icons/trash.svg?react"
 import WrenchIcon from "@assets/icons/wrench.svg?react"
+import XIcon from "@assets/icons/x.svg?react"
+// import { useAuth } from "@/hooks/useAuth"
 
 const statusMap: Record<string, string> = {
   open: "Open",
@@ -41,10 +43,17 @@ const categoryItems = [
 
 export function PageTechTicket() {
   const { id } = useParams<{ id: string }>()
+  // const { session } = useAuth()
 
   const [ticket, setTicket] = useState<TicketAPIResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [busy, setBusy] = useState<string | null>(null)
+  const [parts, setParts] = useState<
+    Array<{ id: string; name: string; amount: number }>
+  >([])
+  const [isPartsModalOpen, setIsPartsModalOpen] = useState(false)
+  const [newPartName, setNewPartName] = useState("")
+  const [newPartAmount, setNewPartAmount] = useState("")
 
   useEffect(() => {
     async function load() {
@@ -53,6 +62,13 @@ export function PageTechTicket() {
         setIsLoading(true)
         const { data } = await api.get<TicketAPIResponse>(`/tickets/${id}`)
         setTicket(data)
+        setParts(
+          (data.parts || []).map((p) => ({
+            id: p.id,
+            name: p.name,
+            amount: p.amount,
+          }))
+        )
       } catch (error) {
         console.log(error)
         if (error instanceof AxiosError) {
@@ -77,6 +93,11 @@ export function PageTechTicket() {
   const categoryLabel = useMemo(() => {
     const value = (ticket as any)?.category as string | undefined
     return categoryItems.find((c) => c.value === value)?.label ?? value ?? "-"
+  }, [ticket])
+
+  const canModifyParts = useMemo(() => {
+    const status = (ticket as any)?.status as string | undefined
+    return status === "in_progress"
   }, [ticket])
 
   // back navigation handled by MainContentHeader
@@ -110,7 +131,15 @@ export function PageTechTicket() {
         ticket: TicketAPIResponse
       }>(`/tickets/${id}/start`)
       setTicket(data.ticket)
-      alert("Ticket in progress")
+      setParts(
+        (data.ticket.parts || []).map((p) => ({
+          id: p.id,
+          name: p.name,
+          amount: p.amount,
+        }))
+      )
+      // Optional UX: open add service immediately
+      setIsPartsModalOpen(true)
     } catch (error) {
       console.log(error)
       if (error instanceof AxiosError)
@@ -152,15 +181,57 @@ export function PageTechTicket() {
   const client = (ticket as any).user || (ticket as any).customer || {}
   const tech = (ticket as any).tech || {}
 
+  const additionalsTotal = parts.reduce((acc, p) => acc + (p.amount || 0), 0)
   const pricing = {
     basePrice: toDisplayCurrency((ticket as any).estimate ?? 0),
-    additionals: toDisplayCurrency(0),
-    total: toDisplayCurrency((ticket as any).estimate ?? 0),
+    additionals: toDisplayCurrency(additionalsTotal),
+    total: toDisplayCurrency(
+      ((ticket as any).estimate ?? 0) + additionalsTotal
+    ),
   }
 
-  // Placeholder additional services list (not in current schema)
-  const additionalServices: Array<{ id: number; name: string; price: string }> =
-    []
+  async function addPart() {
+    if (!id) return
+    const name = newPartName.trim()
+    const amount = parseFloat(newPartAmount.replace(/,/g, "."))
+    if (!name || isNaN(amount)) {
+      return alert("Enter name and amount")
+    }
+    try {
+      setBusy("add-part")
+      const { data } = await api.post<{
+        message: string
+        part: { id: string; name: string; amount: number }
+      }>(`/tickets/${id}/parts`, { name, amount })
+      setParts((prev) => [data.part, ...prev])
+      setIsPartsModalOpen(false)
+      setNewPartName("")
+      setNewPartAmount("")
+    } catch (error) {
+      console.log(error)
+      if (error instanceof AxiosError)
+        return alert(error.response?.data.message)
+      alert("Failed to add service")
+    } finally {
+      setBusy(null)
+    }
+  }
+
+  async function removePart(partId: string) {
+    if (!id) return
+    try {
+      setBusy(`rm-${partId}`)
+      await api.delete(`/tickets/${id}/parts/${partId}`)
+      setParts((prev) => prev.filter((p) => p.id !== partId))
+    } catch (error) {
+      console.log(error)
+      if (error instanceof AxiosError)
+        return alert(error.response?.data.message)
+      alert("Failed to remove service")
+    } finally {
+      setBusy(null)
+    }
+  }
 
   return (
     <section className="flex flex-col items-center gap-6 pt-[52px] pb-12 px-6 relative bg-gray-600 w-full">
@@ -298,16 +369,23 @@ export function PageTechTicket() {
                   size="sm"
                   icon={PlusIcon}
                   aria-label="Add service"
+                  title={
+                    canModifyParts
+                      ? "Add an additional service"
+                      : "Only in-progress tickets assigned to you (or admin) can add services"
+                  }
+                  disabled={!canModifyParts}
+                  onClick={() => canModifyParts && setIsPartsModalOpen(true)}
                 />
               </header>
 
-              {additionalServices.length === 0 ? (
+              {parts.length === 0 ? (
                 <Text variant="text-xs" className="text-gray-400">
                   No additional services
                 </Text>
               ) : (
                 <ul className="flex flex-col gap-2">
-                  {additionalServices.map((service) => (
+                  {parts.map((service) => (
                     <li key={service.id} className="flex items-center gap-6">
                       <Text
                         variant="text-xs"
@@ -319,13 +397,17 @@ export function PageTechTicket() {
                         variant="text-xs"
                         className="text-gray-200 w-20 text-right"
                       >
-                        {service.price}
+                        {toDisplayCurrency(service.amount)}
                       </Text>
                       <Button
                         variant="secondary"
                         size="sm"
                         icon={TrashIcon}
                         aria-label="Remove"
+                        disabled={
+                          !canModifyParts || busy === `rm-${service.id}`
+                        }
+                        onClick={() => canModifyParts && removePart(service.id)}
                       />
                     </li>
                   ))}
@@ -382,6 +464,79 @@ export function PageTechTicket() {
           </SectionContainer>
         </div>
       </Container>
+
+      {isPartsModalOpen && canModifyParts && (
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-20"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="add-part-title"
+          onMouseDown={(e) => {
+            if (e.currentTarget === e.target) setIsPartsModalOpen(false)
+          }}
+        >
+          <div className="flex flex-col w-[440px] bg-gray-600 rounded-[10px] overflow-hidden border border-gray-500">
+            <header className="flex items-center gap-3 p-5">
+              <h3 id="add-part-title" className="m-0 p-0">
+                <Text as="span" variant="text-md" className="text-gray-200">
+                  Add service
+                </Text>
+              </h3>
+              <button
+                type="button"
+                className="ml-auto w-6 h-6 flex items-center justify-center rounded hover:bg-gray-500"
+                aria-label="Close"
+                onClick={() => setIsPartsModalOpen(false)}
+              >
+                <XIcon className="w-4.5 h-4.5 fill-gray-300" />
+              </button>
+            </header>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                addPart()
+              }}
+              className="flex flex-col gap-5 px-7 pb-8 pt-7 border-y border-gray-500"
+            >
+              <div className="flex flex-col gap-4">
+                <label className="block">
+                  <Text variant="text-xxs" className="text-gray-300">
+                    Name
+                  </Text>
+                  <input
+                    className="w-full bg-transparent border-b border-gray-200 h-10 outline-none text-md text-gray-200"
+                    placeholder="Service name"
+                    value={newPartName}
+                    onChange={(e) => setNewPartName(e.target.value)}
+                  />
+                </label>
+                <label className="block">
+                  <Text variant="text-xxs" className="text-gray-300">
+                    Amount
+                  </Text>
+                  <input
+                    className="w-full bg-transparent border-b border-gray-200 h-10 outline-none text-md text-gray-200"
+                    placeholder="0.00"
+                    inputMode="decimal"
+                    value={newPartAmount}
+                    onChange={(e) => setNewPartAmount(e.target.value)}
+                  />
+                </label>
+              </div>
+            </form>
+            <footer className="flex items-center justify-center gap-2 p-7">
+              <Button
+                className="flex-1"
+                onClick={addPart}
+                disabled={busy === "add-part"}
+              >
+                Save
+              </Button>
+            </footer>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

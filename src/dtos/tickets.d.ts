@@ -10,6 +10,13 @@ type TicketAPIResponse = {
   updatedAt: string
   user: { id?: string; name?: string }
   tech?: { id?: string; name?: string } | null
+  parts?: Array<{
+    id: string
+    name: string
+    amount: number
+    createdAt?: string
+    updatedAt?: string
+  }>
 }
 
 type TicketsPaginationAPIResponse = {
