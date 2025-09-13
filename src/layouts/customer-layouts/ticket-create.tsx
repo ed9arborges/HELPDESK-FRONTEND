@@ -5,10 +5,7 @@ import { AxiosError } from "axios"
 import { api } from "@/services/api"
 
 import SectionContainer from "@components/section-container"
-import IconQuestion from "@assets/icons/circle-help.svg?react"
-import Tag from "@core-components/tag"
 import Text from "@core-components/text"
-import Avatar from "@/core-components/avatar"
 import InputText from "@/core-components/input"
 import InputSelect from "@/core-components/input-select"
 import { Button } from "@/core-components/button"
@@ -43,7 +40,13 @@ const ticketSchema = z.object({
   description: z
     .string()
     .min(10, { message: "Description must be at least 10 characters long" }),
-  
+  // estimate is optional and parsed from string to number
+  estimate: z
+    .string()
+    .optional()
+    .transform((v) =>
+      v ? Number(v.replace(/\./g, "").replace(",", ".")) : undefined
+    ),
 })
 
 export function TicketCreate() {
@@ -52,6 +55,10 @@ export function TicketCreate() {
   const [estimate, setEstimate] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [category, setCategory] = useState("")
+  const [catalog, setCatalog] = useState<
+    Array<{ id: string; name: string; amount: number }>
+  >([])
+  const [serviceId, setServiceId] = useState("")
 
   const navigate = useNavigate()
   const params = useParams<{ id: string }>()
@@ -64,14 +71,14 @@ export function TicketCreate() {
     try {
       setIsLoading(true)
 
-  const data = ticketSchema.parse({
+      const data = ticketSchema.parse({
         title,
         category,
         description,
-        estimate: estimate.replace(",", "."),
+        estimate,
       })
 
-  await api.post("/tickets", {
+      await api.post("/tickets", {
         ...data,
       })
 
@@ -86,18 +93,28 @@ export function TicketCreate() {
         return alert(error.response?.data.message)
       }
 
-  alert("Could not create ticket. Please try again.")
+      alert("Could not create ticket. Please try again.")
     } finally {
       setIsLoading(false)
     }
   }
+  async function fetchCatalog() {
+    try {
+      const { data } = await api.get<{
+        services: { id: string; name: string; amount: number }[]
+      }>("/services")
+      setCatalog(data.services)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   async function fetchRequest(id: string) {
     try {
-  const { data } = await api.get<TicketAPIResponse>(`/tickets/${id}`)
+      const { data } = await api.get<TicketAPIResponse>(`/tickets/${id}`)
 
       setTitle(data.title)
       setCategory(data.category)
-      setEstimate(formatCurrency(data.estimate))
+      setEstimate(String(data.estimate))
     } catch (error) {
       console.log(error)
 
@@ -108,6 +125,7 @@ export function TicketCreate() {
   }
 
   useEffect(() => {
+    fetchCatalog()
     if (params.id) {
       fetchRequest(params.id)
     }
@@ -124,11 +142,18 @@ export function TicketCreate() {
     { value: "peripherals", label: "Peripherals" },
     { value: "systems", label: "Systems" },
   ]
+  const serviceItems = [
+    { value: "", label: "Select a service" },
+    ...catalog.map((s) => ({
+      value: s.id,
+      label: `${s.name} - R$ ${formatCurrency(s.amount)}`,
+    })),
+  ]
 
   return (
     <form onSubmit={onSubmit} className="flex flex-row gap-6 flex-wrap w-full">
       <SectionContainer
-  title="Create Ticket"
+        title="Create Ticket"
         description="Please fill out the form below to create a new request."
         variant="large"
         className="flex flex-col justify-start min-h-100 w-full"
@@ -153,6 +178,18 @@ export function TicketCreate() {
             onChange={(e) => setCategory(e.target.value)}
             className="mb-2 mt-auto self-end"
           />
+          <InputSelect
+            label="Service"
+            value={serviceId}
+            items={serviceItems}
+            onChange={(e) => {
+              const id = e.target.value
+              setServiceId(id)
+              const sel = catalog.find((c) => c.id === id)
+              if (sel) setEstimate(String(sel.amount).replace(".", ","))
+            }}
+            className="mb-2 mt-2 self-end"
+          />
         </div>
       </SectionContainer>
       <SectionContainer
@@ -174,12 +211,11 @@ export function TicketCreate() {
               Initial Cost
             </Text>
             <Text variant="text-lg-bold" className="text-gray-200">
-              {estimate}
+              {`R$ ${formatCurrency(Number(estimate || 0))}`}
             </Text>
           </div>
           <Text as="span" variant="text-xs" className=" text-gray-400">
-            The ticket will be automatically assigned to an available
-            technician
+            The ticket will be automatically assigned to an available technician
           </Text>
           <Button type="submit" disabled={isLoading}>
             Create Ticket

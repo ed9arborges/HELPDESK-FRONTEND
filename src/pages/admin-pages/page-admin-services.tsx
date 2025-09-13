@@ -6,12 +6,12 @@ import IconPlus from "@/assets/icons/plus.svg?react"
 import IconPen from "@/assets/icons/pen-line.svg?react"
 import IconX from "@/assets/icons/x.svg?react"
 import { formatCurrency } from "@/utils/format-currency"
+import { api } from "@/services/api"
 
 type Service = {
   id: string
-  title: string
-  // store cents to avoid float issues
-  priceCents: number
+  name: string
+  amount: number
 }
 
 type FormState = {
@@ -20,25 +20,7 @@ type FormState = {
 }
 
 export function PageAdminServices() {
-  // local demo data until API is wired
-  const [services, setServices] = React.useState<Service[]>([
-    { id: crypto.randomUUID(), title: "Instalação de Rede", priceCents: 18000 },
-    {
-      id: crypto.randomUUID(),
-      title: "Recuperação de Dados",
-      priceCents: 20000,
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Manutenção de Hardware",
-      priceCents: 15000,
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Suporte de Software",
-      priceCents: 20000,
-    },
-  ])
+  const [services, setServices] = React.useState<Service[]>([])
 
   const [isOpen, setIsOpen] = React.useState(false)
   const [mode, setMode] = React.useState<"create" | "edit">("create")
@@ -60,7 +42,10 @@ export function PageAdminServices() {
   const openEdit = (item: Service) => {
     setMode("edit")
     setEditingId(item.id)
-    setForm({ title: item.title, value: centsToMasked(item.priceCents) })
+    setForm({
+      title: item.name,
+      value: centsToMasked(Math.round(item.amount * 100)),
+    })
     setErrors({})
     setIsOpen(true)
   }
@@ -104,27 +89,40 @@ export function PageAdminServices() {
     if (!validate(form)) return
     const price = maskedToCents(form.value)!
     if (mode === "create") {
-      setServices((prev) => [
-        {
-          id: crypto.randomUUID(),
-          title: form.title.trim(),
-          priceCents: price,
-        },
-        ...prev,
-      ])
+      // create catalog service (isBasic=true) via API
+      api
+        .post<{ message: string; service: Service }>("/services", {
+          name: form.title.trim(),
+          amount: price / 100,
+        })
+        .then(({ data }) => {
+          setServices((prev) => [data.service, ...prev])
+          closeModal()
+        })
     } else if (mode === "edit" && editingId) {
-      setServices((prev) =>
-        prev.map((s) =>
-          s.id === editingId
-            ? { ...s, title: form.title.trim(), priceCents: price }
-            : s
+      api
+        .patch<{ message: string; service: Service }>(
+          `/services/${editingId}`,
+          {
+            name: form.title.trim(),
+            amount: price / 100,
+          }
         )
-      )
+        .then(({ data }) => {
+          setServices((prev) =>
+            prev.map((s) => (s.id === editingId ? data.service : s))
+          )
+          closeModal()
+        })
     }
-    closeModal()
   }
 
   React.useEffect(() => {
+    // load catalog services
+    api
+      .get<{ services: Service[] }>("/services")
+      .then(({ data }) => setServices(data.services))
+      .catch((err) => console.log(err))
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") closeModal()
     }
@@ -170,19 +168,19 @@ export function PageAdminServices() {
           >
             <div className="flex items-center gap-2 px-3 flex-1">
               <Text variant="text-sm" className="text-gray-200 truncate">
-                {s.title}
+                {s.name}
               </Text>
             </div>
             <div className="flex items-center gap-2 px-3 w-[328px]">
               <Text variant="text-sm" className="text-gray-200">
-                {`R$ ${formatCurrency(s.priceCents / 100)}`}
+                {`R$ ${formatCurrency(s.amount)}`}
               </Text>
             </div>
             <div className="w-[52px] flex items-center justify-center px-3">
               <button
                 type="button"
                 onClick={() => openEdit(s)}
-                aria-label={`Editar ${s.title}`}
+                aria-label={`Editar ${s.name}`}
                 className="w-7 h-7 flex items-center justify-center bg-gray-500 hover:bg-gray-400 rounded-[5px]"
               >
                 <IconPen className="w-3.5 h-3.5 fill-gray-200" />
