@@ -2,6 +2,7 @@ import Avatar from "@core-components/avatar"
 import Text from "@core-components/text"
 import Tag from "@core-components/tag"
 import { useNavigate } from "react-router"
+import { useServicesCatalog } from "@/hooks/useServicesCatalog"
 
 import { Button } from "@/core-components/button"
 import { statusVariant } from "@/utils/status-variants"
@@ -26,6 +27,7 @@ function statusLabel(status?: string) {
 
 export function TicketLine({ data, onView, ...rest }: Props) {
   const navigate = useNavigate()
+  const { byId } = useServicesCatalog()
   const mdGridClass =
     "md:[grid-template-columns:minmax(6rem,12%)_minmax(4rem,8%)_1fr_minmax(8rem,16%)_minmax(6rem,10%)_minmax(8rem,12%)_minmax(8rem,12%)_minmax(3rem,4%)]"
   const viewHandle = (id: string) => {
@@ -58,7 +60,7 @@ export function TicketLine({ data, onView, ...rest }: Props) {
 
       <div className="hidden md:flex items-center min-w-0">
         <Text variant="text-sm" className="truncate">
-          {data.category}
+          {byId.get(data.serviceId || "")?.name || "-"}
         </Text>
       </div>
 

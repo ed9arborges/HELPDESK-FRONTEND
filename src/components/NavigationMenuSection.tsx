@@ -85,7 +85,7 @@ export const NavigationMenuSection = (): ReactElement => {
                 {
                   id: "admin-services",
                   icon: IconClipBoard,
-                  label: "Extra Services",
+                  label: "Category Services",
                   isActive: false,
                   bgColor: "bg-gray-100",
                   textColor: "text-gray-400",

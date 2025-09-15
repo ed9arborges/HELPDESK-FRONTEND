@@ -241,7 +241,7 @@ export function PageAdminServices() {
                   </Text>
                   <div className="flex items-center gap-2 border-b border-gray-200 focus-within:border-pink-base h-10">
                     <Text variant="text-md" className="text-gray-100">
-                      R$
+                      €
                     </Text>
                     <input
                       inputMode="decimal"

@@ -21,6 +21,7 @@ import PlusIcon from "@assets/icons/plus.svg?react"
 import TrashIcon from "@assets/icons/trash.svg?react"
 import WrenchIcon from "@assets/icons/wrench.svg?react"
 import XIcon from "@assets/icons/x.svg?react"
+import { useServicesCatalog } from "@/hooks/useServicesCatalog"
 // import { useAuth } from "@hooks/useAuth"
 
 const statusMap: Record<string, string> = {
@@ -29,16 +30,7 @@ const statusMap: Record<string, string> = {
   closed: "Closed",
 }
 
-const categoryItems = [
-  { value: "hardware", label: "Hardware" },
-  { value: "data", label: "Data Recovery" },
-  { value: "software", label: "Software" },
-  { value: "web", label: "Web" },
-  { value: "network", label: "Network" },
-  { value: "virus", label: "VVirus" },
-  { value: "peripherals", label: "Peripherals" },
-  { value: "systems", label: "Systems" },
-]
+// Catalog services are managed separately; map ticket.serviceId -> catalog name
 
 export function PageTechTicket() {
   const { id } = useParams<{ id: string }>()
@@ -53,6 +45,7 @@ export function PageTechTicket() {
   const [isPartsModalOpen, setIsPartsModalOpen] = useState(false)
   const [newPartName, setNewPartName] = useState("")
   const [newPartAmount, setNewPartAmount] = useState("")
+  const { byId: catalogById } = useServicesCatalog()
 
   useEffect(() => {
     async function load() {
@@ -89,10 +82,11 @@ export function PageTechTicket() {
     return formatCurrency(num)
   }
 
-  const categoryLabel = useMemo(() => {
-    const value = (ticket as any)?.category as string | undefined
-    return categoryItems.find((c) => c.value === value)?.label ?? value ?? "-"
-  }, [ticket])
+  const baseServiceName = useMemo(() => {
+    const id = (ticket as any)?.serviceId as string | undefined
+    if (!id) return "-"
+    return catalogById.get(id)?.name ?? "-"
+  }, [ticket, catalogById])
 
   const canModifyParts = useMemo(() => {
     const status = (ticket as any)?.status as string | undefined
@@ -316,10 +310,10 @@ export function PageTechTicket() {
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
               <li>
                 <Text variant="text-xs" className="text-gray-400">
-                  Category
+                  Service
                 </Text>
                 <Text variant="text-sm" className="text-gray-200">
-                  {categoryLabel}
+                  {baseServiceName}
                 </Text>
               </li>
               <li>

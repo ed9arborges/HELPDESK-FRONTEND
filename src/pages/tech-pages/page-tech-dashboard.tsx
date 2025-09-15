@@ -5,11 +5,12 @@ import { AxiosError } from "axios"
 import Text from "@core-components/text"
 import MainContent from "@core-components/main-content"
 
-import { api } from "@/services/api"
+import { api } from "@services/api"
+import { startTicket, closeTicket } from "@services/services"
 
-import { TicketCard } from "@/components/ticket-card"
-import { formatCurrency } from "@/utils/format-currency"
-import Tag from "@/core-components/tag"
+import { TicketCard } from "@components/ticket-card"
+import { formatCurrency } from "@utils/format-currency"
+import Tag from "@core-components/tag"
 
 const PER_PAGE = 30
 
@@ -31,7 +32,7 @@ export function PageTechDashboard() {
           id: r.id,
           userId: r.userId,
           title: r.title,
-          serviceId: r.serviceId,
+          service: r.service,
           estimate: formatCurrency(r.estimate),
           status: r.status,
           createdAt: r.createdAt,
@@ -63,27 +64,33 @@ export function PageTechDashboard() {
   }, [tickets])
 
   const handleEdit = (id: string) => navigate(`/tickets/${id}`)
-  const handleStart = async (id: string) => {
-    // Tech can self-assign to start working on an open ticket
+  const handlePrimary = async (ticket: TicketItemProps) => {
     try {
-      setAssigningId(id)
-      await api.post(`/tickets/${id}/assign-self`)
-      // Refresh list and go to detail
-      await loadTickets()
-      navigate(`/tickets/${id}`)
+      setAssigningId(ticket.id)
+      if (ticket.status === "open") {
+        await startTicket(ticket.id)
+        // After start, navigate to detail maybe for action
+        await loadTickets()
+        navigate(`/tickets/${ticket.id}`)
+      } else if (ticket.status === "in_progress") {
+        await closeTicket(ticket.id)
+        await loadTickets()
+      } else if (ticket.status === "closed") {
+        navigate(`/tickets/${ticket.id}`)
+      }
     } catch (error) {
       console.log(error)
       if (error instanceof AxiosError) {
         return alert(error.response?.data.message)
       }
-      alert("Fail to start the service")
+      alert("Action failed")
     } finally {
       setAssigningId(null)
     }
   }
 
   return (
-    <MainContent >
+    <MainContent>
       <MainContent.Header>Available Tickets</MainContent.Header>
 
       {isLoading && (
@@ -100,15 +107,19 @@ export function PageTechDashboard() {
               In Progress
             </Tag>
             <div className="flex flex-wrap gap-4">
-              {groups.in_progress.map((t) => (
-                <TicketCard
-                  key={t.id}
-                  ticket={t}
-                  primaryLabel="Close"
-                  onPrimary={handleEdit}
-                  onEdit={handleEdit}
-                />
-              ))}
+              {groups.in_progress.map((t) => {
+                return (
+                  <TicketCard
+                    key={t.id}
+                    ticket={t}
+                    primaryLabel="Close"
+                    onPrimary={() => handlePrimary(t)}
+                    onEdit={handleEdit}
+                    disabledPrimary={assigningId === t.id}
+                    disabledEdit={assigningId === t.id}
+                  />
+                )
+              })}
             </div>
           </div>
 
@@ -123,7 +134,7 @@ export function PageTechDashboard() {
                   key={t.id}
                   ticket={t}
                   primaryLabel="Process"
-                  onPrimary={handleStart}
+                  onPrimary={() => handlePrimary(t)}
                   disabledPrimary={assigningId === t.id}
                   disabledEdit={assigningId === t.id}
                   onEdit={handleEdit}
@@ -143,7 +154,7 @@ export function PageTechDashboard() {
                   key={t.id}
                   ticket={t}
                   primaryLabel="Ver"
-                  onPrimary={handleEdit}
+                  onPrimary={() => handlePrimary(t)}
                   onEdit={handleEdit}
                 />
               ))}
