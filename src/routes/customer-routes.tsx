@@ -2,8 +2,8 @@ import { Routes, Route } from "react-router"
 import { CustomerLayout } from "@layouts/customer-layouts/customer-layout"
 
 import { PageCustomerDashboard } from "@pages/customer-pages/page-customer-dashboard"
-import { PageCustomerRequest } from "@/pages/customer-pages/page-customer-ticket"
-import { PageRequestCreate } from "@/pages/customer-pages/page-ticket-create"
+import { PageCustomerRequest } from "@pages/customer-pages/page-customer-ticket"
+import { PageTicketCreate } from "@pages/customer-pages/page-ticket-create"
 
 export default function CustomerRoutes() {
   return (
@@ -11,7 +11,7 @@ export default function CustomerRoutes() {
       <Route path="/" element={<CustomerLayout />}>
         <Route index element={<PageCustomerDashboard />} />
   <Route path="/tickets/:id" element={<PageCustomerRequest />} />
-  <Route path="/tickets/create" element={<PageRequestCreate />} />
+  <Route path="/tickets/create" element={<PageTicketCreate />} />
       </Route>
     </Routes>
   )

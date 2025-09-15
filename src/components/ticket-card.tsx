@@ -1,14 +1,14 @@
-import Text from "@/core-components/text"
-import { Button } from "@/core-components/button"
-import Avatar from "@/core-components/avatar"
-import { formatDate } from "@/utils/format-date"
+import Text from "@core-components/text"
+import { Button } from "@core-components/button"
+import Avatar from "@core-components/avatar"
+import { formatDate } from "@utils/format-date"
 import IconPen from "@assets/icons/pen-line.svg?react"
 import IconClock from "@assets/icons/clock-2.svg?react"
 import IconCheck from "@assets/icons/check.svg?react"
 import IconEye from "@assets/icons/eye.svg?react"
 import Tag from "@core-components/tag"
 import { getInitials } from "@utils/get-initials"
-import { formatId } from "@/utils/format-id"
+import { formatId } from "@utils/format-id"
 import SectionContainer from "./section-container"
 
 type Props = {
@@ -28,6 +28,17 @@ export function TicketCard({
   disabledPrimary,
   disabledEdit,
 }: Props) {
+  // Determine the selected service label (category removed in favor of service)
+  const serviceLabel = (() => {
+    const svc = (ticket as any)?.service as Array<{ name?: string }> | undefined
+    if (Array.isArray(svc) && svc.length > 0) return svc[0]?.name ?? "-"
+    // Optional alternative fields if mapping provides a pre-resolved name
+    return (
+      ((ticket as any)?.serviceName as string | undefined) ||
+      ((ticket as any)?.serviceLabel as string | undefined) ||
+      "-"
+    )
+  })()
   const PrimaryIcon =
     primaryLabel === "Iniciar"
       ? IconClock
@@ -50,7 +61,7 @@ export function TicketCard({
           {ticket.title}
         </Text>
         <Text variant="text-xs" className="text-gray-200">
-          {ticket.category}
+          {serviceLabel}
         </Text>
       </div>
 

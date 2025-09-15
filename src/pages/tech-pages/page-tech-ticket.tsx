@@ -62,7 +62,7 @@ export function PageTechTicket() {
         const { data } = await api.get<TicketAPIResponse>(`/tickets/${id}`)
         setTicket(data)
         setParts(
-          (data.parts || []).map((p) => ({
+          (data.service || []).map((p) => ({
             id: p.id,
             name: p.name,
             amount: p.amount,
@@ -131,7 +131,7 @@ export function PageTechTicket() {
       }>(`/tickets/${id}/start`)
       setTicket(data.ticket)
       setParts(
-        (data.ticket.parts || []).map((p) => ({
+        (data.ticket.service || []).map((p) => ({
           id: p.id,
           name: p.name,
           amount: p.amount,

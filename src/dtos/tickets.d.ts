@@ -3,14 +3,13 @@ type TicketAPIResponse = {
   userId: string
   title: string
   description?: string
-  category: CategoriesAPIEnum
-  estimate: number
   status: RequestStatusEnum
   createdAt: string
   updatedAt: string
   user: { id?: string; name?: string }
   tech?: { id?: string; name?: string } | null
-  parts?: Array<{
+  estimate: number
+  service?: Array<{
     id: string
     name: string
     amount: number
@@ -33,8 +32,8 @@ type TicketItemProps = {
   id: string
   userId: string
   title: string
-  category: string
-  estimate: string
+  serviceId?: string
+  estimate: number | string
   status: TicketStatusEnum
   createdAt: string
   updatedAt: string
@@ -51,7 +50,6 @@ enum TicketStatusEnum {
 type TechTicketUpdate = {
   title?: string
   description?: string
-  category?: keyof typeof CategoriesAPIEnum
   status?: keyof typeof TicketStatusEnum
   estimate?: number
   techId?: string | null

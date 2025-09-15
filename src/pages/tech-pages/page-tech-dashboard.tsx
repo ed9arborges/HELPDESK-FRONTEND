@@ -31,7 +31,7 @@ export function PageTechDashboard() {
           id: r.id,
           userId: r.userId,
           title: r.title,
-          category: r.category,
+          serviceId: r.serviceId,
           estimate: formatCurrency(r.estimate),
           status: r.status,
           createdAt: r.createdAt,
@@ -83,7 +83,7 @@ export function PageTechDashboard() {
   }
 
   return (
-    <MainContent className="w-full md:px-12">
+    <MainContent >
       <MainContent.Header>Available Tickets</MainContent.Header>
 
       {isLoading && (
