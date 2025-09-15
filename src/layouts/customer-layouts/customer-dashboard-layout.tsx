@@ -35,8 +35,8 @@ export function CustomerDashboardLayout() {
           status: r.status,
           createdAt: r.createdAt,
           updatedAt: r.updatedAt,
-          user: r.user,
-          tech: r.tech,
+          user: { name: r.user?.name },
+          tech: r.tech ? { name: r.tech.name } : undefined,
         }))
       )
     } catch (error) {
@@ -76,11 +76,7 @@ export function CustomerDashboardLayout() {
   }
 
   return (
-    <>
-      <div className="bg-blue-600 p-4">
-        <Text>My Tickets</Text>
-      </div>
-
+    <>   
       <main className="relative rounded-lg overflow-hidden border border-gray-500 w-full md:max-w-6xl mx-auto bg-white">
         {/* Header (mobile: 12-col layout showing only Atualizado em, Título, Status, View; md+: explicit template) */}
         <div

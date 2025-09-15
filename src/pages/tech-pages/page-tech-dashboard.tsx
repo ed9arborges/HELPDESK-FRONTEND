@@ -3,7 +3,7 @@ import { useNavigate } from "react-router"
 import { AxiosError } from "axios"
 
 import Text from "@core-components/text"
-import { MainContentHeader } from "@/components/main-content-header"
+import MainContent from "@core-components/main-content"
 
 import { api } from "@/services/api"
 
@@ -83,10 +83,8 @@ export function PageTechDashboard() {
   }
 
   return (
-    <section className="w-full">
-      <div className="flex flex-col items-start gap-6 pt-13 md:px-12 pb-12">
-        <MainContentHeader>Available Tickets</MainContentHeader>
-      </div>
+    <MainContent className="w-full md:px-12">
+      <MainContent.Header>Available Tickets</MainContent.Header>
 
       {isLoading && (
         <div className="p-6">
@@ -95,7 +93,7 @@ export function PageTechDashboard() {
       )}
 
       {!isLoading && (
-        <div className="md:px-12 pb-12 flex flex-col gap-6">
+        <div className="pb-12 flex flex-col gap-6">
           {/* In progress */}
           <div className="flex flex-col gap-4">
             <Tag variant="info" className="self-start">
@@ -153,7 +151,7 @@ export function PageTechDashboard() {
           </div>
         </div>
       )}
-    </section>
+    </MainContent>
   )
 }
 

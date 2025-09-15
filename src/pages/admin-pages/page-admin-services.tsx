@@ -1,12 +1,13 @@
 import React from "react"
-import Text from "@/core-components/text"
-import { Button } from "@/core-components/button"
-import InputText from "@/core-components/input"
-import IconPlus from "@/assets/icons/plus.svg?react"
-import IconPen from "@/assets/icons/pen-line.svg?react"
-import IconX from "@/assets/icons/x.svg?react"
+import Text from "@core-components/text"
+import { Button } from "@core-components/button"
+import MainContent from "@core-components/main-content"
+import InputText from "@core-components/input"
+import IconPlus from "@assets/icons/plus.svg?react"
+import IconPen from "@assets/icons/pen-line.svg?react"
+import IconX from "@assets/icons/x.svg?react"
 import { formatCurrency } from "@/utils/format-currency"
-import { api } from "@/services/api"
+import { api } from "@services/api"
 
 type Service = {
   id: string
@@ -131,15 +132,16 @@ export function PageAdminServices() {
   }, [isOpen])
 
   return (
-    <section className="flex flex-col gap-6 pt-[52px] pb-12 px-6 w-full">
-      <header className="flex items-center gap-3 w-full">
-        <Text as="h2" variant="text-xl-bold" className="text-blue-dark">
-          Serviços
-        </Text>
-        <Button onClick={openCreate} icon={IconPlus}>
-          Novo
-        </Button>
-      </header>
+    <MainContent>
+      <MainContent.Header
+        actions={
+          <Button onClick={openCreate} icon={IconPlus} aria-label="New Service">
+            New
+          </Button>
+        }
+      >
+        Services
+      </MainContent.Header>
 
       {/* table */}
       <section
@@ -283,6 +285,6 @@ export function PageAdminServices() {
           </div>
         </div>
       )}
-    </section>
+  </MainContent>
   )
 }

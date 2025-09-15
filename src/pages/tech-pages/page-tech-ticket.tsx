@@ -2,27 +2,26 @@ import { useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router"
 import { AxiosError } from "axios"
 
-import { api } from "@/services/api"
-import { Button } from "@/core-components/button"
-import Text from "@/core-components/text"
-import SectionContainer from "@/components/section-container"
-import Avatar from "@/core-components/avatar"
-import Tag from "@/core-components/tag"
-import { statusVariant } from "@/utils/status-variants"
-import Container from "@/core-components/container"
-import { getInitials } from "@/utils/get-initials"
-import { formatDate } from "@/utils/format-date"
-import { formatCurrency } from "@/utils/format-currency"
-import { formatId } from "@/utils/format-id"
+import { api } from "@services/api"
+import { Button } from "@core-components/button"
+import Text from "@core-components/text"
+import SectionContainer from "@components/section-container"
+import Avatar from "@core-components/avatar"
+import Tag from "@core-components/tag"
+import { statusVariant } from "@utils/status-variants"
+import { getInitials } from "@utils/get-initials"
+import { formatDate } from "@utils/format-date"
+import { formatCurrency } from "@utils/format-currency"
+import { formatId } from "@utils/format-id"
 
-import { MainContentHeader } from "@/components/main-content-header"
+import MainContent from "@core-components/main-content"
 import CircleCheckBigIcon from "@assets/icons/circle-check-big.svg?react"
 import Clock2Icon from "@assets/icons/clock-2.svg?react"
 import PlusIcon from "@assets/icons/plus.svg?react"
 import TrashIcon from "@assets/icons/trash.svg?react"
 import WrenchIcon from "@assets/icons/wrench.svg?react"
 import XIcon from "@assets/icons/x.svg?react"
-// import { useAuth } from "@/hooks/useAuth"
+// import { useAuth } from "@hooks/useAuth"
 
 const statusMap: Record<string, string> = {
   open: "Open",
@@ -234,236 +233,232 @@ export function PageTechTicket() {
   }
 
   return (
-    <section className="flex flex-col items-center gap-6 pt-[52px] pb-12 px-6 relative bg-gray-600 w-full">
-      <Container className="w-full max-w-[800px]">
-        {/* Header section */}
-        <MainContentHeader
-          backNav
-          actions={(() => {
-            const status = (ticket as any).status as string
-            const canStart = status === "open"
-            const canClose = status === "in_progress"
-            const canReopen = status === "closed"
+    <MainContent className="w-full md:max-w-[800px] px-4 md:px-12">
+      {/* Header section */}
+      <MainContent.Header
+        backNav
+        actions={(() => {
+          const status = (ticket as any).status as string
+          const canStart = status === "open"
+          const canClose = status === "in_progress"
+          const canReopen = status === "closed"
 
-            return (
-              <nav className="flex items-center gap-2">
-                {canClose && (
-                  <Button
-                    onClick={handleClose}
-                    disabled={busy === "close"}
-                    variant="secondary"
-                    icon={CircleCheckBigIcon}
-                    aria-label="Encerrar chamado"
-                  >
-                    {busy === "close" ? "Closing..." : "Close"}
-                  </Button>
-                )}
-
-                {canStart && (
-                  <Button
-                    onClick={handleStart}
-                    disabled={busy === "start"}
-                    variant="primary"
-                    icon={Clock2Icon}
-                    aria-label="Begin ticket processing"
-                  >
-                    {busy === "start" ? "Processing..." : "Process"}
-                  </Button>
-                )}
-
-                {canReopen && (
-                  <Button
-                    onClick={handleReopen}
-                    disabled={busy === "reopen"}
-                    variant="secondary"
-                    icon={WrenchIcon}
-                    aria-label="Reabrir chamado"
-                  >
-                    {busy === "reopen" ? "Reopening..." : "Reopen"}
-                  </Button>
-                )}
-              </nav>
-            )
-          })()}
-        >
-          Ticket Details
-        </MainContentHeader>
-
-        {/* Details section */}
-        <div className="w-full flex flex-col md:flex-row items-stretch gap-6">
-          <div className="w-full md:max-w-[480px] md:flex-none flex flex-col gap-3">
-            <SectionContainer>
-              <header className="flex items-start justify-between">
-                <Text variant="text-xs" className="text-gray-400">
-                  {formatId((ticket as any).id, 5)}
-                </Text>
-                <Tag variant={statusVariant((ticket as any).status)}>
-                  {statusMap[(ticket as any).status] ?? (ticket as any).status}
-                </Tag>
-              </header>
-
-              <Text as="h2" variant="text-md-bold" className="text-gray-100">
-                {(ticket as any).title}
-              </Text>
-
-              <section>
-                <Text variant="text-xs" className="text-gray-400">
-                  Description
-                </Text>
-                <Text as="p" variant="text-sm" className="text-gray-200">
-                  {(ticket as any).description || "-"}
-                </Text>
-              </section>
-
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                <li>
-                  <Text variant="text-xs" className="text-gray-400">
-                    Category
-                  </Text>
-                  <Text variant="text-sm" className="text-gray-200">
-                    {categoryLabel}
-                  </Text>
-                </li>
-                <li>
-                  <Text variant="text-xs" className="text-gray-400">
-                    Created at
-                  </Text>
-                  <Text variant="text-xs" className="text-gray-200">
-                    {formatDate((ticket as any).createdAt)}
-                  </Text>
-                </li>
-                <li>
-                  <Text variant="text-xs" className="text-gray-400">
-                    Updated at
-                  </Text>
-                  <Text variant="text-xs" className="text-gray-200">
-                    {formatDate((ticket as any).updatedAt)}
-                  </Text>
-                </li>
-              </ul>
-
-              <section className="mt-2">
-                <Text variant="text-xs" className="text-gray-400">
-                  Customer
-                </Text>
-                <div className="flex items-center gap-2">
-                  <Avatar size="small">{getInitials(client.name)}</Avatar>
-                  <Text
-                    as="span"
-                    variant="text-sm"
-                    className="text-gray-200 truncate"
-                  >
-                    {client.name || "-"}
-                  </Text>
-                </div>
-              </section>
-            </SectionContainer>
-
-            <SectionContainer>
-              <header className="flex items-center justify-between">
-                <Text variant="text-xs" className="text-gray-400">
-                  Additional services
-                </Text>
+          return (
+            <nav className="flex items-center gap-2">
+              {canClose && (
                 <Button
-                  variant="primary"
-                  size="sm"
-                  icon={PlusIcon}
-                  aria-label="Add service"
-                  title={
-                    canModifyParts
-                      ? "Add an additional service"
-                      : "Only in-progress tickets assigned to you (or admin) can add services"
-                  }
-                  disabled={!canModifyParts}
-                  onClick={() => canModifyParts && setIsPartsModalOpen(true)}
-                />
-              </header>
-
-              {parts.length === 0 ? (
-                <Text variant="text-xs" className="text-gray-400">
-                  No additional services
-                </Text>
-              ) : (
-                <ul className="flex flex-col gap-2">
-                  {parts.map((service) => (
-                    <li key={service.id} className="flex items-center gap-6">
-                      <Text
-                        variant="text-xs"
-                        className="text-gray-200 flex-1 truncate"
-                      >
-                        {service.name}
-                      </Text>
-                      <Text
-                        variant="text-xs"
-                        className="text-gray-200 w-20 text-right"
-                      >
-                        {toDisplayCurrency(service.amount)}
-                      </Text>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        icon={TrashIcon}
-                        aria-label="Remove"
-                        disabled={
-                          !canModifyParts || busy === `rm-${service.id}`
-                        }
-                        onClick={() => canModifyParts && removePart(service.id)}
-                      />
-                    </li>
-                  ))}
-                </ul>
+                  onClick={handleClose}
+                  disabled={busy === "close"}
+                  variant="secondary"
+                  icon={CircleCheckBigIcon}
+                  aria-label="Encerrar chamado"
+                >
+                  {busy === "close" ? "Closing..." : "Close"}
+                </Button>
               )}
-            </SectionContainer>
-          </div>
 
-          <SectionContainer className="flex-1">
-            <section className="flex items-center gap-2">
-              <Avatar>{getInitials(tech.name)}</Avatar>
-              <div>
-                <Text as="h3" variant="text-sm" className="text-gray-200">
-                  {tech.name || (techId ? "-" : "Não atribuído")}
-                </Text>
-                <Text variant="text-xs" className="text-gray-300">
-                  {tech.email || ""}
-                </Text>
-              </div>
+              {canStart && (
+                <Button
+                  onClick={handleStart}
+                  disabled={busy === "start"}
+                  variant="primary"
+                  icon={Clock2Icon}
+                  aria-label="Begin ticket processing"
+                >
+                  {busy === "start" ? "Processing..." : "Process"}
+                </Button>
+              )}
+
+              {canReopen && (
+                <Button
+                  onClick={handleReopen}
+                  disabled={busy === "reopen"}
+                  variant="secondary"
+                  icon={WrenchIcon}
+                  aria-label="Reabrir chamado"
+                >
+                  {busy === "reopen" ? "Reopening..." : "Reopen"}
+                </Button>
+              )}
+            </nav>
+          )
+        })()}
+      >
+        Ticket Details
+      </MainContent.Header>
+
+      {/* Details section */}
+      <div className="w-full flex flex-col md:flex-row items-stretch gap-6">
+        <div className="w-full md:max-w-[480px] md:flex-none flex flex-col gap-3">
+          <SectionContainer>
+            <header className="flex items-start justify-between">
+              <Text variant="text-xs" className="text-gray-400">
+                {formatId((ticket as any).id, 5)}
+              </Text>
+              <Tag variant={statusVariant((ticket as any).status)}>
+                {statusMap[(ticket as any).status] ?? (ticket as any).status}
+              </Tag>
+            </header>
+
+            <Text as="h2" variant="text-md-bold" className="text-gray-100">
+              {(ticket as any).title}
+            </Text>
+
+            <section>
+              <Text variant="text-xs" className="text-gray-400">
+                Description
+              </Text>
+              <Text as="p" variant="text-sm" className="text-gray-200">
+                {(ticket as any).description || "-"}
+              </Text>
             </section>
 
-            <section className="mt-4">
-              <Text variant="text-xs" className="text-gray-400">
-                Values
-              </Text>
-              <ul className="mt-2 space-y-2">
-                <li className="flex items-center justify-between">
-                  <Text variant="text-xs" className="text-gray-200">
-                    Base price
-                  </Text>
-                  <Text variant="text-xs" className="text-gray-200">
-                    {pricing.basePrice}
-                  </Text>
-                </li>
-                <li className="flex items-center justify-between">
-                  <Text variant="text-xs" className="text-gray-200">
-                    Additional
-                  </Text>
-                  <Text variant="text-xs" className="text-gray-200">
-                    {pricing.additionals}
-                  </Text>
-                </li>
-              </ul>
-              <hr className="my-3 border-gray-500" />
-              <div className="flex items-center justify-between">
-                <Text variant="text-sm" className="text-gray-200">
-                  Total
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+              <li>
+                <Text variant="text-xs" className="text-gray-400">
+                  Category
                 </Text>
                 <Text variant="text-sm" className="text-gray-200">
-                  {pricing.total}
+                  {categoryLabel}
+                </Text>
+              </li>
+              <li>
+                <Text variant="text-xs" className="text-gray-400">
+                  Created at
+                </Text>
+                <Text variant="text-xs" className="text-gray-200">
+                  {formatDate((ticket as any).createdAt)}
+                </Text>
+              </li>
+              <li>
+                <Text variant="text-xs" className="text-gray-400">
+                  Updated at
+                </Text>
+                <Text variant="text-xs" className="text-gray-200">
+                  {formatDate((ticket as any).updatedAt)}
+                </Text>
+              </li>
+            </ul>
+
+            <section className="mt-2">
+              <Text variant="text-xs" className="text-gray-400">
+                Customer
+              </Text>
+              <div className="flex items-center gap-2">
+                <Avatar size="small">{getInitials(client.name)}</Avatar>
+                <Text
+                  as="span"
+                  variant="text-sm"
+                  className="text-gray-200 truncate"
+                >
+                  {client.name || "-"}
                 </Text>
               </div>
             </section>
           </SectionContainer>
+
+          <SectionContainer>
+            <header className="flex items-center justify-between">
+              <Text variant="text-xs" className="text-gray-400">
+                Additional services
+              </Text>
+              <Button
+                variant="primary"
+                size="sm"
+                icon={PlusIcon}
+                aria-label="Add service"
+                title={
+                  canModifyParts
+                    ? "Add an additional service"
+                    : "Only in-progress tickets assigned to you (or admin) can add services"
+                }
+                disabled={!canModifyParts}
+                onClick={() => canModifyParts && setIsPartsModalOpen(true)}
+              />
+            </header>
+
+            {parts.length === 0 ? (
+              <Text variant="text-xs" className="text-gray-400">
+                No additional services
+              </Text>
+            ) : (
+              <ul className="flex flex-col gap-2">
+                {parts.map((service) => (
+                  <li key={service.id} className="flex items-center gap-6">
+                    <Text
+                      variant="text-xs"
+                      className="text-gray-200 flex-1 truncate"
+                    >
+                      {service.name}
+                    </Text>
+                    <Text
+                      variant="text-xs"
+                      className="text-gray-200 w-20 text-right"
+                    >
+                      {toDisplayCurrency(service.amount)}
+                    </Text>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      icon={TrashIcon}
+                      aria-label="Remove"
+                      disabled={!canModifyParts || busy === `rm-${service.id}`}
+                      onClick={() => canModifyParts && removePart(service.id)}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </SectionContainer>
         </div>
-      </Container>
+
+        <SectionContainer className="flex-1">
+          <section className="flex items-center gap-2">
+            <Avatar>{getInitials(tech.name)}</Avatar>
+            <div>
+              <Text as="h3" variant="text-sm" className="text-gray-200">
+                {tech.name || (techId ? "-" : "Não atribuído")}
+              </Text>
+              <Text variant="text-xs" className="text-gray-300">
+                {tech.email || ""}
+              </Text>
+            </div>
+          </section>
+
+          <section className="mt-4">
+            <Text variant="text-xs" className="text-gray-400">
+              Values
+            </Text>
+            <ul className="mt-2 space-y-2">
+              <li className="flex items-center justify-between">
+                <Text variant="text-xs" className="text-gray-200">
+                  Base price
+                </Text>
+                <Text variant="text-xs" className="text-gray-200">
+                  {pricing.basePrice}
+                </Text>
+              </li>
+              <li className="flex items-center justify-between">
+                <Text variant="text-xs" className="text-gray-200">
+                  Additional
+                </Text>
+                <Text variant="text-xs" className="text-gray-200">
+                  {pricing.additionals}
+                </Text>
+              </li>
+            </ul>
+            <hr className="my-3 border-gray-500" />
+            <div className="flex items-center justify-between">
+              <Text variant="text-sm" className="text-gray-200">
+                Total
+              </Text>
+              <Text variant="text-sm" className="text-gray-200">
+                {pricing.total}
+              </Text>
+            </div>
+          </section>
+        </SectionContainer>
+      </div>
 
       {isPartsModalOpen && canModifyParts && (
         <div
@@ -537,6 +532,6 @@ export function PageTechTicket() {
           </div>
         </div>
       )}
-    </section>
+    </MainContent>
   )
 }

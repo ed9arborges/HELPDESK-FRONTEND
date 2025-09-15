@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import IconBack from "@assets/icons/arrow-left.svg?react"
 
 export const MainContentHeaderVariants = cva(
-  "flex justify-between gap-4 w-full bg-transparent",
+  "flex justify-between gap-4 w-full bg-transparent mb-6",
   {
     variants: {
       align: {
@@ -16,12 +16,10 @@ export const MainContentHeaderVariants = cva(
       },
     },
     defaultVariants: {
-      align: "end",
+      align: "start",
     },
   }
 )
-
-type HeaderSize = "sm" | "md" | "lg"
 
 interface MainContentHeaderProps
   extends VariantProps<typeof MainContentHeaderVariants> {
@@ -29,7 +27,6 @@ interface MainContentHeaderProps
   subtitle?: React.ReactNode
   backNav?: boolean
   onBack?: () => void
-  size?: HeaderSize
   actions?: React.ReactNode
   className?: string
 }
@@ -39,7 +36,6 @@ export const MainContentHeader = ({
   subtitle,
   backNav = false,
   onBack,
-  size = "md",
   actions,
   align,
   className,
@@ -48,9 +44,6 @@ export const MainContentHeader = ({
     if (onBack) return onBack()
     window.history.back()
   }
-
-  const titleVariant: Parameters<typeof Text>[0]["variant"] =
-    size === "sm" ? "text-md-bold" : "text-xl-bold"
 
   const headerClass = `${MainContentHeaderVariants({ align })}${
     className ? ` ${className}` : ""
@@ -75,7 +68,7 @@ export const MainContentHeader = ({
         <div className="flex flex-col gap-0.5 w-full">
           <Text
             as="h1"
-            variant={titleVariant}
+            variant="text-xl-bold"
             className="text-blue-dark truncate"
           >
             {children}
