@@ -19,6 +19,8 @@ type TicketAPIResponse = {
     createdAt?: string
     updatedAt?: string
   }>
+  // Total value (estimate + services)
+  totalValue?: number
 }
 
 type TicketsPaginationAPIResponse = {
@@ -43,6 +45,8 @@ type TicketItemProps = {
   updatedAt: string
   user?: { name?: string }
   tech?: { name?: string }
+  // Total value (estimate + services)
+  totalValue?: number | string
 }
 
 enum TicketStatusEnum {

@@ -234,7 +234,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
               icon={IconUpload}
             >
               <span className="text-xs font-text-xxs text-gray-200">
-                Nova imagem
+                New Image
               </span>
             </Button>
 
@@ -257,7 +257,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
               htmlFor="name-input"
               className="block text-xs text-gray-300 font-text-xxs"
             >
-              NaME
+              Name
             </label>
 
             <div className="flex items-center h-10 gap-2 border-b border-gray-500">
@@ -346,7 +346,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
                 htmlFor="password-confirm-input"
                 className="block text-xs text-gray-300 font-text-xxs"
               >
-                CONFIRMAR SENHA
+                Confirm Password
               </label>
 
               <div className="flex items-center h-10 gap-2 border-b border-gray-500">
@@ -354,7 +354,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
                   id="password-confirm-input"
                   type="password"
                   aria-label="Password Confirmation"
-                  placeholder="Confirmar nova senha"
+                  placeholder="Confirm new password"
                   value={formData.passwordConfirm}
                   onChange={(e) =>
                     handleInputChange("passwordConfirm", e.target.value)

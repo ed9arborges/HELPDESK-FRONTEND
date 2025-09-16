@@ -60,10 +60,10 @@ export function TicketCard({
       {/* Date and total */}
       <div className="flex items-center justify-between">
         <Text variant="text-xs" className="text-gray-200">
-          {formatDate(ticket.createdAt)}
+          {formatDate(ticket.updatedAt || ticket.createdAt)}
         </Text>
         <Text variant="text-xs" className="text-gray-200">
-          {ticket.estimate}
+          {ticket.totalValue || ticket.estimate}
         </Text>
       </div>
 

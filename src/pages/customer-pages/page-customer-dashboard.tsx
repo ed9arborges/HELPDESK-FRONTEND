@@ -36,6 +36,8 @@ export function PageCustomerDashboard() {
           title: r.title,
           serviceId: r.serviceId,
           estimate: formatCurrency(r.estimate),
+          // Format the total value if available, otherwise use the estimate
+          totalValue: r.totalValue ? formatCurrency(r.totalValue) : undefined,
           status: r.status,
           createdAt: r.createdAt,
           updatedAt: r.updatedAt,

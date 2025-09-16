@@ -41,6 +41,8 @@ export function PageAdminTickets() {
           title: r.title,
           serviceId: (r as any).serviceId,
           estimate: r.estimate,
+          // Format the total value if available, otherwise use the estimate
+          totalValue: r.totalValue ? r.totalValue : undefined,
           status: r.status,
           createdAt: r.createdAt,
           updatedAt: r.updatedAt,
@@ -193,7 +195,9 @@ export function PageAdminTickets() {
                 {/* Total */}
                 <div className="hidden md:flex items-center min-w-0">
                   <Text variant="text-sm" className="truncate">
-                    {formatCurrency(Number(t.estimate) as number)}
+                    {t.totalValue
+                      ? formatCurrency(Number(t.totalValue))
+                      : formatCurrency(Number(t.estimate) as number)}
                   </Text>
                 </div>
 

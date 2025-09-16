@@ -66,7 +66,7 @@ export function TicketLine({ data, onView, ...rest }: Props) {
 
       <div className="hidden md:flex items-center min-w-0">
         <Text variant="text-sm" className="truncate">
-          {formatCurrency(data.estimate)}
+          {data.totalValue || formatCurrency(data.estimate)}
         </Text>
       </div>
 
