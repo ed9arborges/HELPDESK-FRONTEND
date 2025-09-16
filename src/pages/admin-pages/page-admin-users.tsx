@@ -6,6 +6,7 @@ import IconPen from "@/assets/icons/pen-line.svg?react"
 import IconTrash from "@/assets/icons/trash.svg?react"
 import { AdminUserModal } from "@/components/admin-user-modal"
 import { ConfirmModal } from "@/components/confirm-modal"
+import { getAvatarUrl } from "@/utils/get-avatar-url"
 import {
   listUsers,
   updateUserRole,
@@ -100,7 +101,7 @@ export function PageAdminUsers() {
                 className="flex h-16 items-center border-b border-gray-500 last:border-b-0"
               >
                 <div className="flex items-center gap-3 px-3 flex-1 min-w-0">
-                  <Avatar size="small">
+                  <Avatar size="small" imageUrl={getAvatarUrl(u.avatarImg)}>
                     {u.name?.charAt(0)?.toUpperCase()}
                   </Avatar>
                   <Text variant="text-sm" className="text-gray-200 truncate">

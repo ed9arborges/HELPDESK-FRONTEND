@@ -3,12 +3,14 @@ import { Button } from "@/core-components/button"
 import IconX from "@/assets/icons/x.svg?react"
 import Avatar from "@/core-components/avatar"
 import { Modal } from "@/core-components/modal"
+import { getAvatarUrl } from "@/utils/get-avatar-url"
 
 type UserLike = {
   id: string
   name: string
   email: string
   role: "customer" | "tech" | "admin"
+  avatarImg?: string
 }
 
 interface AdminUserModalProps {
@@ -47,7 +49,9 @@ export function AdminUserModal({
 
         <Modal.Body>
           <div className="flex items-center gap-3">
-            <Avatar size="medium">{user.name?.charAt(0)?.toUpperCase()}</Avatar>
+            <Avatar size="medium" imageUrl={getAvatarUrl(user.avatarImg)}>
+              {user.name?.charAt(0)?.toUpperCase()}
+            </Avatar>
             <div className="min-w-0">
               <Text variant="text-sm" className="text-gray-200 truncate">
                 {user.name}

@@ -3,6 +3,7 @@ import { Card } from "./card"
 import Avatar from "@/core-components/avatar"
 import { useAuth } from "@/hooks/useAuth"
 import { getInitials } from "@/utils/get-initials"
+import { getAvatarUrl } from "@/utils/get-avatar-url"
 
 export function UserMenu() {
   const { session } = useAuth()
@@ -15,6 +16,7 @@ export function UserMenu() {
   const name = session?.user.name ?? ""
   const email = session?.user.email ?? ""
   const initials = getInitials(name)
+  const avatarUrl = getAvatarUrl(session?.user.avatarImg)
 
   return (
     <>
@@ -35,6 +37,7 @@ export function UserMenu() {
         <Avatar
           className="mr-6 md:mr-0 hover:cursor-pointer"
           onClick={toggleMenu}
+          imageUrl={avatarUrl}
         >
           <span className="text-sm text-gray-600 font-normal">{initials}</span>
         </Avatar>
