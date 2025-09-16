@@ -1,13 +1,175 @@
+import { useEffect, useState } from "react"
 import Text from "@/core-components/text"
 import MainContent from "@/core-components/main-content"
+import Avatar from "@/core-components/avatar"
+import IconPen from "@/assets/icons/pen-line.svg?react"
+import IconTrash from "@/assets/icons/trash.svg?react"
+import { AdminUserModal } from "@/components/admin-user-modal"
+import { ConfirmModal } from "@/components/confirm-modal"
+import {
+  listUsers,
+  updateUserRole,
+  deleteUser,
+  type SimpleUser,
+} from "@/services/users"
 
 export function PageAdminUsers() {
+  const [users, setUsers] = useState<SimpleUser[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [selected, setSelected] = useState<SimpleUser | null>(null)
+  const [confirming, setConfirming] = useState<SimpleUser | null>(null)
+
+  async function fetchUsers() {
+    try {
+      setLoading(true)
+      const res = await listUsers({ role: "customer", perPage: 100 })
+      setUsers(res.users)
+    } catch (err: any) {
+      setError(err?.response?.data?.message || "Failed to load users")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  async function promote(id: string) {
+    await updateUserRole(id, "tech")
+    await fetchUsers()
+  }
+  async function removeUser(id: string) {
+    await deleteUser(id)
+    await fetchUsers()
+  }
+
+  function openEdit(u: SimpleUser) {
+    setSelected(u)
+  }
+  function closeModal() {
+    setSelected(null)
+  }
+
   return (
     <MainContent>
       <MainContent.Header>Manage Customers</MainContent.Header>
-      <Text variant="text-sm" className="text-gray-300">
-        Coming soon...
-      </Text>
+
+      {/* Alerts */}
+      {loading && (
+        <Text variant="text-sm" className="text-gray-300">
+          Loading...
+        </Text>
+      )}
+      {error && (
+        <Text variant="text-sm" className="text-feedback-danger">
+          {error}
+        </Text>
+      )}
+
+      {/* Table */}
+      {!loading && (
+        <section className="flex flex-col rounded-[10px] overflow-hidden border border-gray-500">
+          {/* Header row */}
+          <div className="flex h-12 items-center border-b border-gray-500">
+            <div className="flex items-center gap-2 px-3 flex-1">
+              <Text variant="text-sm" className="text-gray-400">
+                Customer
+              </Text>
+            </div>
+            <div className="flex items-center gap-2 px-3 w-[400px]">
+              <Text variant="text-sm" className="text-gray-400">
+                Email
+              </Text>
+            </div>
+            <div className="w-[88px]" aria-hidden />
+          </div>
+
+          {/* Body rows */}
+          {users.length === 0 ? (
+            <div className="flex items-center justify-center h-16">
+              <Text variant="text-sm" className="text-gray-300">
+                No customers found.
+              </Text>
+            </div>
+          ) : (
+            users.map((u) => (
+              <div
+                key={u.id}
+                className="flex h-16 items-center border-b border-gray-500 last:border-b-0"
+              >
+                <div className="flex items-center gap-3 px-3 flex-1 min-w-0">
+                  <Avatar size="small">
+                    {u.name?.charAt(0)?.toUpperCase()}
+                  </Avatar>
+                  <Text variant="text-sm" className="text-gray-200 truncate">
+                    {u.name}
+                  </Text>
+                </div>
+                <div className="flex items-center gap-2 px-3 w-[400px] min-w-0">
+                  <Text variant="text-sm" className="text-gray-300 truncate">
+                    {u.email}
+                  </Text>
+                </div>
+                <div className="w-[88px] flex items-center justify-center gap-2 px-3">
+                  <button
+                    type="button"
+                    onClick={() => openEdit(u)}
+                    aria-label={`Edit ${u.name}`}
+                    className="w-7 h-7 flex items-center justify-center bg-gray-500 hover:bg-gray-400 rounded-[5px]"
+                  >
+                    <IconPen className="w-3.5 h-3.5 fill-gray-200" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConfirming(u)}
+                    aria-label={`Remove ${u.name}`}
+                    className="w-7 h-7 flex items-center justify-center bg-gray-500 hover:bg-gray-400 rounded-[5px]"
+                  >
+                    <IconTrash className="w-3.5 h-3.5 fill-gray-200" />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </section>
+      )}
+
+      {selected && (
+        <AdminUserModal
+          user={selected}
+          onClose={closeModal}
+          onPromote={async (id) => {
+            await promote(id)
+            closeModal()
+          }}
+        />
+      )}
+
+      {confirming && (
+        <ConfirmModal
+          title="Delete customer"
+          description={
+            <div className="space-y-2">
+              <Text variant="text-sm" className="text-gray-200">
+                Are you sure you want to delete {confirming.name}?
+              </Text>
+              <Text variant="text-xs" className="text-feedback-danger">
+                Warning: All tickets created by this customer will be
+                permanently deleted.
+              </Text>
+            </div>
+          }
+          confirmLabel="Delete"
+          cancelLabel="Cancel"
+          onCancel={() => setConfirming(null)}
+          onConfirm={async () => {
+            await removeUser(confirming.id)
+            setConfirming(null)
+          }}
+        />
+      )}
     </MainContent>
   )
 }
