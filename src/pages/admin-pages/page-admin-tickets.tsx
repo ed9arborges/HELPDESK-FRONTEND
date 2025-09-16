@@ -16,6 +16,7 @@ import { formatCurrency } from "@/utils/format-currency"
 import { getInitials } from "@/utils/get-initials"
 import { formatId } from "@/utils/format-id"
 import { useServicesCatalog } from "@/hooks/useServicesCatalog"
+import { AlertModal } from "@/components/alert-modal"
 
 const PER_PAGE = 30
 
@@ -23,6 +24,7 @@ export function PageAdminTickets() {
   const navigate = useNavigate()
   const [tickets, setTickets] = useState<TicketItemProps[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [alertMsg, setAlertMsg] = useState<string | null>(null)
   const { getNameById } = useServicesCatalog()
 
   async function loadTickets() {
@@ -48,9 +50,11 @@ export function PageAdminTickets() {
       )
     } catch (error) {
       console.log(error)
-      if (error instanceof AxiosError)
-        return alert(error.response?.data.message)
-      alert("Failed to load tickets")
+      if (error instanceof AxiosError) {
+        setAlertMsg(error.response?.data.message || "Failed to load tickets")
+      } else {
+        setAlertMsg("Failed to load tickets")
+      }
     } finally {
       setIsLoading(false)
     }
@@ -72,6 +76,13 @@ export function PageAdminTickets() {
 
   return (
     <MainContent>
+      {alertMsg && (
+        <AlertModal
+          title="Error"
+          description={alertMsg}
+          onClose={() => setAlertMsg(null)}
+        />
+      )}
       <MainContent.Header>Tickets</MainContent.Header>
 
       <main className="relative rounded-lg overflow-hidden border border-gray-500 w-full md:max-w-6xl mx-auto bg-white">

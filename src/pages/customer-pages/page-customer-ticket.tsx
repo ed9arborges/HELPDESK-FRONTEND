@@ -1,4 +1,4 @@
-import { type ReactElement, useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router"
 import SectionContainer from "@components/section-container"
 import { statusVariant } from "@utils/status-variants"
@@ -13,6 +13,7 @@ import { formatCurrency } from "@utils/format-currency"
 import { getInitials } from "@utils/get-initials"
 import MainContent from "@core-components/main-content"
 import { useServicesCatalog } from "@/hooks/useServicesCatalog"
+import { AlertModal } from "@/components/alert-modal"
 
 type TicketData = TicketAPIResponse
 
@@ -20,6 +21,7 @@ export function PageCustomerRequest() {
   const { id } = useParams<{ id: string }>()
   const [ticketData, setTicketData] = useState<TicketData>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [alertMsg, setAlertMsg] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchTicket(ticketId?: string) {
@@ -36,9 +38,11 @@ export function PageCustomerRequest() {
       } catch (error) {
         console.log(error)
         if (error instanceof AxiosError) {
-          alert(error.response?.data.message)
+          setAlertMsg(
+            error.response?.data.message || "Failed to load ticket data"
+          )
         } else {
-          alert("Failed to load ticket data")
+          setAlertMsg("Failed to load ticket data")
         }
       } finally {
         setIsLoading(false)
@@ -91,6 +95,13 @@ export function PageCustomerRequest() {
 
   return (
     <MainContent className="w-full md:max-w-[800px] px-4 md:px-12">
+      {alertMsg && (
+        <AlertModal
+          title="Error"
+          description={alertMsg}
+          onClose={() => setAlertMsg(null)}
+        />
+      )}
       <MainContent.Header backNav>Ticket Details</MainContent.Header>
       <section className="flex flex-row gap-6 flex-wrap w-full">
         <SectionContainer variant="large">

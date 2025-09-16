@@ -7,6 +7,7 @@ import MainContent from "@core-components/main-content"
 
 import { api } from "@services/api"
 import { startTicket, closeTicket } from "@services/services"
+import { AlertModal } from "@/components/alert-modal"
 
 import { TicketCard } from "@components/ticket-card"
 import { formatCurrency } from "@utils/format-currency"
@@ -19,6 +20,7 @@ export function PageTechDashboard() {
   const [tickets, setTickets] = useState<TicketItemProps[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [assigningId, setAssigningId] = useState<string | null>(null)
+  const [alertMsg, setAlertMsg] = useState<string | null>(null)
 
   async function loadTickets() {
     setIsLoading(true)
@@ -43,9 +45,11 @@ export function PageTechDashboard() {
     } catch (error) {
       console.log(error)
       if (error instanceof AxiosError) {
-        return alert(error.response?.data.message)
+        return setAlertMsg(
+          error.response?.data.message || "Failed to load tickets"
+        )
       }
-      alert("Failed to load tickets")
+      setAlertMsg("Failed to load tickets")
     } finally {
       setIsLoading(false)
     }
@@ -81,9 +85,9 @@ export function PageTechDashboard() {
     } catch (error) {
       console.log(error)
       if (error instanceof AxiosError) {
-        return alert(error.response?.data.message)
+        return setAlertMsg(error.response?.data.message || "Action failed")
       }
-      alert("Action failed")
+      setAlertMsg("Action failed")
     } finally {
       setAssigningId(null)
     }
@@ -91,6 +95,13 @@ export function PageTechDashboard() {
 
   return (
     <MainContent>
+      {alertMsg && (
+        <AlertModal
+          title="Error"
+          description={alertMsg}
+          onClose={() => setAlertMsg(null)}
+        />
+      )}
       <MainContent.Header>Available Tickets</MainContent.Header>
 
       {isLoading && (

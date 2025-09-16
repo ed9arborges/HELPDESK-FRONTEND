@@ -22,6 +22,7 @@ import TrashIcon from "@assets/icons/trash.svg?react"
 import WrenchIcon from "@assets/icons/wrench.svg?react"
 import XIcon from "@assets/icons/x.svg?react"
 import { useServicesCatalog } from "@/hooks/useServicesCatalog"
+import { AlertModal } from "@/components/alert-modal"
 // import { useAuth } from "@hooks/useAuth"
 
 const statusMap: Record<string, string> = {
@@ -39,6 +40,7 @@ export function PageTechTicket() {
   const [ticket, setTicket] = useState<TicketAPIResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [busy, setBusy] = useState<string | null>(null)
+  const [alertMsg, setAlertMsg] = useState<string | null>(null)
   const [parts, setParts] = useState<
     Array<{ id: string; name: string; amount: number }>
   >([])
@@ -64,9 +66,11 @@ export function PageTechTicket() {
       } catch (error) {
         console.log(error)
         if (error instanceof AxiosError) {
-          alert(error.response?.data.message)
+          setAlertMsg(
+            error.response?.data.message || "Falha ao carregar o chamado"
+          )
         } else {
-          alert("Falha ao carregar o chamado")
+          setAlertMsg("Falha ao carregar o chamado")
         }
       } finally {
         setIsLoading(false)
@@ -103,12 +107,15 @@ export function PageTechTicket() {
         ticket: TicketAPIResponse
       }>(`/tickets/${id}/close`)
       setTicket(data.ticket)
-      alert("Ticket Closed")
+      setAlertMsg("Ticket Closed")
     } catch (error) {
       console.log(error)
-      if (error instanceof AxiosError)
-        return alert(error.response?.data.message)
-      alert("Failed to close ticket")
+      if (error instanceof AxiosError) {
+        return setAlertMsg(
+          error.response?.data.message || "Failed to close ticket"
+        )
+      }
+      setAlertMsg("Failed to close ticket")
     } finally {
       setBusy(null)
     }
@@ -135,8 +142,10 @@ export function PageTechTicket() {
     } catch (error) {
       console.log(error)
       if (error instanceof AxiosError)
-        return alert(error.response?.data.message)
-      alert("Failed to start ticket")
+        return setAlertMsg(
+          error.response?.data.message || "Failed to start ticket"
+        )
+      setAlertMsg("Failed to start ticket")
     } finally {
       setBusy(null)
     }
@@ -151,12 +160,14 @@ export function PageTechTicket() {
         ticket: TicketAPIResponse
       }>(`/tickets/${id}/reopen`)
       setTicket(data.ticket)
-      alert("Ticket reopened")
+      setAlertMsg("Ticket reopened")
     } catch (error) {
       console.log(error)
       if (error instanceof AxiosError)
-        return alert(error.response?.data.message)
-      alert("Failed to reopen ticket")
+        return setAlertMsg(
+          error.response?.data.message || "Failed to reopen ticket"
+        )
+      setAlertMsg("Failed to reopen ticket")
     } finally {
       setBusy(null)
     }
@@ -187,7 +198,7 @@ export function PageTechTicket() {
     const name = newPartName.trim()
     const amount = parseFloat(newPartAmount.replace(/,/g, "."))
     if (!name || isNaN(amount)) {
-      return alert("Enter name and amount")
+      return setAlertMsg("Enter name and amount")
     }
     try {
       setBusy("add-part")
@@ -202,8 +213,10 @@ export function PageTechTicket() {
     } catch (error) {
       console.log(error)
       if (error instanceof AxiosError)
-        return alert(error.response?.data.message)
-      alert("Failed to add service")
+        return setAlertMsg(
+          error.response?.data.message || "Failed to add service"
+        )
+      setAlertMsg("Failed to add service")
     } finally {
       setBusy(null)
     }
@@ -218,8 +231,10 @@ export function PageTechTicket() {
     } catch (error) {
       console.log(error)
       if (error instanceof AxiosError)
-        return alert(error.response?.data.message)
-      alert("Failed to remove service")
+        return setAlertMsg(
+          error.response?.data.message || "Failed to remove service"
+        )
+      setAlertMsg("Failed to remove service")
     } finally {
       setBusy(null)
     }
@@ -227,6 +242,13 @@ export function PageTechTicket() {
 
   return (
     <MainContent className="w-full md:max-w-[800px] px-4 md:px-12">
+      {alertMsg && (
+        <AlertModal
+          title="Alert"
+          description={alertMsg}
+          onClose={() => setAlertMsg(null)}
+        />
+      )}
       {/* Header section */}
       <MainContent.Header
         backNav

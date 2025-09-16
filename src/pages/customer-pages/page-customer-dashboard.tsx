@@ -8,6 +8,7 @@ import { api } from "@/services/api"
 
 import { TicketLine } from "@/components/ticket-line"
 import { formatCurrency } from "@/utils/format-currency"
+import { AlertModal } from "@/components/alert-modal"
 
 import MainContent from "@core-components/main-content"
 
@@ -19,6 +20,7 @@ export function PageCustomerDashboard() {
   const [page] = useState(1)
   const [tickets, setTickets] = useState<TicketItemProps[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [alertMsg, setAlertMsg] = useState<string | null>(null)
 
   async function loadRequests() {
     setIsLoading(true)
@@ -44,9 +46,11 @@ export function PageCustomerDashboard() {
     } catch (error) {
       console.log(error)
       if (error instanceof AxiosError) {
-        return alert(error.response?.data.message)
+        return setAlertMsg(
+          error.response?.data.message || "Failed to load tickets"
+        )
       }
-      alert("Failed to load tickets")
+      setAlertMsg("Failed to load tickets")
     } finally {
       setIsLoading(false)
     }
@@ -79,6 +83,13 @@ export function PageCustomerDashboard() {
 
   return (
     <MainContent>
+      {alertMsg && (
+        <AlertModal
+          title="Error"
+          description={alertMsg}
+          onClose={() => setAlertMsg(null)}
+        />
+      )}
       <MainContent.Header>My Tickets</MainContent.Header>
 
       <main className="relative rounded-lg overflow-hidden border border-gray-500 w-full md:max-w-6xl mx-auto bg-white">
