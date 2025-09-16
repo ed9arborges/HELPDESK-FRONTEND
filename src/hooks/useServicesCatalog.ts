@@ -38,5 +38,10 @@ export function useServicesCatalog() {
     return map
   }, [services])
 
-  return { services, byId, loading, error }
+  const getNameById = (id?: string | null) => {
+    if (!id) return "-"
+    return byId.get(id)?.name ?? "-"
+  }
+
+  return { services, byId, getNameById, loading, error }
 }

@@ -10,6 +10,7 @@ import Tag from "@core-components/tag"
 import { getInitials } from "@utils/get-initials"
 import { formatId } from "@utils/format-id"
 import SectionContainer from "./section-container"
+import { useServicesCatalog } from "@/hooks/useServicesCatalog"
 
 type Props = {
   ticket: TicketItemProps
@@ -28,17 +29,8 @@ export function TicketCard({
   disabledPrimary,
   disabledEdit,
 }: Props) {
-  // Determine the selected service label
-  const serviceLabel = (() => {
-    const svc = (ticket as any)?.service as Array<{ name?: string }> | undefined
-    if (Array.isArray(svc) && svc.length > 0) return svc[0]?.name ?? "-"
-    // Optional alternative fields if mapping provides a pre-resolved name
-    return (
-      ((ticket as any)?.serviceName as string | undefined) ||
-      ((ticket as any)?.serviceLabel as string | undefined) ||
-      "-"
-    )
-  })()
+  const { getNameById } = useServicesCatalog()
+  const serviceLabel = getNameById((ticket as any)?.serviceId)
   const PrimaryIcon =
     primaryLabel === "Iniciar"
       ? IconClock

@@ -45,7 +45,7 @@ export function PageTechTicket() {
   const [isPartsModalOpen, setIsPartsModalOpen] = useState(false)
   const [newPartName, setNewPartName] = useState("")
   const [newPartAmount, setNewPartAmount] = useState("")
-  const { byId: catalogById } = useServicesCatalog()
+  const { getNameById } = useServicesCatalog()
 
   useEffect(() => {
     async function load() {
@@ -84,9 +84,8 @@ export function PageTechTicket() {
 
   const baseServiceName = useMemo(() => {
     const id = (ticket as any)?.serviceId as string | undefined
-    if (!id) return "-"
-    return catalogById.get(id)?.name ?? "-"
-  }, [ticket, catalogById])
+    return getNameById(id)
+  }, [ticket, getNameById])
 
   const canModifyParts = useMemo(() => {
     const status = (ticket as any)?.status as string | undefined

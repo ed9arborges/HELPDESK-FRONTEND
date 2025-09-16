@@ -17,8 +17,6 @@ interface NavigationItem {
   icon: React.FC<React.ComponentProps<"svg">>
   label: string
   isActive: boolean
-  bgColor: string
-  textColor: string
   link: string
 }
 
@@ -38,8 +36,6 @@ export const NavigationMenuSection = (): ReactElement => {
             icon: IconClipBoard,
             label: "My Requests",
             isActive: true,
-            bgColor: "bg-blue-dark",
-            textColor: "text-gray-600",
             link: "/",
           },
           {
@@ -47,8 +43,6 @@ export const NavigationMenuSection = (): ReactElement => {
             icon: IconClipBoard,
             label: "New Request",
             isActive: false,
-            bgColor: "bg-gray-100",
-            textColor: "text-gray-400",
             link: "/tickets/create",
           },
         ]
@@ -58,8 +52,6 @@ export const NavigationMenuSection = (): ReactElement => {
             icon: IconClipBoard,
             label: "All Tickets",
             isActive: true,
-            bgColor: "bg-blue-dark",
-            textColor: "text-gray-600",
             link: "/",
           },
           ...(isAdmin
@@ -69,26 +61,20 @@ export const NavigationMenuSection = (): ReactElement => {
                   icon: IconClipBoard,
                   label: "Customers",
                   isActive: false,
-                  bgColor: "bg-gray-100",
-                  textColor: "text-gray-400",
                   link: "/admin/users",
                 },
                 {
                   id: "admin-techs",
                   icon: IconClipBoard,
                   label: "Technicians",
-                  isActive: false,
-                  bgColor: "bg-gray-100",
-                  textColor: "text-gray-400",
+                  isActive: false, 
                   link: "/admin/techs",
                 },
                 {
                   id: "admin-services",
                   icon: IconClipBoard,
                   label: "Category Services",
-                  isActive: false,
-                  bgColor: "bg-gray-100",
-                  textColor: "text-gray-400",
+                  isActive: false,                
                   link: "/admin/services",
                 },
               ]
@@ -101,7 +87,7 @@ export const NavigationMenuSection = (): ReactElement => {
   }
   const navigate = useNavigate()
 
-  // track active item by id instead of mutating the items array
+  // track active item by id 
   const [activeId, setActiveId] = useState<string>(
     () => navigationItems.find((i) => i.isActive)?.id ?? navigationItems[0].id
   )
@@ -109,7 +95,6 @@ export const NavigationMenuSection = (): ReactElement => {
   function handleNavigationClick(link: string, id: string) {
     setActiveId(id)
     navigate(link)
-    console.log(`Navigation click: ${link}`)
   }
 
   return (

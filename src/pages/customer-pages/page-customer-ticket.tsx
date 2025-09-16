@@ -47,14 +47,13 @@ export function PageCustomerRequest() {
     fetchTicket(id)
   }, [id])
 
-  const { byId: catalogById } = useServicesCatalog()
+  const { getNameById } = useServicesCatalog()
   const extras = ticketData?.service || []
   const base = ticketData?.estimate || 0
   const baseServiceName = useMemo(() => {
     const id = (ticketData as any)?.serviceId as string | undefined
-    if (!id) return "-"
-    return catalogById.get(id)?.name ?? "-"
-  }, [ticketData, catalogById])
+    return getNameById(id)
+  }, [ticketData, getNameById])
   const totalExtras = extras.reduce((sum, p) => sum + (p.amount || 0), 0)
   const total = base + totalExtras
 

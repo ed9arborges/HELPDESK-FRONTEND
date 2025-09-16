@@ -9,6 +9,8 @@ type TicketAPIResponse = {
   user: { id?: string; name?: string }
   tech?: { id?: string; name?: string } | null
   estimate: number
+  // reference to catalog categoryServices
+  serviceId?: string
   // extras added to ticket (ex-Services)
   service?: Array<{
     id: string
@@ -35,16 +37,6 @@ type TicketItemProps = {
   title: string
   // reference to catalog service category
   serviceId?: string
-  // Optional loaded relation with service details (API may return as array)
-  service?: Array<{
-    id: string
-    name?: string
-    amount?: number
-    createdAt?: string
-    updatedAt?: string
-  }>
-  // Some endpoints/mappers may provide a pre-resolved label
-  serviceName?: string
   estimate: number | string
   status: TicketStatusEnum
   createdAt: string

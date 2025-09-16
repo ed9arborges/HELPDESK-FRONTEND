@@ -32,7 +32,7 @@ export function PageCustomerDashboard() {
           id: r.id,
           userId: r.userId,
           title: r.title,
-          service: r.service,
+          serviceId: r.serviceId,
           estimate: formatCurrency(r.estimate),
           status: r.status,
           createdAt: r.createdAt,
