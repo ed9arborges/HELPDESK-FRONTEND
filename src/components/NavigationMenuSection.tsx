@@ -5,6 +5,10 @@ import { Button } from "@core-components/button"
 import Text from "@core-components/text"
 
 import IconClipBoard from "@assets/icons/clipboard-list.svg?react"
+import IconCustomers from "@assets/icons/briefcase-business.svg?react"
+import IconServices from "@assets/icons/wrench.svg?react"
+import IconTechs from "@assets/icons/users.svg?react"
+import IconAdd from "@assets/icons/plus.svg?react"
 import BurgerIcon from "../assets/icons/menu.svg?react"
 import XIcon from "../assets/icons/x.svg?react"
 
@@ -40,7 +44,7 @@ export const NavigationMenuSection = (): ReactElement => {
           },
           {
             id: "criar-chamado",
-            icon: IconClipBoard,
+            icon: IconAdd,
             label: "New Request",
             isActive: false,
             link: "/tickets/create",
@@ -58,21 +62,21 @@ export const NavigationMenuSection = (): ReactElement => {
             ? [
                 {
                   id: "admin-users",
-                  icon: IconClipBoard,
+                  icon: IconCustomers,
                   label: "Customers",
                   isActive: false,
                   link: "/admin/users",
                 },
                 {
                   id: "admin-techs",
-                  icon: IconClipBoard,
+                  icon: IconTechs,
                   label: "Technicians",
                   isActive: false, 
                   link: "/admin/techs",
                 },
                 {
                   id: "admin-services",
-                  icon: IconClipBoard,
+                  icon: IconServices,
                   label: "Category Services",
                   isActive: false,                
                   link: "/admin/services",
