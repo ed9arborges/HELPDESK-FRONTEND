@@ -33,7 +33,7 @@ A modern, responsive web client for the HelpDesk ticket management system. Built
 
 - Node.js (v18 or higher recommended)
 - npm or yarn
-- Backend API running (see the [API README](../api/README.md))
+- Backend API running (see the [API README](https://github.com/ed9arborges/HELPDESK-API)) Backend service built in Node.js with Express.js, TypeScript, and Prisma
 
 ## ⚙️ Installation & Setup
 
