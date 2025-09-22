@@ -58,18 +58,6 @@ export function PageCustomerDashboard() {
     }
   }
 
-  // function handlePagination(action: "next" | "previous") {
-  //   setPage((prevPage) => {
-  //     if (action === "next" && prevPage < totalPages) {
-  //       return prevPage + 1
-  //     }
-  //     if (action === "previous" && prevPage > 1) {
-  //       return prevPage - 1
-  //     }
-  //     return prevPage
-  //   })
-  // }
-
   useEffect(() => {
     loadRequests()
   }, [page])
@@ -106,7 +94,7 @@ export function PageCustomerDashboard() {
           </div>
 
           {/* id hidden on mobile */}
-          <div className="hidden md:flex items-center min-w-0">
+          <div className="hidden [@media(min-width:1000px)]:flex items-center min-w-0">
             <Text variant="text-sm" className="truncate">
               Id
             </Text>
@@ -118,7 +106,7 @@ export function PageCustomerDashboard() {
             </Text>
           </div>
 
-          {/* serviço hidden on mobile */}
+          {/* service hidden on mobile */}
           <div className="hidden md:flex items-center min-w-0">
             <Text variant="text-sm" className="truncate">
               Service
@@ -132,8 +120,8 @@ export function PageCustomerDashboard() {
             </Text>
           </div>
 
-          {/* técnico hidden on mobile */}
-          <div className="hidden md:flex items-center min-w-0">
+          {/* technician hidden on less 1200 */}
+          <div className="hidden [@media(min-width:1200px)]:flex items-center min-w-0">
             <Text variant="text-sm" className="truncate">
               Technician
             </Text>

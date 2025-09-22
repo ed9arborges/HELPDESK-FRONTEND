@@ -46,7 +46,7 @@ export function TicketLine({ data, onView, ...rest }: Props) {
         </Text>
       </div>
 
-      <div className="hidden md:flex items-center min-w-0">
+      <div className="hidden [@media(min-width:1000px)]:flex items-center min-w-0">
         <Text variant="text-xs" className="truncate">
           {data.id.slice(0, 5)}
         </Text>
@@ -70,7 +70,7 @@ export function TicketLine({ data, onView, ...rest }: Props) {
         </Text>
       </div>
 
-      <div className="hidden md:flex items-center min-w-0">
+      <div className="hidden [@media(min-width:1200px)]:flex items-center min-w-0">
         <Avatar size="small">
           <span className="text-xs text-gray-600 font-normal">
             {getInitials(data.tech?.name || "--")}

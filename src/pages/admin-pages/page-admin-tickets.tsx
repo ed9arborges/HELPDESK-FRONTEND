@@ -98,7 +98,7 @@ export function PageAdminTickets() {
             </Text>
           </div>
 
-          <div className="hidden md:flex items-center min-w-0">
+          <div className="hidden [@media(min-width:1000px)]:flex items-center min-w-0">
             <Text variant="text-sm" className="truncate">
               Id
             </Text>
@@ -116,13 +116,13 @@ export function PageAdminTickets() {
             </Text>
           </div>
 
-          <div className="hidden md:flex items-center min-w-0">
+          <div className="hidden [@media(min-width:1200px)]:flex items-center min-w-0">
             <Text variant="text-sm" className="truncate">
               Customer
             </Text>
           </div>
 
-          <div className="hidden md:flex items-center min-w-0">
+          <div className="hidden [@media(min-width:1100px)]:flex items-center min-w-0">
             <Text variant="text-sm" className="truncate">
               Technician
             </Text>
@@ -135,7 +135,7 @@ export function PageAdminTickets() {
           </div>
 
           <div
-            className="col-span-1 md:col-auto flex items-center justify-center"
+            className="col-span-1 md:col-auto flex items-center justify-center flex-shrink-0"
             aria-hidden
           />
         </div>
@@ -176,7 +176,7 @@ export function PageAdminTickets() {
                 </div>
 
                 {/* Id */}
-                <div className="hidden md:flex items-center min-w-0">
+                <div className="hidden [@media(min-width:1000px)]:flex items-center min-w-0">
                   <Text variant="text-xs" className="truncate">
                     {formatId(t.id, 5)}
                   </Text>
@@ -202,7 +202,7 @@ export function PageAdminTickets() {
                 </div>
 
                 {/* Customer */}
-                <div className="hidden md:flex items-center min-w-0">
+                <div className="hidden [@media(min-width:1200px)]:flex items-center min-w-0">
                   <Avatar size="small">
                     <span className="text-xs text-gray-600 font-normal">
                       {getInitials(t.user?.name || "--")}
@@ -214,7 +214,7 @@ export function PageAdminTickets() {
                 </div>
 
                 {/* Technician */}
-                <div className="hidden md:flex items-center min-w-0">
+                <div className="hidden [@media(min-width:1100px)]:flex items-center min-w-0">
                   <Avatar size="small">
                     <span className="text-xs text-gray-600 font-normal">
                       {getInitials(t.tech?.name || "--")}
@@ -243,7 +243,7 @@ export function PageAdminTickets() {
                 </div>
 
                 {/* Action */}
-                <div className="col-span-1 md:col-auto flex items-center justify-center min-w-0">
+                <div className="col-span-1 md:col-auto flex items-center justify-center flex-shrink-0">
                   <Button
                     onClick={() => navigate(`/tickets/${t.id}`)}
                     icon={IconPen}
