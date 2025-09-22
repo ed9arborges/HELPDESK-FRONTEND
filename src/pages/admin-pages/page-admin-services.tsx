@@ -3,6 +3,7 @@ import Text from "@core-components/text"
 import { Button } from "@core-components/button"
 import MainContent from "@core-components/main-content"
 import InputText from "@core-components/input"
+import { Modal } from "@core-components/modal"
 import IconPlus from "@assets/icons/plus.svg?react"
 import IconPen from "@assets/icons/pen-line.svg?react"
 import IconX from "@assets/icons/x.svg?react"
@@ -193,37 +194,25 @@ export function PageAdminServices() {
       </section>
 
       {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-20"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-title"
-          onMouseDown={(e) => {
-            if (e.currentTarget === e.target) closeModal()
-          }}
-        >
-          <div className="flex flex-col w-[440px] bg-gray-600 rounded-[10px] overflow-hidden border border-gray-500">
-            <header className="flex items-center gap-3 p-5">
+        <Modal.Root onClose={closeModal}>
+          <Modal.Content>
+            <Modal.Header>
               <h3 id="modal-title" className="m-0 p-0">
                 <Text as="span" variant="text-md" className="text-gray-200">
                   {mode === "create" ? "Cadastro de serviço" : "Editar serviço"}
                 </Text>
               </h3>
-              <button
-                type="button"
-                className="ml-auto w-6 h-6 flex items-center justify-center rounded hover:bg-gray-500"
-                aria-label="Fechar modal"
+              <Button
+                icon={IconX}
+                size="sm"
+                variant="link"
                 onClick={closeModal}
-              >
-                <IconX className="w-4.5 h-4.5 fill-gray-300" />
-              </button>
-            </header>
+                aria-label="Fechar modal"
+              />
+            </Modal.Header>
 
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-5 px-7 pb-8 pt-7 border-y border-gray-500"
-            >
-              <div className="flex flex-col gap-4">
+            <Modal.Body>
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <InputText
                   label="TÍTULO"
                   placeholder="Nome do serviço"
@@ -268,10 +257,10 @@ export function PageAdminServices() {
                     </span>
                   )}
                 </div>
-              </div>
-            </form>
+              </form>
+            </Modal.Body>
 
-            <footer className="flex items-center justify-center gap-2 p-7">
+            <Modal.Footer>
               <Button
                 type="submit"
                 onClick={
@@ -281,10 +270,10 @@ export function PageAdminServices() {
               >
                 Salvar
               </Button>
-            </footer>
-          </div>
-        </div>
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal.Root>
       )}
-  </MainContent>
+    </MainContent>
   )
 }

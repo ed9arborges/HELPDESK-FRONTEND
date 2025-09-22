@@ -1,9 +1,9 @@
-import Text from "@/core-components/text"
-import { Button } from "@/core-components/button"
-import IconX from "@/assets/icons/x.svg?react"
-import Avatar from "@/core-components/avatar"
-import { Modal } from "@/core-components/modal"
-import { getAvatarUrl } from "@/utils/get-avatar-url"
+import Text from "@core-components/text"
+import { Button } from "@core-components/button"
+import IconX from "@assets/icons/x.svg?react"
+import Avatar from "@core-components/avatar"
+import { Modal } from "@core-components/modal"
+import { getAvatarUrl } from "@utils/get-avatar-url"
 
 type UserLike = {
   id: string
@@ -52,7 +52,7 @@ export function AdminUserModal({
             <Avatar size="medium" imageUrl={getAvatarUrl(user.avatarImg)}>
               {user.name?.charAt(0)?.toUpperCase()}
             </Avatar>
-            <div className="min-w-0">
+            <div className="flex flex-col justify-center min-w-0">
               <Text variant="text-sm" className="text-gray-200 truncate">
                 {user.name}
               </Text>

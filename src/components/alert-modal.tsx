@@ -1,6 +1,6 @@
-import Text from "@/core-components/text"
-import { Button } from "@/core-components/button"
-import { Modal } from "@/core-components/modal"
+import Text from "@core-components/text"
+import { Button } from "@core-components/button"
+import { Modal } from "@core-components/modal"
 
 type AlertModalProps = {
   title?: string

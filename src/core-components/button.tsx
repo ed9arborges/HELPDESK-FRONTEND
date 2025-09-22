@@ -12,6 +12,7 @@ export const buttonVariants = cva(
         secondary: "bg-gray-500 hover:bg-gray-400",
         dark: "bg-gray-200 hover:bg-gray-300",
         link: "bg-transparent hover:bg-gray-500",
+        danger: "bg-gray-500 hover:bg-gray-400",
       },
       size: {
         md: "h-10 py-4 px-2.75",
@@ -38,6 +39,7 @@ export const buttonTextVariants = cva("", {
       secondary: "text-gray-200",
       dark: "text-gray-600",
       link: "text-gray-300",
+      danger: "text-feedback-danger",
     },
   },
   defaultVariants: {
@@ -52,6 +54,7 @@ export const buttonIconVariants = cva("transition", {
       secondary: "fill-gray-200",
       dark: "fill-gray-600",
       link: "fill-gray-300",
+      danger: "fill-feedback-danger",
     },
     size: {
       md: "w-4.5 h-4.5",

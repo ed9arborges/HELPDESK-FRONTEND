@@ -12,6 +12,7 @@ import {
   deleteUser,
   type SimpleUser,
 } from "@/services/users"
+import { Button } from "@/core-components/button"
 
 export function PageAdminTechs() {
   const [users, setUsers] = useState<SimpleUser[]>([])
@@ -112,22 +113,20 @@ export function PageAdminTechs() {
                   </Text>
                 </div>
                 <div className="w-[88px] flex items-center justify-center gap-2 px-3">
-                  <button
-                    type="button"
-                    onClick={() => openEdit(u)}
-                    aria-label={`Edit ${u.name}`}
-                    className="w-7 h-7 flex items-center justify-center bg-gray-500 hover:bg-gray-400 rounded-[5px]"
-                  >
-                    <IconPen className="w-3.5 h-3.5 fill-gray-200" />
-                  </button>
-                  <button
-                    type="button"
+                   <Button
                     onClick={() => setConfirming(u)}
                     aria-label={`Remove ${u.name}`}
-                    className="w-7 h-7 flex items-center justify-center bg-gray-500 hover:bg-gray-400 rounded-[5px]"
-                  >
-                    <IconTrash className="w-3.5 h-3.5 fill-gray-200" />
-                  </button>
+                    variant="danger"
+                    icon={IconTrash}
+                    size="sm"                 
+                  />
+                  <Button                   
+                    onClick={() => openEdit(u)}
+                    aria-label={`Edit ${u.name}`}
+                    variant="secondary"
+                    icon={IconPen}
+                    size="sm"
+                  />
                 </div>
               </div>
             ))
@@ -150,7 +149,7 @@ export function PageAdminTechs() {
         <ConfirmModal
           title="Delete technician"
           description={
-            <div className="space-y-2">
+            <div className="flex flex-col space-y-2">
               <Text variant="text-sm" className="text-gray-200">
                 Are you sure you want to delete {confirming.name}?
               </Text>

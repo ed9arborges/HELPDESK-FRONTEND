@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react"
-import Text from "@/core-components/text"
-import MainContent from "@/core-components/main-content"
-import Avatar from "@/core-components/avatar"
-import IconPen from "@/assets/icons/pen-line.svg?react"
-import IconTrash from "@/assets/icons/trash.svg?react"
-import { AdminUserModal } from "@/components/admin-user-modal"
-import { ConfirmModal } from "@/components/confirm-modal"
-import { getAvatarUrl } from "@/utils/get-avatar-url"
+import Text from "@core-components/text"
+import MainContent from "@core-components/main-content"
+import Avatar from "@core-components/avatar"
+import IconPen from "@assets/icons/pen-line.svg?react"
+import IconTrash from "@assets/icons/trash.svg?react"
+import { AdminUserModal } from "@components/admin-user-modal"
+import { ConfirmModal } from "@components/confirm-modal"
+import { getAvatarUrl } from "@utils/get-avatar-url"
 import {
   listUsers,
   updateUserRole,
   deleteUser,
   type SimpleUser,
-} from "@/services/users"
+} from "@services/users"
+import { Button } from "@core-components/button"
 
 export function PageAdminUsers() {
   const [users, setUsers] = useState<SimpleUser[]>([])
@@ -114,22 +115,21 @@ export function PageAdminUsers() {
                   </Text>
                 </div>
                 <div className="w-[88px] flex items-center justify-center gap-2 px-3">
-                  <button
-                    type="button"
-                    onClick={() => openEdit(u)}
-                    aria-label={`Edit ${u.name}`}
-                    className="w-7 h-7 flex items-center justify-center bg-gray-500 hover:bg-gray-400 rounded-[5px]"
-                  >
-                    <IconPen className="w-3.5 h-3.5 fill-gray-200" />
-                  </button>
-                  <button
-                    type="button"
+                 <Button
                     onClick={() => setConfirming(u)}
                     aria-label={`Remove ${u.name}`}
-                    className="w-7 h-7 flex items-center justify-center bg-gray-500 hover:bg-gray-400 rounded-[5px]"
-                  >
-                    <IconTrash className="w-3.5 h-3.5 fill-gray-200" />
-                  </button>
+                    variant="danger"
+                    icon={IconTrash}
+                    size="sm"                 
+                  />
+                  <Button                   
+                    onClick={() => openEdit(u)}
+                    aria-label={`Edit ${u.name}`}
+                    variant="secondary"
+                    icon={IconPen}
+                    size="sm"
+                  />
+                  
                 </div>
               </div>
             ))
@@ -152,7 +152,7 @@ export function PageAdminUsers() {
         <ConfirmModal
           title="Delete customer"
           description={
-            <div className="space-y-2">
+            <div className="flex flex-col space-y-2">
               <Text variant="text-sm" className="text-gray-200">
                 Are you sure you want to delete {confirming.name}?
               </Text>
