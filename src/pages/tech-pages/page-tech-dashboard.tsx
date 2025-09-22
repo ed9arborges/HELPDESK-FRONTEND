@@ -2,16 +2,16 @@ import { useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router"
 import { AxiosError } from "axios"
 
-import Text from "@core-components/text"
-import MainContent from "@core-components/main-content"
+import Text from "@/components/core/text"
+import MainContent from "@/components/core/main-content"
 
 import { api } from "@services/api"
 import { startTicket, closeTicket } from "@services/services"
-import { AlertModal } from "@/components/alert-modal"
+import { AlertModal } from "@/components/layouts/alert-modal"
 
-import { TicketCard } from "@components/ticket-card"
+import { TicketCard } from "@components/layouts/ticket-card"
 import { formatCurrency } from "@utils/format-currency"
-import Tag from "@core-components/tag"
+import Tag from "@/components/core/tag"
 
 const PER_PAGE = 30
 

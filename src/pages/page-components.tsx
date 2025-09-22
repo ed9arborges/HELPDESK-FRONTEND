@@ -1,38 +1,31 @@
-
-
 import { StrictMode } from "react"
-import Icon from "../core-components/icon"
-import { Button } from "../core-components//button"
-import Tag from "@core-components/tag"
-import TagTime from "../components/tag-time"
-import InputText from "@core-components//input"
-import InputSelect from "@core-components/input-select"
-import Container from "@core-components/container"
+import Icon from "@/components/core/icon"
+import { Button } from "@/components/core/button"
+import Tag from "@/components/core/tag"
+import TagTime from "@components/core/tag-time"
+import InputText from "@/components/core/input"
+import InputSelect from "@/components/core/input-select"
 
-import SpinnerIcon from "../assets/icons/spinner.svg?react"
-import TrashIcon from "../assets/icons/trash.svg?react"
-import CircleIcon from "../assets/icons/circle-check.svg?react"
-import XIcon from "../assets/icons/x.svg?react"
-import PenIcon from "../assets/icons/pen-line.svg?react"
-import AlertIcon from "../assets/icons/circle-alert.svg?react"
+
+import SpinnerIcon from "@assets/icons/spinner.svg?react"
+import TrashIcon from "@assets/icons/trash.svg?react"
+import CircleIcon from "@assets/icons/circle-check.svg?react"
+import XIcon from "@assets/icons/x.svg?react"
+import PenIcon from "@assets/icons/pen-line.svg?react"
+import AlertIcon from "@assets/icons/circle-alert.svg?react"
 
 export default function PageComponents() {
   return (
     <StrictMode>
-      <Container className="grid gap-10 bg-gray-600 rounded-lg p-6">
+      <div className="grid gap-10 bg-gray-600 rounded-lg p-6">
         <div className="grid gap-10 bg-gray-600 rounded-lg p-6">
-         
           <Icon svg={SpinnerIcon} className="fill-feedback-done" animate />
           <Icon svg={TrashIcon} className="fill-feedback-done" />
         </div>
         <div className="flex gap-6 m-5">
-          <Tag variant="new" >
-            Aberto
-          </Tag>
-          <Tag variant="danger" ></Tag>
-          <Tag variant="success" >
-            Encerrado
-          </Tag>
+          <Tag variant="new">Aberto</Tag>
+          <Tag variant="danger"></Tag>
+          <Tag variant="success">Encerrado</Tag>
         </div>
         <div className="flex flex-wrap gap-6 m-5 w-full">
           <Button icon={TrashIcon}>New Button</Button>
@@ -89,8 +82,7 @@ export default function PageComponents() {
             helperIcon={AlertIcon}
           />
         </div>
-       
-      </Container>
+      </div>
     </StrictMode>
   )
 }

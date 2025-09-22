@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import Text from "@core-components/text"
-import MainContent from "@core-components/main-content"
-import Avatar from "@core-components/avatar"
+import Text from "@/components/core/text"
+import MainContent from "@/components/core/main-content"
+import Avatar from "@/components/core/avatar"
 import IconPen from "@assets/icons/pen-line.svg?react"
 import IconTrash from "@assets/icons/trash.svg?react"
-import { AdminUserModal } from "@components/admin-user-modal"
-import { ConfirmModal } from "@components/confirm-modal"
+import { AdminUserModal } from "@/components/layouts/admin-user-modal"
+import { ConfirmModal } from "@/components/layouts/confirm-modal"
 import { getAvatarUrl } from "@utils/get-avatar-url"
 import {
   listUsers,
@@ -13,7 +13,7 @@ import {
   deleteUser,
   type SimpleUser,
 } from "@services/users"
-import { Button } from "@core-components/button"
+import { Button } from "@/components/core/button"
 
 export function PageAdminUsers() {
   const [users, setUsers] = useState<SimpleUser[]>([])
@@ -115,21 +115,20 @@ export function PageAdminUsers() {
                   </Text>
                 </div>
                 <div className="w-[88px] flex items-center justify-center gap-2 px-3">
-                 <Button
+                  <Button
                     onClick={() => setConfirming(u)}
                     aria-label={`Remove ${u.name}`}
                     variant="danger"
                     icon={IconTrash}
-                    size="sm"                 
+                    size="sm"
                   />
-                  <Button                   
+                  <Button
                     onClick={() => openEdit(u)}
                     aria-label={`Edit ${u.name}`}
                     variant="secondary"
                     icon={IconPen}
                     size="sm"
                   />
-                  
                 </div>
               </div>
             ))

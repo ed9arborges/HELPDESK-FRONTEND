@@ -1,19 +1,19 @@
 import { useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router"
-import SectionContainer from "@components/section-container"
+import SectionContainer from "@/components/layouts/section-container"
 import { statusVariant } from "@utils/status-variants"
 
-import Tag from "@core-components/tag"
-import Text from "@core-components/text"
-import Avatar from "@core-components/avatar"
+import Tag from "@/components/core/tag"
+import Text from "@/components/core/text"
+import Avatar from "@/components/core/avatar"
 import { api } from "@services/api"
 import { AxiosError } from "axios"
 import { formatDate } from "@utils/format-date"
 import { formatCurrency } from "@utils/format-currency"
 import { getInitials } from "@utils/get-initials"
-import MainContent from "@core-components/main-content"
+import MainContent from "@/components/core/main-content"
 import { useServicesCatalog } from "@/hooks/useServicesCatalog"
-import { AlertModal } from "@/components/alert-modal"
+import { AlertModal } from "@/components/layouts/alert-modal"
 
 type TicketData = TicketAPIResponse
 

@@ -2,11 +2,11 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { AxiosError } from "axios"
 
-import MainContent from "@core-components/main-content"
-import Text from "@core-components/text"
-import Tag from "@core-components/tag"
-import Avatar from "@core-components/avatar"
-import { Button } from "@/core-components/button"
+import MainContent from "@/components/core/main-content"
+import Text from "@/components/core/text"
+import Tag from "@/components/core/tag"
+import Avatar from "@/components/core/avatar"
+import { Button } from "@/components/core/button"
 
 import IconPen from "@assets/icons/pen-line.svg?react"
 
@@ -16,7 +16,7 @@ import { formatCurrency } from "@/utils/format-currency"
 import { getInitials } from "@/utils/get-initials"
 import { formatId } from "@/utils/format-id"
 import { useServicesCatalog } from "@/hooks/useServicesCatalog"
-import { AlertModal } from "@/components/alert-modal"
+import { AlertModal } from "@/components/layouts/alert-modal"
 
 const PER_PAGE = 30
 

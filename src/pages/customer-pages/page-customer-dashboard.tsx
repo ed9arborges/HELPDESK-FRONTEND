@@ -2,15 +2,15 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { AxiosError } from "axios"
 
-import Text from "@core-components/text"
+import Text from "@/components/core/text"
 
 import { api } from "@/services/api"
 
-import { TicketLine } from "@/components/ticket-line"
+import { TicketLine } from "@/components/layouts/ticket-line"
 import { formatCurrency } from "@/utils/format-currency"
-import { AlertModal } from "@/components/alert-modal"
+import { AlertModal } from "@/components/layouts/alert-modal"
 
-import MainContent from "@core-components/main-content"
+import MainContent from "@/components/core/main-content"
 
 const PER_PAGE = 5
 

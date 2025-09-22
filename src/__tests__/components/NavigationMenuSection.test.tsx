@@ -1,7 +1,7 @@
 import * as React from "react"
 import { render, screen } from "@testing-library/react"
 import { BrowserRouter } from "react-router"
-import { NavigationMenuSection } from "../../components/NavigationMenuSection"
+import { NavigationMenuSection } from "../../components/layouts/NavigationMenuSection"
 import { AuthProvider } from "../../contexts/AuthContext"
 
 // Mock the useAuth hook

@@ -23,16 +23,16 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    /*ME ADDING THIS TO  @ work */
+    /* Project path aliases (match vite.config.ts and folder structure) */
     "baseUrl": "src",
     "paths": {
-     "@/*": ["*"],
+      "@/*": ["*"],
       "@icons/*": ["assets/icons/*"],
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
-      "@core-components/*": ["core-components/*"],
+      "@core-components/*": ["components/core/*"],
       "@pages/*": ["pages/*"],
-      "@layouts/*": ["layouts/*"],
+      "@layouts/*": ["components/layouts/*"],
       "@hooks/*": ["hooks/*"],
       "@services/*": ["services/*"],
       "@styles/*": ["styles/*"],

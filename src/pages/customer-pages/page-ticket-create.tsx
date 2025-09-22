@@ -4,15 +4,15 @@ import { z, ZodError } from "zod"
 import { AxiosError } from "axios"
 import { api } from "@/services/api"
 
-import SectionContainer from "@components/section-container"
-import Text from "@core-components/text"
-import InputText from "@core-components/input"
-import InputSelect from "@core-components/input-select"
-import { Button } from "@core-components/button"
+import SectionContainer from "@/components/layouts/section-container"
+import Text from "@/components/core/text"
+import InputText from "@/components/core/input"
+import InputSelect from "@/components/core/input-select"
+import { Button } from "@/components/core/button"
 import { formatCurrency } from "@utils/format-currency"
 
-import MainContent from "@core-components/main-content"
-import { AlertModal } from "@/components/alert-modal"
+import MainContent from "@/components/core/main-content"
+import { AlertModal } from "@/components/layouts/alert-modal"
 
 const ticketSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),

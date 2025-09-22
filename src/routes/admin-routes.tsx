@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router"
-import { TechLayout } from "@layouts/tech-layouts/tech-layout.tsx"
+import { TechLayout } from "@layouts/tech-layouts/tech-layout"
 
 import { PageAdminTickets } from "@pages/admin-pages/page-admin-tickets"
 import { PageTechTicket } from "@pages/tech-pages/page-tech-ticket.tsx"
