@@ -86,7 +86,7 @@ export default function InputText({
           {label}
         </Text>
       )}
-      <input label={label}
+      <input aria-label={label}
         className={cx(
           inputTextVariants({ size, disabled }),
           textVariants(),

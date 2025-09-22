@@ -197,7 +197,23 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
     }))
 
     return (
-      <section className="flex flex-col gap-5 pt-7 pb-8 px-7 w-full ">
+      <section
+        className="relative flex flex-col gap-5 pt-7 pb-8 px-7 w-full"        
+      >
+        {isSubmitting && (
+          <div
+            className="absolute inset-0 z-10 bg-white/60 backdrop-blur-[1px] flex items-center justify-center"
+            aria-live="polite"
+          >
+            <div className="flex items-center gap-2 text-gray-700">
+              <span
+                className="w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"
+                aria-hidden="true"
+              />
+              <span className="text-sm">Saving…</span>
+            </div>
+          </div>
+        )}
         {alertMsg && (
           <AlertModal
             title={alertTitle}
@@ -213,6 +229,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
           accept="image/*"
           onChange={handleFileSelect}
           title="Upload profile image"
+          disabled={isSubmitting}
         />
 
         <div className="flex items-center gap-3">
@@ -231,6 +248,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
               onClick={handleImageUpload}
               className=""
               icon={IconUpload}
+              disabled={isSubmitting}
             >
               <span className="text-xs font-text-xxs text-gray-200">
                 New Image
@@ -245,7 +263,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
               onClick={handleImageDelete}
               icon={IconTrash}
               className=""
-              disabled={!avatarUrl}
+              disabled={!avatarUrl || isSubmitting}
             />
           </div>
         </div>
@@ -267,6 +285,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
                 value={formData.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
                 className="flex-1 bg-transparent border-0 p-0 text-base text-[#1e1f24] focus:outline-none"
+                disabled={isSubmitting}
               />
             </div>
           </div>
@@ -288,6 +307,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
                 className="flex-1 bg-transparent border-0 p-0 text-sm text-gray-200 focus:outline-none font-text-md"
+                disabled={isSubmitting}
               />
             </div>
           </div>
@@ -313,6 +333,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
                       handleInputChange("password", e.target.value)
                     }
                     className="flex-1 bg-transparent border-0 p-0 text-sm text-gray-200 focus:outline-none font-text-md"
+                    disabled={isSubmitting}
                   />
                 </div>
               ) : (
@@ -333,6 +354,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
                 }
                 onClick={handlePasswordChange}
                 className="h-7 px-2 bg-gray-500 rounded-md hover:bg-gray-400 focus:outline-2 focus:outline-bluebase transition-colors text-xs text-gray-200"
+                disabled={isSubmitting}
               >
                 {showPasswordFields ? "Cancel" : "Change"}
               </Button>
@@ -359,6 +381,7 @@ export const ProfileFormSection = forwardRef<ProfileFormSectionRef, object>(
                     handleInputChange("passwordConfirm", e.target.value)
                   }
                   className="flex-1 bg-transparent border-0 p-0 text-sm text-gray-200 focus:outline-none font-text-md"
+                  disabled={isSubmitting}
                 />
               </div>
             </div>

@@ -9,7 +9,6 @@ import InputSelect from "@/components/core/input-select"
 
 import SpinnerIcon from "@assets/icons/spinner.svg?react"
 import TrashIcon from "@assets/icons/trash.svg?react"
-import CircleIcon from "@assets/icons/circle-check.svg?react"
 import XIcon from "@assets/icons/x.svg?react"
 import PenIcon from "@assets/icons/pen-line.svg?react"
 import AlertIcon from "@assets/icons/circle-alert.svg?react"
