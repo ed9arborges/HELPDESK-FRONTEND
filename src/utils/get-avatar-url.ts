@@ -6,10 +6,12 @@
 export const getAvatarUrl = (avatarImg?: string): string | undefined => {
   if (!avatarImg) return undefined
 
-  // Resolve API URL from common runtime locations (process.env for tests, Vite provides import.meta.env at build/runtime)
-  // Avoid direct `import.meta` usage so ts-jest can compile this file.
-  const env =
-    (globalThis as any)?.process?.env || (globalThis as any)?.__VITE_ENV__ || {}
-  const API_URL = env.VITE_API_URL || "http://localhost:3333"
-  return `${API_URL}/uploads/avatars/${avatarImg}`
+  // Use Vite's env only; ensure VITE_API_URL is set in builds (Vercel/preview/prod)
+  const API_URL: string =
+    ((import.meta as any)?.env?.VITE_API_URL as string) ||
+    "http://localhost:3333"
+
+  // Normalize trailing slash to avoid double slashes
+  const base = API_URL.replace(/\/$/, "")
+  return `${base}/uploads/avatars/${avatarImg}`
 }
