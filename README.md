@@ -55,6 +55,27 @@ A modern, responsive web client for the HelpDesk ticket management system. Built
 
    ```env
    VITE_API_URL=http://localhost:3000
+
+## Deployment (Vercel)
+
+Set your API URL via environment variables so the frontend calls the real backend in production:
+
+1. In Vercel dashboard, go to your project → Settings → Environment Variables.
+2. Add a variable:
+   - Name: `VITE_API_URL`
+   - Value: `https://your-api.example.com` (or your Render/Railway/Fly.io URL)
+   - Environments: Production (and Preview if you want on PRs)
+3. Redeploy. The build will embed `VITE_API_URL` and `api.ts` will use it at runtime.
+
+Local development:
+
+Create a `.env` file in `web/` with:
+
+```
+VITE_API_URL=http://localhost:3333
+```
+
+This ensures `getAvatarUrl` and the Axios client use the same base URL.
    ```
 
 ## 🏃‍♂️ Running the Application
