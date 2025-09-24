@@ -1,9 +1,10 @@
-import { useActionState } from "react"
+import { useActionState, useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { ZodError, z } from "zod"
 
 import InputText from "@components/core/input"
 import { Button } from "@components/core/button"
+import { Modal } from "@components/core/modal"
 import { AuthSectionContainer } from "@layouts/auth-section-container"
 import { useAuth } from "@hooks/useAuth"
 
@@ -16,7 +17,8 @@ const signInSchema = z.object({
 })
 
 export function SignInLayout() {
-  const [, formAction] = useActionState(signIn, null)
+  const [actionState, formAction] = useActionState(signIn, null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const auth = useAuth()
   const navigate = useNavigate()
 
@@ -43,6 +45,17 @@ export function SignInLayout() {
     }
   }
 
+  useEffect(() => {
+    if (
+      actionState &&
+      typeof actionState === "object" &&
+      "message" in actionState
+    ) {
+      const msg = (actionState as any).message as string | undefined
+      if (msg) setErrorMessage(msg)
+    }
+  }, [actionState])
+
   return (
     <AuthSectionContainer
       title="Portal Access"
@@ -56,6 +69,31 @@ export function SignInLayout() {
           Sign In
         </Button>
       </form>
+
+      {errorMessage && (
+        <Modal.Root onClose={() => setErrorMessage(null)}>
+          <Modal.Content>
+            <Modal.Header>
+              <span className="text-base font-bold text-gray-100">
+                Login failed
+              </span>
+            </Modal.Header>
+            <Modal.Body>
+              <p className="text-sm text-gray-200">{errorMessage}</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <div className="w-full flex justify-end">
+                <Button
+                  variant="secondary"
+                  onClick={() => setErrorMessage(null)}
+                >
+                  OK
+                </Button>
+              </div>
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal.Root>
+      )}
     </AuthSectionContainer>
   )
 }
